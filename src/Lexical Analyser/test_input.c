@@ -7,5 +7,11 @@ int main() {
     for(int j=0;j<n;j++) {
         printf("Hello world!\n");
     }
+    //Comment example
+    float x;
+    double p;
+    long long int g;
+    long int d;
+    short int c;
     return 0;
 }
