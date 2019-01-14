@@ -152,7 +152,7 @@ DOUBLE "double "" "*
  
 [a-zA-Z_]+[a-zA-Z0-9_]*						{++TokenCount[IDENTIFIER];printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
 
-"\""[a-zA-Z0-9_]|"+"|"-"|"/"|"="|"%"|"?"|"!"|"."|"$"|"_"|"~"|"&"|"^"|"<"|">"|"("|")"|",""\""	{++TokenCount[STRING];printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
+"\""[a-zA-Z0-9_]*|"+"|"-"|"/"|"="|"%"|"?"|"!"|"."|"$"|"_"|"~"|"&"|"^"|"<"|">"|"("|")"|","|" ""\""	{++TokenCount[STRING];printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
 
 
 %%
