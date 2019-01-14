@@ -1,18 +1,20 @@
 %{
 
-// char and uchar
+// char and U_CHAR
 #define CHAR        0
-#define UCHAR       1
+#define U_CHAR       1
+
 
 // Int and it's derivatives
-#define INT         2
-#define SINT        3
-#define LINT        4
-#define LLINT       5
-#define UINT        6
-#define USINT       7
-#define ULINT       8
-#define ULLINT      9
+
+#define INT          2
+#define S_INT        3
+#define L_INT        4
+#define LL_INT       5
+#define U_INT        6
+#define US_INT       7
+#define UL_INT       8
+#define ULL_INT      9
 
 // Real datatypes
 #define FLOAT       10
@@ -20,10 +22,10 @@
 
 
 // Single-line comment 
-#define SLCOMMENT   12
+#define SL_COMMENT   12
 
 // To be pre-processed data
-#define PREPROC     13
+#define PRE_PROC     13
 
 
 // Control statements
@@ -34,38 +36,38 @@
 
 
 // Punctuators
-#define LFLOWERBRKT 18
-#define RFLOWERBRKT 19
-#define LPAREN      20
-#define RPAREN      21
+#define L_FLOWER_BRKT 18
+#define R_FLOWER_BRKT 19
+#define L_PAREN      20
+#define R_PAREN      21
 #define SEMICOLON   22
 
 // Operators
 
 // Arithmetic operators
-#define PLUS        23
-#define MINUS       24
-#define MUL         25
-#define DIV         26
-#define MOD         27
+#define AR_PLUS        23
+#define AR_MINUS       24
+#define AR_MUL         25
+#define AR_DIV         26
+#define AR_MOD         27
 
 // Relational Operators
-#define LESSTHAN    28
-#define LESSEQUAL   29
-#define EQUAL       30
-#define GREATERTHAN 31
-#define GREATEQUAL  32
-#define NOTEQUAL    33
+#define REL_LESSTHAN    28
+#define REL_LESSEQUAL   29
+#define REL_EQUAL       30
+#define REL_GREATERTHAN 31
+#define REL_GREATEQUAL  32
+#define REL_NOTEQUAL    33
 
 // Logical Operators
-#define LOGAND      34
-#define LOGOR       35
-#define COMPARE     36
+#define LOG_AND      34
+#define LOG_OR       35
+#define LOG_COMPARE     36
 
 // Bitwise operators
-#define BITWISEAND  37
-#define BITWISEOR   38
-#define BITWISEXOR  39
+#define BITWISE_AND  37
+#define BITWISE_OR   38
+#define BITWISE_XOR  39
 
 
 #define IDENTIFIER  40
@@ -78,59 +80,67 @@
 
 %}
 
+CHAR "char "" "*
+INT "int "" "*
+SHORT "short "" "*
+LONG "long "" "*
+UNSIGNED "unsigned "" "*
+FLOAT "float "" "*
+DOUBLE "double "" "*
+
 %%
 
-"char"				{++TokenCount[CHAR];}
-"unsigned char"			{++TokenCount[UCHAR];}
+{CHAR}				                       {++TokenCount[CHAR];}
+{UNSIGNED}" "*{CHAR}		               {++TokenCount[U_CHAR];}
 
-"int"				{++TokenCount[INT];}
-"short int"			{++TokenCount[SINT];}
-"long int"			{++TokenCount[LINT];}
-"long long int"			{++TokenCount[LLINT];}
-"unsigned short int"		{++TokenCount[USINT];}
-"unsigned long int"		{++TokenCount[ULINT];}
-"unsigned long long int"	{++TokenCount[ULLINT];}
+{INT}	                		           {++TokenCount[INT];}
+{SHORT}" "*{INT}			               {++TokenCount[S_INT];}
+{LONG}" "*{INT}			                   {++TokenCount[L_INT];}
+{LONG}" "*{LONG}" "*{INT}	               {++TokenCount[LL_INT];}
+{UNSIGNED}" "*{INT}	     	               {++TokenCount[US_INT];}
+{UNSIGNED}" "*{LONG}" "*{INT}	           {++TokenCount[UL_INT];}
+{UNSIGNED}" "*{LONG}" "*{LONG}" "*{INT}	   {++TokenCount[ULL_INT];}
 
-"float"				{++TokenCount[FLOAT];}
-"double"			{++TokenCount[DOUBLE];}
+{FLOAT}                      			   {++TokenCount[FLOAT];}
+{DOUBLE}                         		   {++TokenCount[DOUBLE];}
 
-"//"				{++TokenCount[SLCOMMENT];}
-"#"				{++TokenCount[PREPROC];}
+"//"				                       {++TokenCount[SL_COMMENT];}
+"#"				                           {++TokenCount[PRE_PROC];}
 
-"return"			{++TokenCount[RETURN];}
-"if"				{++TokenCount[IF];}
-"else"				{++TokenCount[ELSE];}
-"while"				{++TokenCount[WHILE];}
+"return"			                       {++TokenCount[RETURN];}
+"if"				                       {++TokenCount[IF];}
+"else"				                       {++TokenCount[ELSE];}
+"while"				                       {++TokenCount[WHILE];}
 
-"{"				{++TokenCount[LFLOWERBRKT];}
-"}"				{++TokenCount[RFLOWERBRKT];}
-"("				{++TokenCount[LPAREN];}
-")"				{++TokenCount[RPAREN];}
-";"				{++TokenCount[SEMICOLON];}
+"{"				                           {++TokenCount[L_FLOWER_BRKT];}
+"}"				                           {++TokenCount[R_FLOWER_BRKT];}
+"("				                           {++TokenCount[L_PAREN];}
+")"				                           {++TokenCount[R_PAREN];}
+";"				                           {++TokenCount[SEMICOLON];}
 
-"+"				{++TokenCount[PLUS];}
-"-"				{++TokenCount[MINUS];}
-"*"				{++TokenCount[MUL];}
-"/"				{++TokenCount[DIV];}
-"%"				{++TokenCount[MOD];}
+"+"				                           {++TokenCount[AR_PLUS];}
+"-"				                           {++TokenCount[AR_MINUS];}
+"*"				                           {++TokenCount[AR_MUL];}
+"/"				                           {++TokenCount[AR_DIV];}
+"%"				                           {++TokenCount[AR_MOD];}
 
-"<"				{++TokenCount[LESSTHAN];}
-"<="				{++TokenCount[LESSEQUAL];}
-"="				{++TokenCount[EQUAL];}
-">="				{++TokenCount[GREATEQUAL];}
-">"				{++TokenCount[GREATERTHAN];}
-"!="				{++TokenCount[NOTEQUAL];}
+"<"				                           {++TokenCount[REL_LESSTHAN];}
+"<="				                       {++TokenCount[REL_LESSEQUAL];}
+"="				                           {++TokenCount[REL_EQUAL];}
+">="				                       {++TokenCount[REL_GREATEQUAL];}
+">"				                           {++TokenCount[REL_GREATERTHAN];}
+"!="				                       {++TokenCount[REL_NOTEQUAL];}
 
-"&&"				{++TokenCount[LOGAND];}
-"||"				{++TokenCount[LOGOR];}
-"=="				{++TokenCount[COMPARE];}
+"&&"				                       {++TokenCount[LOG_AND];}
+"||"				                       {++TokenCount[LOG_OR];}
+"=="				                       {++TokenCount[LOG_COMPARE];}
 
-"&"				{++TokenCount[BITWISEAND];}
-"|"				{++TokenCount[BITWISEOR];}
-"^"				{++TokenCount[BITWISEXOR];}
+"&"				                           {++TokenCount[BITWISE_AND];}
+"|"				                           {++TokenCount[BITWISE_OR];}
+"^"				                           {++TokenCount[BITWISE_XOR];}
 
-"identifier"			{++TokenCount[IDENTIFIER];}
-
+"identifier"			                   {++TokenCount[IDENTIFIER];}
+ 
 %%
 
 int yywrap(){}
@@ -140,8 +150,8 @@ int main() {
 	yylex();
 	
 	for(unsigned i = 0; i < TOTALNUMBER; i++) {
-		printf("%u\n", TokenCount[i]);
+		printf("%u  ", TokenCount[i]);
 	}
-
+	printf("\n");
 	return 0;
 }
