@@ -1,7 +1,8 @@
 %{
+    #define I_INT 1
     int n_int=0,n_sInt= 0,n_lInt=0,n_llInt=0,n_float=0,n_double=0,n_pproc=0,n_comm=0;
 %}
-
+%option yylineno
 
 %%
 
