@@ -1,53 +1,43 @@
 %{
 
-// char and U_CHAR
+// Datatypes
 
-#define CHAR        0
-#define U_CHAR       1
+#define CHAR 	    0
+#define INT     	1
+#define FLOAT       2
+#define DOUBLE      3
 
-
-// Int and it's derivatives
-
-#define INT          2
-#define S_INT        3
-#define L_INT        4
-#define LL_INT       5
-#define U_INT        6
-#define US_INT       7
-#define UL_INT       8
-#define ULL_INT      9
-
-// Real datatypes
-
-#define FLOAT       10
-#define DOUBLE      11
+// Keywords supporting Datatypes
+#define SHORT		4
+#define UNSIGNED	5
+#define LONG		6
 
 
 // Single-line comment 
 
-#define SL_COMMENT   12
+#define SL_COMMENT   7
 
 
 // To be pre-processed data
 
-#define PRE_PROC     13
+#define PRE_PROC     8
 
 
 // Control statements
 
-#define RETURN      14
-#define IF          15
-#define ELSE        16
-#define WHILE       17
+#define RETURN      9
+#define IF          10
+#define ELSE        11
+#define WHILE       12
 
 
 // Punctuators
 
-#define L_FLOWER_BRKT 18
-#define R_FLOWER_BRKT 19
-#define L_PAREN      20
-#define R_PAREN      21
-#define SEMICOLON   22
+#define L_FLOWER_BRKT 13
+#define R_FLOWER_BRKT 14
+#define L_PAREN      15
+#define R_PAREN      16
+#define SEMICOLON   17
 
 
 // Operators
@@ -55,39 +45,47 @@
 
 // Arithmetic operators
 
-#define AR_PLUS        23
-#define AR_MINUS       24
-#define AR_MUL         25
-#define AR_DIV         26
-#define AR_MOD         27
+#define AR_PLUS        18
+#define AR_MINUS       19
+#define AR_MUL         20
+#define AR_DIV         21
+#define AR_MOD         22
 
 // Relational Operators
 
-#define REL_LESSTHAN    28
-#define REL_LESSEQUAL   29
-#define REL_EQUAL       30
-#define REL_GREATERTHAN 31
-#define REL_GREATEQUAL  32
-#define REL_NOTEQUAL    33
+#define REL_LESSTHAN    23
+#define REL_LESSEQUAL   24
+#define REL_EQUAL       25
+#define REL_GREATERTHAN 26
+#define REL_GREATEQUAL  27
+#define REL_NOTEQUAL    28
 
 // Logical Operators
 
-#define LOG_AND      34
-#define LOG_OR       35
-#define LOG_COMPARE     36
+#define LOG_AND      29
+#define LOG_OR       30
+#define LOG_COMPARE     31
 
 // Bitwise operators
 
-#define BITWISE_AND  37
-#define BITWISE_OR   38
-#define BITWISE_XOR  39
+#define BITWISE_AND  32
+#define BITWISE_OR   33
+#define BITWISE_XOR  34
 
 
-#define IDENTIFIER  40
+#define NUMBER		35
+
+#define IDENTIFIER	36
+
+#define STRING		37
+
+#define NEWLINE		38
+
+#define TAB			39
 
 // If anything else is there, add above this comment and update TOTALNUMBER
-// ADD TAB AND NEW LINE
-#define TOTALNUMBER 41
+// ADD TAB AND NEW LINE -- added!
+#define TOTALNUMBER 40
     
     unsigned int TokenCount[TOTALNUMBER];
 
@@ -108,15 +106,9 @@ DOUBLE "double "" "*
 \n {}                                      
 
 {CHAR}				                       {++TokenCount[CHAR]; printf("\nFound %s \n",yytext);}
-{UNSIGNED}" "*{CHAR}		               {++TokenCount[U_CHAR]; printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
 
 {INT}	                		           {++TokenCount[INT]; printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
-{SHORT}" "*{INT}			               {++TokenCount[S_INT]; printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
-{LONG}" "*{INT}			                   {++TokenCount[L_INT]; printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
-{LONG}" "*{LONG}" "*{INT}	               {++TokenCount[LL_INT]; printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
-{UNSIGNED}" "*{INT}	     	               {++TokenCount[US_INT]; printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
-{UNSIGNED}" "*{LONG}" "*{INT}	           {++TokenCount[UL_INT]; printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
-{UNSIGNED}" "*{LONG}" "*{LONG}" "*{INT}	   {++TokenCount[ULL_INT]; printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
+
 
 {FLOAT}                      			   {++TokenCount[FLOAT]; printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
 {DOUBLE}                         		   {++TokenCount[DOUBLE]; printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
@@ -156,8 +148,13 @@ DOUBLE "double "" "*
 "|"				                           {++TokenCount[BITWISE_OR]; printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
 "^"				                           {++TokenCount[BITWISE_XOR]; printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
 
-"identifier"			                   {++TokenCount[IDENTIFIER];}
+[0-9]+										{++TokenCount[NUMBER];printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
  
+[a-zA-Z_]+[a-zA-Z0-9_]*						{++TokenCount[IDENTIFIER];printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
+
+"\""[a-zA-Z0-9_]|"+"|"-"|"/"|"="|"%"|"?"|"!"|"."|"$"|"_"|"~"|"&"|"^"|"<"|">"|"("|")"|",""\""	{++TokenCount[STRING];printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
+
+
 %%
 
 int yywrap(){}
