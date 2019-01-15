@@ -107,7 +107,7 @@ DOUBLE "double "" "*
 QUOTE "\""
 SPACE " "*
 CHARACTERS [a-zA-Z0-9_]*
-SPECIAL_CHARS "~"|"!"|"@"|"#"|"$"|"%"|"^"|"&"|"*"|"("|")"|":"|";"|"<"|">"|"?"
+SPECIAL_CHARS ("~"|"!"|"@"|"#"|"$"|"%"|"^"|"&"|"*"|"("|")"|":"|";"|"<"|">"|"?"|"|"|"["|"]"|"+"|"-"|"="|"/")*
 
 
 INTEGER [0-9]+
@@ -166,7 +166,7 @@ IDENTIFIER [a-zA-Z_]+[a-zA-Z0-9_]*
 {INTEGER}"."{INTEGER}                      {++TokenCount[NUM_FLOAT];printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
 
 
-{QUOTE}{CHARACTERS}{SPACE}{CHARACTERS}{SPECIAL_CHARS}{QUOTE}                       {++TokenCount[STRING];printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
+{QUOTE}({SPACE}|{CHARACTERS}|{SPECIAL_CHARS})*{QUOTE}    {++TokenCount[STRING];printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
 
 {IDENTIFIER}                               {++TokenCount[IDENTIFIER];printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
 
