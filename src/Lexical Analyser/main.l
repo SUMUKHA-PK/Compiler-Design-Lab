@@ -294,34 +294,44 @@ int main() {
 			printf("At line %d\n\n",yylineno);
 		}
 		else if(getNextToken == LOG_AND){
-
+			printf("LOGICAL OPERATOR: %s\n",yytext);
+			printf("At line %d\n\n",yylineno);
 		}
 		else if(getNextToken == LOG_AND){
-
+			printf("LOGICAL OPERATOR: %s\n",yytext);
+			printf("At line %d\n\n",yylineno);
 		}
 		else if(getNextToken == LOG_AND){
-
+			printf("LOGICAL OPERATOR: %s\n",yytext);
+			printf("At line %d\n\n",yylineno);
 		}
 		else if(getNextToken == BITWISE_AND){
-
+			printf("BITWISE OPERATOR: %s\n",yytext);
+			printf("At line %d\n\n",yylineno);
+		}	
+		else if(getNextToken == BITWISE_AND){
+			printf("BITWISE OPERATOR: %s\n",yytext);
+			printf("At line %d\n\n",yylineno);
 		}
 		else if(getNextToken == BITWISE_AND){
-
-		}
-		else if(getNextToken == BITWISE_AND){
-
+			printf("BITWISE OPERATOR: %s\n",yytext);
+			printf("At line %d\n\n",yylineno);
 		}
 		else if(getNextToken == NUM_INTEGER){
-
-		}
+			printf("INTEGER : %s \n",yytext);
+			printf("At line %d\n\n",yylineno);
+		}	
 		else if(getNextToken == NUM_FLOAT){
-
+			printf("FLOAT : %s \n",yytext);
+			printf("At line %d\n\n",yylineno);
 		}
 		else if(getNextToken == IDENTIFIER){
-
+			printf("IDENTIFIER: %s\n",yytext);
+			printf("At line %d\n\n",yylineno);
 		}
 		else if(getNextToken == STRING){
-
+			printf("STRING : %s\n",yytext);
+			printf("At line %d\n\n",yylineno);
 		}
 		else if(getNextToken == NEWLINE){
 
