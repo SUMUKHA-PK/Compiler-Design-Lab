@@ -73,19 +73,22 @@
 #define BITWISE_XOR  34
 
 
-#define NUMBER		35
+#define NUM_INTEGER		35
 
-#define IDENTIFIER	36
+#define NUM_FLOAT       36
 
-#define STRING		37
+#define IDENTIFIER	37
 
-#define NEWLINE		38
+#define STRING		38
 
-#define TAB			39
+#define NEWLINE		39
+
+#define TAB			40
 
 // If anything else is there, add above this comment and update TOTALNUMBER
-// ADD TAB AND NEW LINE -- added!
-#define TOTALNUMBER 40
+
+#define TOTALNUMBER 41
+
     
     unsigned int TokenCount[TOTALNUMBER];
 
@@ -101,7 +104,16 @@ UNSIGNED "unsigned "" "*
 FLOAT "float "" "*
 DOUBLE "double "" "*
 
-GENERAL STRING "\""[a-zA-Z0-9_]*|"+"|"-"|"/"|"="|"%"|"?"|"!"|"."|"$"|"_"|"~"|"&"|"^"|"<"|">"|"("|")"|","|" ""\""
+QUOTE "\""
+SPACE " "*
+CHARACTERS [a-zA-Z0-9_]*
+SPECIAL_CHARS "~"|"!"|"@"|"#"|"$"|"%"|"^"|"&"|"*"|"("|")"|":"|";"|"<"|">"|"?"
+
+
+INTEGER [0-9]+
+
+IDENTIFIER [a-zA-Z_]+[a-zA-Z0-9_]* 
+
 %%
 
 \n {}                                      
@@ -149,12 +161,14 @@ GENERAL STRING "\""[a-zA-Z0-9_]*|"+"|"-"|"/"|"="|"%"|"?"|"!"|"."|"$"|"_"|"~"|"&"
 "|"				                           {++TokenCount[BITWISE_OR]; printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
 "^"				                           {++TokenCount[BITWISE_XOR]; printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
 
-[0-9]+										{++TokenCount[NUMBER];printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
- 
-[a-zA-Z_]+[a-zA-Z0-9_]*						{++TokenCount[IDENTIFIER];printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
+{INTEGER}								   {++TokenCount[NUM_INTEGER];printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
 
-{GENERAL STRING}	{++TokenCount[STRING];printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
+{INTEGER}"."{INTEGER}                      {++TokenCount[NUM_FLOAT];printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
 
+
+{QUOTE}{CHARACTERS}{SPACE}{CHARACTERS}{SPECIAL_CHARS}{QUOTE}                       {++TokenCount[STRING];printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
+
+{IDENTIFIER}                               {++TokenCount[IDENTIFIER];printf("\nFound %s \n",yytext); printf("Line number : %d \n",yylineno);}
 
 %%
 
@@ -167,6 +181,6 @@ int main() {
 	for(unsigned i = 0; i < TOTALNUMBER; i++) {
 		printf("%u  ", TokenCount[i]);
 	}
-	printf("\n");
+	printf("\n%d \n",TokenCount[STRING]);
 	return 0;
 }

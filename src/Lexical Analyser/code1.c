@@ -3,8 +3,9 @@
 
 int main() {
 
-	printf("Hello World!\n");
-
+	printf("Hello World!");
+	
+	int bitch = 0;
 	int i = 0; 
 
 	while(i < 10) {
