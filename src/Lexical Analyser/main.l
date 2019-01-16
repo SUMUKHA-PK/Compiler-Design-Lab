@@ -88,9 +88,10 @@
 #define MUL_COMMENT_A 42
 #define MUL_COMMENT_B 43
 
+#define SINGLE_QUOTE 44
 // If anything else is there, add above this comment and update TOTALNUMBER
 
-#define TOTALNUMBER 43
+#define TOTALNUMBER 44
 
     
     unsigned int TokenCount[TOTALNUMBER];
@@ -173,6 +174,8 @@ EOF                                        {return 0;}
 
 
 {QUOTE}({SPACE}|{CHARACTERS}|{SPECIAL_CHARS})*{QUOTE}    {++TokenCount[STRING]; return STRING;}
+
+{QUOTE}                                    {return SINGLE_QUOTE;}
 
 {IDENTIFIER}                               {++TokenCount[IDENTIFIER]; return IDENTIFIER;}
 
@@ -356,6 +359,11 @@ int main() {
 			else{
 				printf("Multi line commenting not started, end symbol found at line %d\n",yylineno);
 			}
+		}
+		else if (getNextToken == SINGLE_QUOTE){
+			printf("ERR_INCOMPLETE_STRING : %s",yytext);
+			getNextToken = yylex();
+			printf("%s\n\n",yytext);
 		}
 		getNextToken = yylex();
 	}
