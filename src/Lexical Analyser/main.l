@@ -229,25 +229,25 @@ int main() {
 			printf("RETURN CALLED at %d\n",yylineno);
 		}
 		else if(getNextToken == IF){
-
+			
 		}
 		else if(getNextToken == ELSE){
-
+		
 		}
 		else if(getNextToken == WHILE){
-
+			
 		}
 		else if(getNextToken == L_FLOWER_BRKT){
-
+			printf("Found %s \n",yytext);	
 		}
 		else if(getNextToken == R_FLOWER_BRKT){
-
+			printf("Found %s \n",yytext);	
 		}
 		else if(getNextToken == L_PAREN){
-
+			printf("Found : %s \n ",yytext);
 		}
 		else if(getNextToken == R_PAREN){
-
+			printf("Found : %s \n ",yytext);
 		}
 		else if(getNextToken == SEMICOLON){
 			printf("SEMICOLON at line %d\n",yylineno);
