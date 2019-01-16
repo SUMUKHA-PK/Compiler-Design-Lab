@@ -185,7 +185,74 @@ int yywrap(){}
 
 int mul_comment_flag = 0, start_multi=0,invalid_mul_comment=0;
 
+char strings[TOTALNUMBER][20];
+
+void lexer_init() {
+
+	for(unsigned i = 0; i < TOTALNUMBER; i++) {
+        memset(strings[i], '\0', 100);
+    }
+
+    // Basic datatypes
+    strncpy(strings[CHAR], "char", 4);
+    strncpy(strings[INT], "int", 3);
+    strncpy(strings[FLOAT], "float", 5);
+    strncpy(strings[DOUBLE], "double", 6);
+
+    // Keywords supporting datatypes
+    strncpy(strings[SHORT], "short", 5);
+    strncpy(strings[UNSIGNED], "unsigned", 8);
+    strncpy(strings[LONG], "long", 4);
+
+    // Control keywords
+    strncpy(strings[RETURN], "return", 6);
+    strncpy(strings[IF], "if", 2);
+    strncpy(strings[ELSE], "else", 4);
+    strncpy(strings[WHILE], "while", 5);
+    
+    // Flower brackets
+    strncpy(strings[L_FLOWER_BRKT], "{", 1);
+    strncpy(strings[R_FLOWER_BRKT], "}", 1);
+    
+    // Parentheses
+    strncpy(strings[L_PAREN], "(", 1);
+    strncpy(strings[R_PAREN], ")", 1);
+    
+    // Semicolon
+    strncpy(strings[SEMICOLON], ";", 1);
+    
+    // Arithmetic operators
+    strncpy(strings[AR_PLUS], "+", 1);
+    strncpy(strings[AR_MINUS], "-", 1);
+    strncpy(strings[AR_MUL], "*", 1);
+    strncpy(strings[AR_DIV], "/", 1);
+    strncpy(strings[AR_MOD], "%%", 1);
+    
+    // Relational Operators
+    strncpy(strings[REL_LESSTHAN], "<", 1);
+    strncpy(strings[REL_LESSEQUAL], "<=", 2);
+    strncpy(strings[REL_EQUAL], "=", 1);
+    strncpy(strings[REL_GREATERTHAN], ">", 1);
+    strncpy(strings[REL_GREATEQUAL], ">=", 2);
+    strncpy(strings[REL_NOTEQUAL], "!=", 2);
+    
+    // Logical Operators
+    strncpy(strings[LOG_AND], "&&", 2);
+    strncpy(strings[LOG_OR], "||", 2);
+    strncpy(strings[LOG_COMPARE], "==", 2);
+    
+    // Bitwise operators
+    strncpy(strings[BITWISE_AND], "&", 1);
+    strncpy(strings[BITWISE_OR], "|", 1);
+    strncpy(strings[BITWISE_XOR], "^", 1);
+
+}
+
+#include<string.h>
+
 int main() {
+
+	lexer_init();
 
 	int getNextToken = yylex();
 
