@@ -23,3 +23,7 @@ printf "\n\n-------------------------Test 5 completed!----------------------\n\n
 printf "\n\n-------------------------Test 6 Starting------------------------\n\n"
 ../../src/Lexical\ Analyser/a.out < test6.c 
 printf "\n\n-------------------------Test 6 completed!----------------------\n\n"
+
+printf "\n\n-------------------------Test 7 Starting------------------------\n\n"
+../../src/Lexical\ Analyser/a.out < test7.c 
+printf "\n\n-------------------------Test 7 completed!----------------------\n\n"

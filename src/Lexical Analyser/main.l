@@ -173,7 +173,7 @@ EOF                                        {return 0;}
 {INTEGER}"."{INTEGER}                      {++TokenCount[NUM_FLOAT]; return NUM_FLOAT;}
 
 
-{QUOTE}({SPACE}|{CHARACTERS}|{SPECIAL_CHARS})*{QUOTE}    {++TokenCount[STRING]; return STRING;}
+{QUOTE}({SPACE}|{CHARACTERS}|{SPECIAL_CHARS})*{QUOTE} {++TokenCount[STRING]; return STRING;}
 
 {QUOTE}                                    {return SINGLE_QUOTE;}
 
@@ -183,7 +183,7 @@ EOF                                        {return 0;}
 
 int yywrap(){}
 
-int mul_comment_flag = 0, start_multi=0;
+int mul_comment_flag = 0, start_multi=0,invalid_mul_comment=0;
 
 int main() {
 
@@ -348,16 +348,17 @@ int main() {
 				start_multi = yylineno;
 			}
 			else{
-				printf("Invalid behaviour. Two continuos open multi line comments at %d and %d\n",start_multi,yylineno);
+				invalid_mul_comment = 1;
 			}
 		}
 		else if(getNextToken == MUL_COMMENT_B){
 			if(mul_comment_flag==1){
-				printf("Multi line comments from line %d to %d\n",start_multi,yylineno);
+				invalid_mul_comment=0;
 				mul_comment_flag=0;
+				printf("Multi line comments found from line %d to %d\n",start_multi,yylineno);
 			}
 			else{
-				printf("Multi line commenting not started, end symbol found at line %d\n",yylineno);
+				printf("No multi line comment starter found. End found at %d\n",yylineno);
 			}
 		}
 		else if (getNextToken == SINGLE_QUOTE){
@@ -367,7 +368,10 @@ int main() {
 		}
 		getNextToken = yylex();
 	}
-	if(mul_comment_flag==1){
+	if(invalid_mul_comment==1){
+		printf("Invalid multi line commenting at line %d\n",start_multi);
+	}
+	else if(mul_comment_flag==1){
 		printf("No multi line comment ender, starts at line %d\n",yylineno);
 	}
 	return 0;
