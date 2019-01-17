@@ -93,12 +93,15 @@
 #define MUL_COMMENT_B 43
 
 #define SINGLE_QUOTE 44
-// If anything else is there, add above this comment and update TOTALNUMBER
 
-#define TOTALNUMBER 44
+#define COMMA 45
+
+#define DOT 46
+
+#define TOTALNUMBER 46
 
     
-    unsigned int TokenCount[TOTALNUMBER];
+unsigned int TokenCount[TOTALNUMBER];
 
 %}
 
@@ -188,6 +191,11 @@ EOF                                        {return 0;}
 
 {IDENTIFIER}                               {++TokenCount[IDENTIFIER]; return IDENTIFIER;}
 
+{COMMA}                                   {return COMMA;}
+
+{DOT}                                      {return DOT;}
+
+
 %%
 
 int yywrap(){}
@@ -201,8 +209,6 @@ struct symbol {
 } ;
 
 int main() {
-
-	lexer_init();
 
 	int getNextToken = yylex();
 
@@ -390,6 +396,16 @@ int main() {
 			printf(RESET);
 			getNextToken = yylex();
 			printf("%s\n\n",yytext);
+		}
+		else if(getNextToken == COMMA){
+			printf("Found %s at line %d\n\n",yytext,yylineno);
+		}
+		else if(getNextToken == DOT){
+			printf("Found %s at line %d\n\n",yytext,yylineno);
+		}
+		else{
+			printf(RED "Found UNRECOGNISED TOKEN : %s at line %d\n\n",yytext,yylineno);
+			printf(RESET);
 		}
 		getNextToken = yylex();
 	}
