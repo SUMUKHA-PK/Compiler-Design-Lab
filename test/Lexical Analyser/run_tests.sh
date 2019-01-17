@@ -39,3 +39,23 @@ printf "\n\n-------------------------Test 9 completed!----------------------\n\n
 printf "\n\n-------------------------Test 10 Starting------------------------\n\n"
 ../../src/Lexical\ Analyser/a.out < test10.c 
 printf "\n\n-------------------------Test 10 completed!----------------------\n\n"
+
+printf "\n\n-------------------------Test 11 Starting------------------------\n\n"
+../../src/Lexical\ Analyser/a.out < test11.c 
+printf "\n\n-------------------------Test 11 completed!----------------------\n\n"
+
+printf "\n\n-------------------------Test 12 Starting------------------------\n\n"
+../../src/Lexical\ Analyser/a.out < test12.c 
+printf "\n\n-------------------------Test 12 completed!----------------------\n\n"
+
+printf "\n\n-------------------------Test 13 Starting------------------------\n\n"
+../../src/Lexical\ Analyser/a.out < test13.c 
+printf "\n\n-------------------------Test 13 completed!----------------------\n\n"
+
+printf "\n\n-------------------------Test 14 Starting------------------------\n\n"
+../../src/Lexical\ Analyser/a.out < test14.c 
+printf "\n\n-------------------------Test 14 completed!----------------------\n\n"
+
+printf "\n\n-------------------------Test 15 Starting------------------------\n\n"
+../../src/Lexical\ Analyser/a.out < binary_search.c 
+printf "\n\n-------------------------Test 15 completed!----------------------\n\n"
