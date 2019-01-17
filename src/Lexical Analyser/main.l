@@ -113,6 +113,7 @@ SPACE " "*
 CHARACTERS [a-zA-Z0-9_]*
 SPECIAL_CHARS ("~"|"!"|"@"|"#"|"$"|"%"|"^"|"&"|"*"|"("|")"|":"|";"|"<"|">"|"?"|"|"|"["|"]"|"+"|"-"|"="|"/")*
 
+SEMICOLON ";"
 
 INTEGER [0-9]+
 
@@ -125,7 +126,7 @@ IDENTIFIER [a-zA-Z_]+[a-zA-Z0-9_]*
 EOF                                        {return 0;}
 {CHAR}				                       {++TokenCount[CHAR]; return CHAR;}
 
-{INT}	                		           {++TokenCount[INT]; return INT;} 
+{INT}                                      {++TokenCount[INT]; return INT;} 
 
 
 {FLOAT}                      			   {++TokenCount[FLOAT]; return FLOAT; }
@@ -183,7 +184,7 @@ EOF                                        {return 0;}
 
 int yywrap(){}
 
-int mul_comment_flag = 0, start_multi=0,invalid_mul_comment=0;
+int mul_comment_flag = 0, start_multi=0,invalid_mul_comment=0, left_flower_brkt=0, last_lfb=0;
 
 int main() {
 
@@ -238,9 +239,12 @@ int main() {
 			
 		}
 		else if(getNextToken == L_FLOWER_BRKT){
+			left_flower_brkt ++;
 			printf("Found %s \n",yytext);	
 		}
 		else if(getNextToken == R_FLOWER_BRKT){
+			left_flower_brkt--;
+			last_lfb = yylineno;
 			printf("Found %s \n",yytext);	
 		}
 		else if(getNextToken == L_PAREN){
@@ -373,6 +377,9 @@ int main() {
 	}
 	else if(mul_comment_flag==1){
 		printf("No multi line comment ender, starts at line %d\n",yylineno);
+	}
+	if(left_flower_brkt!=0){
+		printf("ERROR: expected declaration or statement at end of input, line number %d\n",yylineno);
 	}
 	return 0;
 }
