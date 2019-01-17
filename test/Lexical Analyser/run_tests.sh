@@ -27,3 +27,15 @@ printf "\n\n-------------------------Test 6 completed!----------------------\n\n
 printf "\n\n-------------------------Test 7 Starting------------------------\n\n"
 ../../src/Lexical\ Analyser/a.out < test7.c 
 printf "\n\n-------------------------Test 7 completed!----------------------\n\n"
+
+printf "\n\n-------------------------Test 8 Starting------------------------\n\n"
+../../src/Lexical\ Analyser/a.out < test8.c 
+printf "\n\n-------------------------Test 8 completed!----------------------\n\n"
+
+printf "\n\n-------------------------Test 9 Starting------------------------\n\n"
+../../src/Lexical\ Analyser/a.out < test9.c 
+printf "\n\n-------------------------Test 9 completed!----------------------\n\n"
+
+printf "\n\n-------------------------Test 10 Starting------------------------\n\n"
+../../src/Lexical\ Analyser/a.out < test10.c 
+printf "\n\n-------------------------Test 10 completed!----------------------\n\n"
