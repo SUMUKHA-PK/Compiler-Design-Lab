@@ -1,6 +1,10 @@
 %{
 
 // Datatypes
+#define RED   "\x1B[31m"
+#define RESET "\x1B[0m"
+#define GREEN "\x1B[32m"
+#define BLUE  "\x1B[34m"
 
 #define CHAR 	    1
 #define INT     	2
@@ -184,7 +188,7 @@ EOF                                        {return 0;}
 
 int yywrap(){}
 
-int mul_comment_flag = 0, start_multi=0,invalid_mul_comment=0, left_flower_brkt=0, last_lfb=0;
+int mul_comment_flag = 0, start_multi=0,invalid_mul_comment=0, left_flower_brkt=0, last_lfb=0,left_bracket=0,last_brack=0;
 
 int main() {
 
@@ -248,9 +252,12 @@ int main() {
 			printf("Found %s \n",yytext);	
 		}
 		else if(getNextToken == L_PAREN){
+			left_bracket++;
 			printf("Found : %s \n ",yytext);
 		}
 		else if(getNextToken == R_PAREN){
+			left_bracket--;
+			last_brack = yylineno;
 			printf("Found : %s \n ",yytext);
 		}
 		else if(getNextToken == SEMICOLON){
@@ -362,24 +369,33 @@ int main() {
 				printf("Multi line comments found from line %d to %d\n",start_multi,yylineno);
 			}
 			else{
-				printf("No multi line comment starter found. End found at %d\n",yylineno);
+				printf(RED "ERROR : No multi line comment starter found. End found at %d\n",yylineno);
+				printf(RESET);
 			}
 		}
 		else if (getNextToken == SINGLE_QUOTE){
-			printf("ERR_INCOMPLETE_STRING : %s",yytext);
+			printf(RED "ERROR : Incomplete String : %s",yytext);
+			printf(RESET);
 			getNextToken = yylex();
 			printf("%s\n\n",yytext);
 		}
 		getNextToken = yylex();
 	}
 	if(invalid_mul_comment==1){
-		printf("Invalid multi line commenting at line %d\n",start_multi);
+		printf(RED "ERROR : Invalid multi line commenting at line %d\n",start_multi);
+		printf(RESET);
 	}
 	else if(mul_comment_flag==1){
-		printf("No multi line comment ender, starts at line %d\n",yylineno);
+		printf(RED "ERROR : No multi line comment ender, starts at line %d\n",yylineno);
+		printf(RESET);
 	}
 	if(left_flower_brkt!=0){
-		printf("ERROR: expected declaration or statement at end of input, line number %d\n",yylineno);
+		printf(RED "ERROR: expected declaration or statement at end of input, line number %d\n",last_lfb);
+		printf(RESET);
+	}
+	if(left_bracket!=0){
+		printf(RED "ERROR: expected declaration or statement at end of input, line number %d\n",last_brack);
+		printf(RESET);
 	}
 	return 0;
 }
