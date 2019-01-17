@@ -93,12 +93,15 @@
 #define MUL_COMMENT_B 43
 
 #define SINGLE_QUOTE 44
-// If anything else is there, add above this comment and update TOTALNUMBER
 
-#define TOTALNUMBER 44
+#define COMMA 45
+
+#define DOT 46
+
+#define TOTALNUMBER 46
 
     
-    unsigned int TokenCount[TOTALNUMBER];
+unsigned int TokenCount[TOTALNUMBER];
 
 %}
 
@@ -115,9 +118,13 @@ DOUBLE "double "" "*
 QUOTE "\""
 SPACE " "*
 CHARACTERS [a-zA-Z0-9_]*
-SPECIAL_CHARS ("~"|"!"|"@"|"#"|"$"|"%"|"^"|"&"|"*"|"("|")"|":"|";"|"<"|">"|"?"|"|"|"["|"]"|"+"|"-"|"="|"/")*
+SPECIAL_CHARS ("~"|"`"|"!"|"@"|"#"|"$"|"%"|"^"|"&"|"*"|"("|")"|":"|";"|"<"|">"|"?"|"|"|"["|"]"|"+"|"-"|"="|"/"|"."|","|"_")*
 
 SEMICOLON ";"
+
+COMMA ","
+
+DOT  "."
 
 INTEGER [0-9]+
 
@@ -184,80 +191,24 @@ EOF                                        {return 0;}
 
 {IDENTIFIER}                               {++TokenCount[IDENTIFIER]; return IDENTIFIER;}
 
+{COMMA}                                   {return COMMA;}
+
+{DOT}                                      {return DOT;}
+
+
 %%
 
 int yywrap(){}
 
 int mul_comment_flag = 0, start_multi=0,invalid_mul_comment=0, left_flower_brkt=0, last_lfb=0,left_bracket=0,last_brack=0;
 
-char strings[TOTALNUMBER][20];
-
-void lexer_init() {
-
-	for(unsigned i = 0; i < TOTALNUMBER; i++) {
-        memset(strings[i], '\0', 100);
-    }
-
-    // Basic datatypes
-    strncpy(strings[CHAR], "char", 4);
-    strncpy(strings[INT], "int", 3);
-    strncpy(strings[FLOAT], "float", 5);
-    strncpy(strings[DOUBLE], "double", 6);
-
-    // Keywords supporting datatypes
-    strncpy(strings[SHORT], "short", 5);
-    strncpy(strings[UNSIGNED], "unsigned", 8);
-    strncpy(strings[LONG], "long", 4);
-
-    // Control keywords
-    strncpy(strings[RETURN], "return", 6);
-    strncpy(strings[IF], "if", 2);
-    strncpy(strings[ELSE], "else", 4);
-    strncpy(strings[WHILE], "while", 5);
-    
-    // Flower brackets
-    strncpy(strings[L_FLOWER_BRKT], "{", 1);
-    strncpy(strings[R_FLOWER_BRKT], "}", 1);
-    
-    // Parentheses
-    strncpy(strings[L_PAREN], "(", 1);
-    strncpy(strings[R_PAREN], ")", 1);
-    
-    // Semicolon
-    strncpy(strings[SEMICOLON], ";", 1);
-    
-    // Arithmetic operators
-    strncpy(strings[AR_PLUS], "+", 1);
-    strncpy(strings[AR_MINUS], "-", 1);
-    strncpy(strings[AR_MUL], "*", 1);
-    strncpy(strings[AR_DIV], "/", 1);
-    strncpy(strings[AR_MOD], "%%", 1);
-    
-    // Relational Operators
-    strncpy(strings[REL_LESSTHAN], "<", 1);
-    strncpy(strings[REL_LESSEQUAL], "<=", 2);
-    strncpy(strings[REL_EQUAL], "=", 1);
-    strncpy(strings[REL_GREATERTHAN], ">", 1);
-    strncpy(strings[REL_GREATEQUAL], ">=", 2);
-    strncpy(strings[REL_NOTEQUAL], "!=", 2);
-    
-    // Logical Operators
-    strncpy(strings[LOG_AND], "&&", 2);
-    strncpy(strings[LOG_OR], "||", 2);
-    strncpy(strings[LOG_COMPARE], "==", 2);
-    
-    // Bitwise operators
-    strncpy(strings[BITWISE_AND], "&", 1);
-    strncpy(strings[BITWISE_OR], "|", 1);
-    strncpy(strings[BITWISE_XOR], "^", 1);
-
-}
-
-#include<string.h>
+struct symbol {
+	int num[100];
+	int symbol[100];
+	int token[100];
+} ;
 
 int main() {
-
-	lexer_init();
 
 	int getNextToken = yylex();
 
@@ -301,13 +252,13 @@ int main() {
 			printf("RETURN CALLED at %d\n",yylineno);
 		}
 		else if(getNextToken == IF){
-			
+			printf("Found %s at line %d\n\n",yytext,yylineno);
 		}
 		else if(getNextToken == ELSE){
-		
+			printf("Found %s at line %d\n\n",yytext,yylineno);
 		}
 		else if(getNextToken == WHILE){
-			
+			printf("Found %s at line %d\n\n",yytext,yylineno);
 		}
 		else if(getNextToken == L_FLOWER_BRKT){
 			left_flower_brkt ++;
@@ -445,6 +396,16 @@ int main() {
 			printf(RESET);
 			getNextToken = yylex();
 			printf("%s\n\n",yytext);
+		}
+		else if(getNextToken == COMMA){
+			printf("Found %s at line %d\n\n",yytext,yylineno);
+		}
+		else if(getNextToken == DOT){
+			printf("Found %s at line %d\n\n",yytext,yylineno);
+		}
+		else{
+			printf(RED "Found UNRECOGNISED TOKEN : %s at line %d\n\n",yytext,yylineno);
+			printf(RESET);
 		}
 		getNextToken = yylex();
 	}
