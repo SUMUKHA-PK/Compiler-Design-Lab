@@ -115,9 +115,13 @@ DOUBLE "double "" "*
 QUOTE "\""
 SPACE " "*
 CHARACTERS [a-zA-Z0-9_]*
-SPECIAL_CHARS ("~"|"!"|"@"|"#"|"$"|"%"|"^"|"&"|"*"|"("|")"|":"|";"|"<"|">"|"?"|"|"|"["|"]"|"+"|"-"|"="|"/")*
+SPECIAL_CHARS ("~"|"`"|"!"|"@"|"#"|"$"|"%"|"^"|"&"|"*"|"("|")"|":"|";"|"<"|">"|"?"|"|"|"["|"]"|"+"|"-"|"="|"/"|"."|","|"_")*
 
 SEMICOLON ";"
+
+COMMA ","
+
+DOT  "."
 
 INTEGER [0-9]+
 
@@ -190,6 +194,13 @@ int yywrap(){}
 
 int mul_comment_flag = 0, start_multi=0,invalid_mul_comment=0, left_flower_brkt=0, last_lfb=0,left_bracket=0,last_brack=0;
 
+
+struct symbol {
+	int num[100];
+	int symbol[100];
+	int token[100];
+} ;
+
 int main() {
 
 	int getNextToken = yylex();
@@ -234,13 +245,13 @@ int main() {
 			printf("RETURN CALLED at %d\n",yylineno);
 		}
 		else if(getNextToken == IF){
-			
+			printf("Found %s at line %d\n\n",yytext,yylineno);
 		}
 		else if(getNextToken == ELSE){
-		
+			printf("Found %s at line %d\n\n",yytext,yylineno);
 		}
 		else if(getNextToken == WHILE){
-			
+			printf("Found %s at line %d\n\n",yytext,yylineno);
 		}
 		else if(getNextToken == L_FLOWER_BRKT){
 			left_flower_brkt ++;
