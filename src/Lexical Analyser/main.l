@@ -194,7 +194,6 @@ int yywrap(){}
 
 int mul_comment_flag = 0, start_multi=0,invalid_mul_comment=0, left_flower_brkt=0, last_lfb=0,left_bracket=0,last_brack=0;
 
-
 struct symbol {
 	int num[100];
 	int symbol[100];
@@ -202,6 +201,8 @@ struct symbol {
 } ;
 
 int main() {
+
+	lexer_init();
 
 	int getNextToken = yylex();
 
