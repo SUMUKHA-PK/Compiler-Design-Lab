@@ -126,6 +126,8 @@ COMMA ","
 
 DOT  "."
 
+NEWLINE "\\n"
+
 INTEGER [0-9]+
 
 IDENTIFIER [a-zA-Z_]+[a-zA-Z0-9_]* 
@@ -185,7 +187,7 @@ EOF                                        {return 0;}
 {INTEGER}"."{INTEGER}                      {++TokenCount[NUM_FLOAT]; return NUM_FLOAT;}
 
 
-{QUOTE}({SPACE}|{CHARACTERS}|{SPECIAL_CHARS})*{QUOTE} {++TokenCount[STRING]; return STRING;}
+{QUOTE}({SPACE}|{CHARACTERS}|{SPECIAL_CHARS}|{NEWLINE})*{QUOTE} {++TokenCount[STRING]; return STRING;}
 
 {QUOTE}                                    {return SINGLE_QUOTE;}
 
@@ -202,11 +204,48 @@ int yywrap(){}
 
 int mul_comment_flag = 0, start_multi=0,invalid_mul_comment=0, left_flower_brkt=0, last_lfb=0,left_bracket=0,last_brack=0;
 
-struct symbol {
-	int num[100];
-	int symbol[100];
-	int token[100];
-} ;
+int symbolTableSize = 0,constantTableSize=0;
+
+
+typedef struct symbol {
+	char value[100];
+	char type[100];
+	int line;
+	struct symbolToken* next; 
+} symbolToken;
+
+symbolToken * symbolTable[1000];
+symbolToken * constantTable[1000];
+
+void printTable(int table){
+	int i;
+	if(table==0) {
+		int tableSize = symbolTableSize;
+	}
+	else {
+		int tableSize = constantTableSize;
+	} 
+	printf("%-10s%20s%24s","VALUE","TYPE","LINE NO");
+	for(i=0;i<symbolTableSize;i++){
+		symbolToken * temp;
+		if(table==0) temp = symbolTable[i];
+		else temp = constantTable[i];
+		while(temp!=NULL){
+			printf("%-10s%10s%20d",temp->value,temp->type,temp->line);
+			temp=temp->next;
+		}
+	}
+}
+
+int hash(unsigned char * s){
+	unsigned long hashVar = 5381;
+	int c;
+
+    while (c = *s++)
+        hashVar = (((hashVar << 5) + hashVar) + c)%1000;
+
+    return hashVar;
+}
 
 int main() {
 
@@ -329,11 +368,11 @@ int main() {
 			printf("LOGICAL OPERATOR: %s\n",yytext);
 			printf("At line %d\n\n",yylineno);
 		}
-		else if(getNextToken == LOG_AND){
+		else if(getNextToken == LOG_OR){
 			printf("LOGICAL OPERATOR: %s\n",yytext);
 			printf("At line %d\n\n",yylineno);
 		}
-		else if(getNextToken == LOG_AND){
+		else if(getNextToken == LOG_COMPARE){
 			printf("LOGICAL OPERATOR: %s\n",yytext);
 			printf("At line %d\n\n",yylineno);
 		}

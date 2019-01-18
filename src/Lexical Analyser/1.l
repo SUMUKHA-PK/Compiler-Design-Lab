@@ -215,13 +215,13 @@ void showConstantTable(){
     }
 }
 
-int main(int argc, char** argv){
-    if(argc < 2){
-        printf(RED "Pass input file as command line argument\n" RESET);
-        exit(0);
-    }
+int main(){
+    // if(argc < 2){
+    //     printf(RED "Pass input file as command line argument\n" RESET);
+    //     exit(0);
+    // }
     initSymbolTable();
-    yyin = fopen(argv[1], "r");
+    // yyin = fopen(argv[1], "r");
     printf("\n\n-----------------------------------------------------------------\n");
     printf(BLU "%-20s%20s%24s\n", "TOKEN VALUE", "TOKEN TYPE", "LINE NUMBER" RESET);
     printf("-----------------------------------------------------------------\n");
