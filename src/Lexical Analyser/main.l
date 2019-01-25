@@ -206,16 +206,24 @@ int mul_comment_flag = 0, start_multi=0,invalid_mul_comment=0, left_flower_brkt=
 
 int symbolTableSize = 0,constantTableSize=0;
 
+int TableSize = 1000;
 
 typedef struct symbol {
 	char value[100];
 	char type[100];
 	int line;
-	struct symbolToken* next; 
+	struct symbol* next; 
 } symbolToken;
 
 symbolToken * symbolTable[1000];
 symbolToken * constantTable[1000];
+
+void initTables(){
+	for(int i=0;i<TableSize;i++){
+		symbolTable[i]=NULL;
+		constantTable[i] = NULL;
+	}
+}
 
 void printTable(int table){
 	int i;
@@ -225,13 +233,13 @@ void printTable(int table){
 	else {
 		int tableSize = constantTableSize;
 	} 
-	printf("%-10s%20s%24s","VALUE","TYPE","LINE NO");
-	for(i=0;i<symbolTableSize;i++){
+	
+	for(i=0;i<TableSize;i++){
 		symbolToken * temp;
 		if(table==0) temp = symbolTable[i];
 		else temp = constantTable[i];
 		while(temp!=NULL){
-			printf("%-10s%10s%20d",temp->value,temp->type,temp->line);
+			printf("%-10s%10s%20d\n",temp->value,temp->type,temp->line);
 			temp=temp->next;
 		}
 	}
@@ -247,39 +255,88 @@ int hash(unsigned char * s){
     return hashVar;
 }
 
+symbolToken* createsymbolToken(char *value, char *type, int lineNumber){
+    symbolToken *item = (symbolToken*)malloc(sizeof(symbolToken));
+    strcpy(item->value, value);
+    strcpy(item->type, type);
+    item->line = lineNumber;
+    item->next = NULL;
+
+    return item;
+}
+
+void insertsymbolToken(char *value, char *type, int lineNumber, int tableno){
+    int hashIndex = hash(value);
+
+    symbolToken *item = createsymbolToken(value, type, lineNumber);
+
+    if(tableno == 0)
+    {
+        symbolToken * temp = symbolTable[hashIndex];
+        while(temp!=NULL && temp->next!=NULL)
+            temp = temp->next;
+
+        if(temp == NULL)
+            symbolTable[hashIndex] = item;
+        else
+            temp->next = item;
+    }
+
+    else
+    {
+        symbolToken * temp = constantTable[hashIndex];
+        while(temp!=NULL && temp->next!=NULL)
+            temp = temp->next;
+
+        if(temp == NULL)
+            constantTable[hashIndex] = item;
+        else
+            temp->next = item;
+    }
+    
+}
+
 int main() {
 
 	int getNextToken = yylex();
-
+	initTables();
+	
 	// Continuosly reads next token
 	while(getNextToken) {
 		if(getNextToken == CHAR) {
 			printf("KEYWORD : %s\n\n",yytext);
 			printf("At line %d\n\n",yylineno);
+			insertsymbolToken(yytext, "CHARACTER", yylineno, 0);
 		}
 		else if(getNextToken == INT){
 			printf("KEYWORD : %s\n\n",yytext);
 			printf("At line %d\n\n",yylineno);
+			insertsymbolToken(yytext, "INTEGER", yylineno, 0);
 		}
 		else if(getNextToken == FLOAT){
 			printf("KEYWORD : %s\n\n",yytext);
 			printf("At line %d\n\n",yylineno);
+			insertsymbolToken(yytext, "FLOAT", yylineno, 0);
 		}
 		else if(getNextToken==DOUBLE){
 			printf("KEYWORD : %s\n\n",yytext);
 			printf("At line %d\n\n",yylineno);
+			insertsymbolToken(yytext, "DOUBLE", yylineno, 0);
 		}
 		else if(getNextToken == SHORT){
 			printf("KEYWORD : %s\n",yytext);
 			printf("At line %d\n\n",yylineno);
+			insertsymbolToken(yytext, "SHORT", yylineno, 0);
 		}
 		else if(getNextToken == UNSIGNED){
 			printf("KEYWORD : %s\n",yytext);
 			printf("At line %d\n\n",yylineno);
+			insertsymbolToken(yytext, "UNSIGNED", yylineno, 0);
 		}
 		else if(getNextToken == LONG){
 			printf("KEYWORD : %s\n",yytext);
 			printf("At line %d\n\n",yylineno);
+			insertsymbolToken(yytext, "LONG", yylineno, 0);
 		}
 		else if(getNextToken == SL_COMMENT){
 			printf("SINGLE LINE COMMENT at line %d\n",yylineno);
@@ -289,116 +346,145 @@ int main() {
 		}
 		else if(getNextToken == RETURN){
 			printf("RETURN CALLED at %d\n",yylineno);
+			insertsymbolToken(yytext, "RETURN", yylineno, 0);
 		}
 		else if(getNextToken == IF){
 			printf("Found %s at line %d\n\n",yytext,yylineno);
+			insertsymbolToken(yytext, "IF", yylineno, 0);
 		}
 		else if(getNextToken == ELSE){
 			printf("Found %s at line %d\n\n",yytext,yylineno);
+			insertsymbolToken(yytext, "ELSE", yylineno, 0);
 		}
 		else if(getNextToken == WHILE){
 			printf("Found %s at line %d\n\n",yytext,yylineno);
+			insertsymbolToken(yytext, "WHILE", yylineno, 0);
 		}
 		else if(getNextToken == L_FLOWER_BRKT){
 			left_flower_brkt ++;
-			printf("Found %s \n",yytext);	
+			printf("Found %s \n",yytext);
+			insertsymbolToken(yytext, "L F BRACKET", yylineno, 0);	
 		}
 		else if(getNextToken == R_FLOWER_BRKT){
 			left_flower_brkt--;
 			last_lfb = yylineno;
 			printf("Found %s \n",yytext);	
+			insertsymbolToken(yytext, "R F BRACKET", yylineno, 0);
 		}
 		else if(getNextToken == L_PAREN){
 			left_bracket++;
 			printf("Found : %s \n ",yytext);
+			insertsymbolToken(yytext, "L BRACKET", yylineno, 0);
 		}
 		else if(getNextToken == R_PAREN){
 			left_bracket--;
 			last_brack = yylineno;
 			printf("Found : %s \n ",yytext);
+			insertsymbolToken(yytext, "R BRACKET", yylineno, 0);
 		}
 		else if(getNextToken == SEMICOLON){
 			printf("SEMICOLON at line %d\n",yylineno);
+			insertsymbolToken(yytext, "SEMICOLON", yylineno, 0);
 		}
 		else if(getNextToken==AR_PLUS){
 			printf("ARITHEMATIC OPERATOR : %s\n",yytext);
 			printf("At line %d\n\n",yylineno);
+			insertsymbolToken(yytext, "AR_PLUS", yylineno, 0);
 		}
 		else if(getNextToken == AR_MINUS){
 			printf("ARITHEMATIC OPERATOR : %s\n",yytext);
 			printf("At line %d\n\n",yylineno);
+			insertsymbolToken(yytext, "AR_MINUS", yylineno, 0);
 		}
 		else if(getNextToken == AR_MUL){
 			printf("ARITHEMATIC OPERATOR : %s\n",yytext);
 			printf("At line %d\n\n",yylineno);
+			insertsymbolToken(yytext, "AR_MUL", yylineno, 0);
 		}
 		else if(getNextToken == AR_DIV){
 			printf("ARITHEMATIC OPERATOR : %s\n",yytext);
 			printf("At line %d\n\n",yylineno);
+			insertsymbolToken(yytext, "AR_DIV", yylineno, 0);
 		}
 		else if(getNextToken == AR_MOD){
 			printf("ARITHEMATIC OPERATOR : %s\n",yytext);
 			printf("At line %d\n\n",yylineno);
+			insertsymbolToken(yytext, "AR_MOD", yylineno, 0);
 		}
 		else if(getNextToken == REL_LESSTHAN){
 			printf("RELATIONAL OPERATOR : %s\n",yytext);
 			printf("At line %d\n\n",yylineno);
+			insertsymbolToken(yytext, "REL_LESSTHAN", yylineno, 0);
 		}
 		else if(getNextToken == REL_LESSEQUAL){
 			printf("RELATIONAL OPERATOR : %s\n",yytext);
 			printf("At line %d\n\n",yylineno);
+			insertsymbolToken(yytext, "REL_LESSEQUAL", yylineno, 0);
 		}
 		else if(getNextToken == REL_EQUAL){
 			printf("RELATIONAL OPERATOR : %s\n",yytext);
 			printf("At line %d\n\n",yylineno);
+			insertsymbolToken(yytext, "REL_EQUAL", yylineno, 0);
 		}
 		else if(getNextToken == REL_GREATERTHAN){
 			printf("RELATIONAL OPERATOR : %s\n",yytext);
 			printf("At line %d\n\n",yylineno);
+			insertsymbolToken(yytext, "REL_GREATERTHAN", yylineno, 0);
 		}
 		else if(getNextToken == REL_GREATEQUAL){
 			printf("RELATIONAL OPERATOR : %s\n",yytext);
 			printf("At line %d\n\n",yylineno);
+			insertsymbolToken(yytext, "REL_GREATEQUAL", yylineno, 0);
 		}
 		else if(getNextToken == REL_NOTEQUAL){
 			printf("RELATIONAL OPERATOR : %s\n",yytext);
 			printf("At line %d\n\n",yylineno);
+			insertsymbolToken(yytext, "REL_NOTEQUAL", yylineno, 0);
 		}
 		else if(getNextToken == LOG_AND){
 			printf("LOGICAL OPERATOR: %s\n",yytext);
 			printf("At line %d\n\n",yylineno);
+			insertsymbolToken(yytext, "LOG_AND", yylineno, 0);
 		}
 		else if(getNextToken == LOG_OR){
 			printf("LOGICAL OPERATOR: %s\n",yytext);
 			printf("At line %d\n\n",yylineno);
+			insertsymbolToken(yytext, "LOG_OR", yylineno, 0);
 		}
 		else if(getNextToken == LOG_COMPARE){
 			printf("LOGICAL OPERATOR: %s\n",yytext);
 			printf("At line %d\n\n",yylineno);
+			insertsymbolToken(yytext, "LOG_COMPARE", yylineno, 0);
 		}
 		else if(getNextToken == BITWISE_AND){
 			printf("BITWISE OPERATOR: %s\n",yytext);
 			printf("At line %d\n\n",yylineno);
+			insertsymbolToken(yytext, "BITWISE_AND", yylineno, 0);
 		}	
-		else if(getNextToken == BITWISE_AND){
+		else if(getNextToken == BITWISE_OR){
 			printf("BITWISE OPERATOR: %s\n",yytext);
 			printf("At line %d\n\n",yylineno);
+			insertsymbolToken(yytext, "BITWISE_OR", yylineno, 0);
 		}
-		else if(getNextToken == BITWISE_AND){
+		else if(getNextToken == BITWISE_XOR){
 			printf("BITWISE OPERATOR: %s\n",yytext);
 			printf("At line %d\n\n",yylineno);
+			insertsymbolToken(yytext, "BITWISE_XOR", yylineno, 0);
 		}
 		else if(getNextToken == NUM_INTEGER){
 			printf("INTEGER : %s \n",yytext);
 			printf("At line %d\n\n",yylineno);
+			insertsymbolToken(yytext, "INTEGER", yylineno, 1);
 		}	
 		else if(getNextToken == NUM_FLOAT){
 			printf("FLOAT : %s \n",yytext);
 			printf("At line %d\n\n",yylineno);
+			insertsymbolToken(yytext, "FLOAT", yylineno, 1);
 		}
 		else if(getNextToken == IDENTIFIER){
 			printf("IDENTIFIER: %s\n",yytext);
 			printf("At line %d\n\n",yylineno);
+			insertsymbolToken(yytext, "IDENTIFIER", yylineno, 0);
 		}
 		else if(getNextToken == STRING){
 			printf("STRING : %s\n",yytext);
@@ -464,5 +550,17 @@ int main() {
 		printf(RED "ERROR: expected declaration or statement at end of input, line number %d\n",last_brack);
 		printf(RESET);
 	}
+
+	printf(GREEN "\n\nSYMBOL TABLE" RESET);
+	printf("\n-----------------------------------------------------------------\n");
+    printf(BLUE "%-20s%10s%24s\n","VALUE","TYPE","LINE NUMBER" RESET);
+    printf("-----------------------------------------------------------------\n");
+	printTable(0);
+
+	printf(GREEN "\n\nCONSTANT TABLE" RESET);
+	printf("\n-----------------------------------------------------------------\n");
+    printf(BLUE "%-20s%10s%24s\n","VALUE","TYPE","LINE NUMBER" RESET);
+    printf("-----------------------------------------------------------------\n");
+	printTable(1);
 	return 0;
 }
