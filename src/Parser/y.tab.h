@@ -79,7 +79,8 @@ extern int yydebug;
     BITWISE_AND = 289,
     BITWISE_OR = 290,
     LOG_AND = 291,
-    LOG_OR = 292
+    LOG_OR = 292,
+    LOG_COMPARE = 293
   };
 #endif
 /* Tokens.  */
@@ -118,6 +119,7 @@ extern int yydebug;
 #define BITWISE_OR 290
 #define LOG_AND 291
 #define LOG_OR 292
+#define LOG_COMPARE 293
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
