@@ -7,6 +7,9 @@
     extern int lineNo;
 %}
 
+%locations
+
+
 %token CHAR
 %token INT
 %token FLOAT
@@ -24,6 +27,7 @@
 %token L_PAREN
 %token R_PAREN
 %token STRING 
+%token VOID
 
 %token IDENTIFIER
 %token NUM_INTEGER 
@@ -37,7 +41,7 @@
 
 %%
 ED: 
-    SEMICOLON | expr SEMICOLON ED | var_dec SEMICOLON ED | var_def SEMICOLON ED | while | func_dec SEMICOLON ED |  if_elses ED |@ func_def |
+    SEMICOLON | expr ED | var_dec SEMICOLON ED | var_def SEMICOLON ED | while | func_dec SEMICOLON ED |  if_elses ED | func_def |
 ;
 
 
@@ -77,7 +81,7 @@ datatype:
 |   SHORT UNSIGNED INT                  {printf("Found SUI\n");}
 |   LONG INT                    {printf("Found LI\n");}
 |   LONG UNSIGNED INT                   {printf("Found LLI\n");}
-|   "void"                          {printf("Found void");}
+|   VOID                          {printf("Found void");}
 ;
 
 var_dec: 
@@ -142,7 +146,7 @@ func_def:
 %%
 
 void yyerror(const char *s){
-   printf("%s %s\n",s, yytext );
+   printf("Error: %s at token %s in Line %d\n",s, yytext, yylineno );
 }
 
 int main()
@@ -151,6 +155,6 @@ int main()
     if(!yyparse())
         printf("\nParsing complete\n");
     else
-        printf("\nParsing failed\n");
+        
 
 }
