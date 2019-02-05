@@ -37,29 +37,29 @@
 
 %%
 ED: 
-    SEMICOLON | expr SEMICOLON ED | var_dec SEMICOLON ED | var_def SEMICOLON ED | //| while | func_dec | func_def | if_elses 
+    SEMICOLON | expr SEMICOLON ED | var_dec SEMICOLON ED | var_def SEMICOLON ED | while | func_dec SEMICOLON ED |  if_elses ED |@ func_def |
 ;
 
 
 expr:
-    expr AR_PLUS expr       {$$ = $1 + $3; printf("Addition");}
-|   expr AR_MINUS expr       {$$ = $1 - $3; printf("Subtraction");}
-|   expr AR_MUL expr       {$$ = $1 * $3; printf("Multiplication");}
-|   expr AR_DIV expr       {$$ = $1 / $3; printf("Division");}
-|   expr AR_MOD expr       {$$ = $1 % $3; printf("Modulo");}
-|   expr AR_PLUS AR_PLUS      {$$ = $1++; printf("Increment");}
-|   expr BITWISE_XOR expr       {$$ = $1 ^ $3; printf("BITWISE_XOR");}
-|   expr BITWISE_OR expr       {$$ = $1 | $3; printf("BITWISE_OR");}
-|   expr BITWISE_AND expr       {$$ = $1 & $3; printf("BITWISE_AND");}
-|   expr BITWISE_AND BITWISE_AND expr   {$$ = $1 && $4; printf("Logical LOG_AND");}
-|   expr BITWISE_OR BITWISE_AND expr   {$$ = $1 || $4; printf("LOG_OR");}
-|   expr LOG_COMPARE LOG_COMPARE expr   {$$ = $1 == $4; printf("LOG_COMPARE");}
-|   expr REL_LESSTHAN expr       {$$ = $1 < $3; printf("REL_LESSTHAN");}
-|   expr REL_LESSEQUAL expr   {$$ = $1 <= $3; printf("REL_LESSEQUAL");}
-|   expr REL_EQUAL expr       {$$ = $1 = $3; printf("REL_EQUAL");}      
-|   expr REL_GREATEQUAL expr   {$$ = $1 >= $3; printf("REL_GREATEQUAL");}
-|   expr REL_GREATERTHAN expr       {$$ = $1 > $3; printf("REL_GREATERTHAN");}
-|   expr REL_NOTEQUAL expr   {$$ = $1 != $3; printf("REL_NOTEQUAL");}
+    expr AR_PLUS expr       {$$ = $1 + $3; printf("Addition\n");}
+|   expr AR_MINUS expr       {$$ = $1 - $3; printf("Subtraction\n");}
+|   expr AR_MUL expr       {$$ = $1 * $3; printf("Multiplication\n");}
+|   expr AR_DIV expr       {$$ = $1 / $3; printf("Division\n");}
+|   expr AR_MOD expr       {$$ = $1 % $3; printf("Modulo\n");}
+|   expr AR_PLUS AR_PLUS      {$$ = $1++; printf("Increment\n");}
+|   expr BITWISE_XOR expr       {$$ = $1 ^ $3; printf("BITWISE_XOR\n");}
+|   expr BITWISE_OR expr       {$$ = $1 | $3; printf("BITWISE_OR\n");}
+|   expr BITWISE_AND expr       {$$ = $1 & $3; printf("BITWISE_AND\n");}
+|   expr BITWISE_AND BITWISE_AND expr   {$$ = $1 && $4; printf("Logical LOG_AND\n");}
+|   expr BITWISE_OR BITWISE_AND expr   {$$ = $1 || $4; printf("LOG_OR\n");}
+|   expr LOG_COMPARE LOG_COMPARE expr   {$$ = $1 == $4; printf("LOG_COMPARE\n");}
+|   expr REL_LESSTHAN expr       {$$ = $1 < $3; printf("REL_LESSTHAN\n");}
+|   expr REL_LESSEQUAL expr   {$$ = $1 <= $3; printf("REL_LESSEQUAL\n");}
+|   expr REL_EQUAL expr       {$$ = $1 = $3; printf("REL_EQUAL\n");}      
+|   expr REL_GREATEQUAL expr   {$$ = $1 >= $3; printf("REL_GREATEQUAL\n");}
+|   expr REL_GREATERTHAN expr       {$$ = $1 > $3; printf("REL_GREATERTHAN\n");}
+|   expr REL_NOTEQUAL expr   {$$ = $1 != $3; printf("REL_NOTEQUAL\n");}
 |   NUM_INTEGER 
 |   NUM_FLOAT
 |   IDENTIFIER 
@@ -77,7 +77,7 @@ datatype:
 |   SHORT UNSIGNED INT                  {printf("Found SUI\n");}
 |   LONG INT                    {printf("Found LI\n");}
 |   LONG UNSIGNED INT                   {printf("Found LLI\n");}
-|   "void" 
+|   "void"                          {printf("Found void");}
 ;
 
 var_dec: 
@@ -99,44 +99,45 @@ var_def:
 
 ; 
 
-// block: 
-    
-//     L_FLOWER_BRKT R_FLOWER_BRKT
-// |   L_FLOWER_BRKT block R_FLOWER_BRKT
-// |   L_FLOWER_BRKT "blah!" R_FLOWER_BRKT
+block: 
+    ED
+;
 
-// ;
+else_if:
+    IF L_PAREN expr R_PAREN L_FLOWER_BRKT block R_FLOWER_BRKT else_if           {printf("ELSEIF\n");}
+|   elses 
+|   L_FLOWER_BRKT block R_FLOWER_BRKT
+;
 
-// else_if:
-//     ELSE L_FLOWER_BRKT block R_FLOWER_BRKT IF L_PAREN expr R_PAREN L_FLOWER_BRKT block R_FLOWER_BRKT | else_if           {printf("R");}
-// ;
+elses:
+    ELSE else_if                    {printf("ELSES\n");}
+| 
+;
 
-// if_elses:
-//     IF L_PAREN expr R_PAREN L_FLOWER_BRKT block R_FLOWER_BRKT else_if ELSE L_FLOWER_BRKT block R_FLOWER_BRKT 
-// |   IF L_PAREN expr R_PAREN L_FLOWER_BRKT block R_FLOWER_BRKT else_if 
-// |   IF L_PAREN expr R_PAREN L_FLOWER_BRKT block R_FLOWER_BRKT
-// ;
-// ;
+
+if_elses:
+    IF L_PAREN expr R_PAREN L_FLOWER_BRKT block R_FLOWER_BRKT  elses            {printf("if else\n");}
+;
 
 while: 
-    WHILE L_PAREN expr R_PAREN L_FLOWER_BRKT block R_FLOWER_BRKT
+    WHILE L_PAREN expr R_PAREN L_FLOWER_BRKT block R_FLOWER_BRKT    {printf("While found!\n");}
 ;
 
 // Functions
 
-// arg: 
-//     datatype IDENTIFIER 
-// |   arg ','
+arg: 
+    datatype IDENTIFIER                            {printf("ARG found!\n");}
+|   arg ','
 
-// ;
+;
 
-// func_dec: 
-//     datatype IDENTIFIER L_PAREN arg R_PAREN ; 
-// ;
+func_dec: 
+    datatype IDENTIFIER L_PAREN arg R_PAREN              {printf("func dec found!");}
+;
 
-// func_def: 
-//     func_dec block
-// ;
+func_def: 
+    func_dec L_FLOWER_BRKT block R_FLOWER_BRKT             {printf("func def found\n");}
+;
 
 %%
 
