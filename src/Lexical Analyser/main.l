@@ -100,9 +100,16 @@
 
 #define DOT_D 46
 
-#define TOTALNUMBER_D 46
+#define VOID_D 47
 
-    
+#define L_SQR_BRKT_D 48
+#define R_SQR_BRKT_D 49
+
+#define BREAK_D 50
+
+#define TOTALNUMBER_D 50
+
+
 unsigned int TokenCount[TOTALNUMBER_D];
 
 %}
@@ -116,6 +123,7 @@ LONG "long "" "*
 UNSIGNED "unsigned "" "*
 FLOAT "float "" "*
 DOUBLE "double "" "*
+VOID "void "" "*
 
 QUOTE "\""
 SPACE " "*
@@ -147,6 +155,8 @@ EOF                                        {return 0;}
 {FLOAT}                      			   {++TokenCount[FLOAT_D]; return FLOAT; }
 {DOUBLE}                         		   {++TokenCount[DOUBLE_D]; return DOUBLE; }
 
+{VOID}                                     {++TokenCount[VOID_D]; return VOID; }
+
 "//"				                       {++TokenCount[SL_COMMENT_D]; return SL_COMMENT_D;}
 "#"				                           {++TokenCount[PRE_PROC_D]; return PRE_PROC_D;}
 "/*"                                       {++TokenCount[MUL_COMMENT_A_D]; return MUL_COMMENT_A_D;}
@@ -156,11 +166,14 @@ EOF                                        {return 0;}
 "if"				                       {++TokenCount[IF_D]; return IF;}
 "else"				                       {++TokenCount[ELSE_D]; return ELSE;}
 "while"				                       {++TokenCount[WHILE_D]; return WHILE;}
+"break"                                    {++TokenCount[BREAK_D]; return BREAK;}
 
 "{"				                           {++TokenCount[L_FLOWER_BRKT_D]; return L_FLOWER_BRKT;}
 "}"				                           {++TokenCount[R_FLOWER_BRKT_D]; return R_FLOWER_BRKT;}
 "("				                           {++TokenCount[L_PAREN_D]; return L_PAREN;}
 ")"				                           {++TokenCount[R_PAREN_D]; return R_PAREN;}
+"["                                        {++TokenCount[L_SQR_BRKT_D]; return L_SQR_BRKT;}
+"]"                                        {++TokenCount[R_SQR_BRKT_D]; return L_SQR_BRKT;}
 ";"				                           {++TokenCount[SEMICOLON_D]; return SEMICOLON;}
 
 "+"				                           {++TokenCount[AR_PLUS_D]; return AR_PLUS;}
