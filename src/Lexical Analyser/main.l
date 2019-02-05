@@ -161,7 +161,7 @@ EOF                                        {return 0;}
 "}"				                           {++TokenCount[R_FLOWER_BRKT_D]; return R_FLOWER_BRKT;}
 "("				                           {++TokenCount[L_PAREN_D]; return L_PAREN;}
 ")"				                           {++TokenCount[R_PAREN_D]; return R_PAREN;}
-";"				                           {++TokenCount[SEMICOLON_D]; return SEMICOLON_D;}
+";"				                           {++TokenCount[SEMICOLON_D]; return SEMICOLON;}
 
 "+"				                           {++TokenCount[AR_PLUS_D]; return AR_PLUS;}
 "-"				                           {++TokenCount[AR_MINUS_D]; return AR_MINUS;}

@@ -1,0 +1,1844 @@
+Terminals unused in grammar
+
+   RETURN
+   IF
+   ELSE
+   WHILE
+   L_FLOWER_BRKT
+   R_FLOWER_BRKT
+   L_PAREN
+   R_PAREN
+   STRING
+   LOG_AND
+   LOG_OR
+
+
+State 8 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: ED $end
+
+    1 ED: expr SEMICOLON
+    2   | datatype
+    3   | var_dec SEMICOLON
+    4   | var_def SEMICOLON
+
+    5 expr: expr AR_PLUS expr
+    6     | expr AR_MINUS expr
+    7     | expr AR_MUL expr
+    8     | expr AR_DIV expr
+    9     | expr AR_MOD expr
+   10     | expr AR_PLUS AR_PLUS
+   11     | expr BITWISE_XOR expr
+   12     | expr BITWISE_OR expr
+   13     | expr BITWISE_AND expr
+   14     | expr BITWISE_AND BITWISE_AND expr
+   15     | expr BITWISE_OR BITWISE_AND expr
+   16     | expr LOG_COMPARE LOG_COMPARE expr
+   17     | expr REL_LESSTHAN expr
+   18     | expr REL_LESSEQUAL expr
+   19     | expr REL_EQUAL expr
+   20     | expr REL_GREATEQUAL expr
+   21     | expr REL_GREATERTHAN expr
+   22     | expr REL_NOTEQUAL expr
+   23     | NUM_INTEGER
+   24     | NUM_FLOAT
+   25     | IDENTIFIER
+
+   26 datatype: FLOAT
+   27         | DOUBLE
+   28         | CHAR
+   29         | UNSIGNED CHAR
+   30         | INT
+   31         | UNSIGNED INT
+   32         | SHORT INT
+   33         | SHORT UNSIGNED INT
+   34         | LONG INT
+   35         | LONG UNSIGNED INT
+   36         | "void"
+
+   37 var_dec: datatype IDENTIFIER
+
+   38 NUMBER: NUM_INTEGER
+   39       | NUM_FLOAT
+
+   40 var_def: var_dec REL_EQUAL NUMBER
+   41        | IDENTIFIER REL_EQUAL NUMBER
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+CHAR (258) 28 29
+INT (259) 30 31 32 33 34 35
+FLOAT (260) 26
+DOUBLE (261) 27
+SHORT (262) 32 33
+UNSIGNED (263) 29 31 33 35
+LONG (264) 34 35
+RETURN (265)
+IF (266)
+ELSE (267)
+WHILE (268)
+L_FLOWER_BRKT (269)
+R_FLOWER_BRKT (270)
+L_PAREN (271)
+R_PAREN (272)
+STRING (273)
+IDENTIFIER (274) 25 37 41
+NUM_INTEGER (275) 23 38
+NUM_FLOAT (276) 24 39
+SEMICOLON (277) 1 3 4
+REL_LESSEQUAL (278) 18
+REL_GREATEQUAL (279) 20
+REL_EQUAL (280) 19 40 41
+REL_NOTEQUAL (281) 22
+REL_LESSTHAN (282) 17
+REL_GREATERTHAN (283) 21
+AR_PLUS (284) 5 10
+AR_MINUS (285) 6
+AR_MUL (286) 7
+AR_DIV (287) 8
+AR_MOD (288) 9
+BITWISE_XOR (289) 11
+BITWISE_AND (290) 13 14 15
+BITWISE_OR (291) 12 15
+LOG_AND (292)
+LOG_OR (293)
+LOG_COMPARE (294) 16
+"void" (295) 36
+
+
+Nonterminals, with rules where they appear
+
+$accept (41)
+    on left: 0
+ED (42)
+    on left: 1 2 3 4, on right: 0
+expr (43)
+    on left: 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24
+    25, on right: 1 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22
+datatype (44)
+    on left: 26 27 28 29 30 31 32 33 34 35 36, on right: 2 37
+var_dec (45)
+    on left: 37, on right: 3 40
+NUMBER (46)
+    on left: 38 39, on right: 40 41
+var_def (47)
+    on left: 40 41, on right: 4
+
+
+State 0
+
+    0 $accept: . ED $end
+    1 ED: . expr SEMICOLON
+    2   | . datatype
+    3   | . var_dec SEMICOLON
+    4   | . var_def SEMICOLON
+    5 expr: . expr AR_PLUS expr
+    6     | . expr AR_MINUS expr
+    7     | . expr AR_MUL expr
+    8     | . expr AR_DIV expr
+    9     | . expr AR_MOD expr
+   10     | . expr AR_PLUS AR_PLUS
+   11     | . expr BITWISE_XOR expr
+   12     | . expr BITWISE_OR expr
+   13     | . expr BITWISE_AND expr
+   14     | . expr BITWISE_AND BITWISE_AND expr
+   15     | . expr BITWISE_OR BITWISE_AND expr
+   16     | . expr LOG_COMPARE LOG_COMPARE expr
+   17     | . expr REL_LESSTHAN expr
+   18     | . expr REL_LESSEQUAL expr
+   19     | . expr REL_EQUAL expr
+   20     | . expr REL_GREATEQUAL expr
+   21     | . expr REL_GREATERTHAN expr
+   22     | . expr REL_NOTEQUAL expr
+   23     | . NUM_INTEGER
+   24     | . NUM_FLOAT
+   25     | . IDENTIFIER
+   26 datatype: . FLOAT
+   27         | . DOUBLE
+   28         | . CHAR
+   29         | . UNSIGNED CHAR
+   30         | . INT
+   31         | . UNSIGNED INT
+   32         | . SHORT INT
+   33         | . SHORT UNSIGNED INT
+   34         | . LONG INT
+   35         | . LONG UNSIGNED INT
+   36         | . "void"
+   37 var_dec: . datatype IDENTIFIER
+   40 var_def: . var_dec REL_EQUAL NUMBER
+   41        | . IDENTIFIER REL_EQUAL NUMBER
+
+    CHAR         shift, and go to state 1
+    INT          shift, and go to state 2
+    FLOAT        shift, and go to state 3
+    DOUBLE       shift, and go to state 4
+    SHORT        shift, and go to state 5
+    UNSIGNED     shift, and go to state 6
+    LONG         shift, and go to state 7
+    IDENTIFIER   shift, and go to state 8
+    NUM_INTEGER  shift, and go to state 9
+    NUM_FLOAT    shift, and go to state 10
+    "void"       shift, and go to state 11
+
+    ED        go to state 12
+    expr      go to state 13
+    datatype  go to state 14
+    var_dec   go to state 15
+    var_def   go to state 16
+
+
+State 1
+
+   28 datatype: CHAR .
+
+    $default  reduce using rule 28 (datatype)
+
+
+State 2
+
+   30 datatype: INT .
+
+    $default  reduce using rule 30 (datatype)
+
+
+State 3
+
+   26 datatype: FLOAT .
+
+    $default  reduce using rule 26 (datatype)
+
+
+State 4
+
+   27 datatype: DOUBLE .
+
+    $default  reduce using rule 27 (datatype)
+
+
+State 5
+
+   32 datatype: SHORT . INT
+   33         | SHORT . UNSIGNED INT
+
+    INT       shift, and go to state 17
+    UNSIGNED  shift, and go to state 18
+
+
+State 6
+
+   29 datatype: UNSIGNED . CHAR
+   31         | UNSIGNED . INT
+
+    CHAR  shift, and go to state 19
+    INT   shift, and go to state 20
+
+
+State 7
+
+   34 datatype: LONG . INT
+   35         | LONG . UNSIGNED INT
+
+    INT       shift, and go to state 21
+    UNSIGNED  shift, and go to state 22
+
+
+State 8
+
+   25 expr: IDENTIFIER .  [SEMICOLON, REL_LESSEQUAL, REL_GREATEQUAL, REL_EQUAL, REL_NOTEQUAL, REL_LESSTHAN, REL_GREATERTHAN, AR_PLUS, AR_MINUS, AR_MUL, AR_DIV, AR_MOD, BITWISE_XOR, BITWISE_AND, BITWISE_OR, LOG_COMPARE]
+   41 var_def: IDENTIFIER . REL_EQUAL NUMBER
+
+    REL_EQUAL  shift, and go to state 23
+
+    REL_EQUAL  [reduce using rule 25 (expr)]
+    $default   reduce using rule 25 (expr)
+
+
+State 9
+
+   23 expr: NUM_INTEGER .
+
+    $default  reduce using rule 23 (expr)
+
+
+State 10
+
+   24 expr: NUM_FLOAT .
+
+    $default  reduce using rule 24 (expr)
+
+
+State 11
+
+   36 datatype: "void" .
+
+    $default  reduce using rule 36 (datatype)
+
+
+State 12
+
+    0 $accept: ED . $end
+
+    $end  shift, and go to state 24
+
+
+State 13
+
+    1 ED: expr . SEMICOLON
+    5 expr: expr . AR_PLUS expr
+    6     | expr . AR_MINUS expr
+    7     | expr . AR_MUL expr
+    8     | expr . AR_DIV expr
+    9     | expr . AR_MOD expr
+   10     | expr . AR_PLUS AR_PLUS
+   11     | expr . BITWISE_XOR expr
+   12     | expr . BITWISE_OR expr
+   13     | expr . BITWISE_AND expr
+   14     | expr . BITWISE_AND BITWISE_AND expr
+   15     | expr . BITWISE_OR BITWISE_AND expr
+   16     | expr . LOG_COMPARE LOG_COMPARE expr
+   17     | expr . REL_LESSTHAN expr
+   18     | expr . REL_LESSEQUAL expr
+   19     | expr . REL_EQUAL expr
+   20     | expr . REL_GREATEQUAL expr
+   21     | expr . REL_GREATERTHAN expr
+   22     | expr . REL_NOTEQUAL expr
+
+    SEMICOLON        shift, and go to state 25
+    REL_LESSEQUAL    shift, and go to state 26
+    REL_GREATEQUAL   shift, and go to state 27
+    REL_EQUAL        shift, and go to state 28
+    REL_NOTEQUAL     shift, and go to state 29
+    REL_LESSTHAN     shift, and go to state 30
+    REL_GREATERTHAN  shift, and go to state 31
+    AR_PLUS          shift, and go to state 32
+    AR_MINUS         shift, and go to state 33
+    AR_MUL           shift, and go to state 34
+    AR_DIV           shift, and go to state 35
+    AR_MOD           shift, and go to state 36
+    BITWISE_XOR      shift, and go to state 37
+    BITWISE_AND      shift, and go to state 38
+    BITWISE_OR       shift, and go to state 39
+    LOG_COMPARE      shift, and go to state 40
+
+
+State 14
+
+    2 ED: datatype .  [$end]
+   37 var_dec: datatype . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 41
+
+    $default  reduce using rule 2 (ED)
+
+
+State 15
+
+    3 ED: var_dec . SEMICOLON
+   40 var_def: var_dec . REL_EQUAL NUMBER
+
+    SEMICOLON  shift, and go to state 42
+    REL_EQUAL  shift, and go to state 43
+
+
+State 16
+
+    4 ED: var_def . SEMICOLON
+
+    SEMICOLON  shift, and go to state 44
+
+
+State 17
+
+   32 datatype: SHORT INT .
+
+    $default  reduce using rule 32 (datatype)
+
+
+State 18
+
+   33 datatype: SHORT UNSIGNED . INT
+
+    INT  shift, and go to state 45
+
+
+State 19
+
+   29 datatype: UNSIGNED CHAR .
+
+    $default  reduce using rule 29 (datatype)
+
+
+State 20
+
+   31 datatype: UNSIGNED INT .
+
+    $default  reduce using rule 31 (datatype)
+
+
+State 21
+
+   34 datatype: LONG INT .
+
+    $default  reduce using rule 34 (datatype)
+
+
+State 22
+
+   35 datatype: LONG UNSIGNED . INT
+
+    INT  shift, and go to state 46
+
+
+State 23
+
+   38 NUMBER: . NUM_INTEGER
+   39       | . NUM_FLOAT
+   41 var_def: IDENTIFIER REL_EQUAL . NUMBER
+
+    NUM_INTEGER  shift, and go to state 47
+    NUM_FLOAT    shift, and go to state 48
+
+    NUMBER  go to state 49
+
+
+State 24
+
+    0 $accept: ED $end .
+
+    $default  accept
+
+
+State 25
+
+    1 ED: expr SEMICOLON .
+
+    $default  reduce using rule 1 (ED)
+
+
+State 26
+
+    5 expr: . expr AR_PLUS expr
+    6     | . expr AR_MINUS expr
+    7     | . expr AR_MUL expr
+    8     | . expr AR_DIV expr
+    9     | . expr AR_MOD expr
+   10     | . expr AR_PLUS AR_PLUS
+   11     | . expr BITWISE_XOR expr
+   12     | . expr BITWISE_OR expr
+   13     | . expr BITWISE_AND expr
+   14     | . expr BITWISE_AND BITWISE_AND expr
+   15     | . expr BITWISE_OR BITWISE_AND expr
+   16     | . expr LOG_COMPARE LOG_COMPARE expr
+   17     | . expr REL_LESSTHAN expr
+   18     | . expr REL_LESSEQUAL expr
+   18     | expr REL_LESSEQUAL . expr
+   19     | . expr REL_EQUAL expr
+   20     | . expr REL_GREATEQUAL expr
+   21     | . expr REL_GREATERTHAN expr
+   22     | . expr REL_NOTEQUAL expr
+   23     | . NUM_INTEGER
+   24     | . NUM_FLOAT
+   25     | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 50
+    NUM_INTEGER  shift, and go to state 9
+    NUM_FLOAT    shift, and go to state 10
+
+    expr  go to state 51
+
+
+State 27
+
+    5 expr: . expr AR_PLUS expr
+    6     | . expr AR_MINUS expr
+    7     | . expr AR_MUL expr
+    8     | . expr AR_DIV expr
+    9     | . expr AR_MOD expr
+   10     | . expr AR_PLUS AR_PLUS
+   11     | . expr BITWISE_XOR expr
+   12     | . expr BITWISE_OR expr
+   13     | . expr BITWISE_AND expr
+   14     | . expr BITWISE_AND BITWISE_AND expr
+   15     | . expr BITWISE_OR BITWISE_AND expr
+   16     | . expr LOG_COMPARE LOG_COMPARE expr
+   17     | . expr REL_LESSTHAN expr
+   18     | . expr REL_LESSEQUAL expr
+   19     | . expr REL_EQUAL expr
+   20     | . expr REL_GREATEQUAL expr
+   20     | expr REL_GREATEQUAL . expr
+   21     | . expr REL_GREATERTHAN expr
+   22     | . expr REL_NOTEQUAL expr
+   23     | . NUM_INTEGER
+   24     | . NUM_FLOAT
+   25     | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 50
+    NUM_INTEGER  shift, and go to state 9
+    NUM_FLOAT    shift, and go to state 10
+
+    expr  go to state 52
+
+
+State 28
+
+    5 expr: . expr AR_PLUS expr
+    6     | . expr AR_MINUS expr
+    7     | . expr AR_MUL expr
+    8     | . expr AR_DIV expr
+    9     | . expr AR_MOD expr
+   10     | . expr AR_PLUS AR_PLUS
+   11     | . expr BITWISE_XOR expr
+   12     | . expr BITWISE_OR expr
+   13     | . expr BITWISE_AND expr
+   14     | . expr BITWISE_AND BITWISE_AND expr
+   15     | . expr BITWISE_OR BITWISE_AND expr
+   16     | . expr LOG_COMPARE LOG_COMPARE expr
+   17     | . expr REL_LESSTHAN expr
+   18     | . expr REL_LESSEQUAL expr
+   19     | . expr REL_EQUAL expr
+   19     | expr REL_EQUAL . expr
+   20     | . expr REL_GREATEQUAL expr
+   21     | . expr REL_GREATERTHAN expr
+   22     | . expr REL_NOTEQUAL expr
+   23     | . NUM_INTEGER
+   24     | . NUM_FLOAT
+   25     | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 50
+    NUM_INTEGER  shift, and go to state 9
+    NUM_FLOAT    shift, and go to state 10
+
+    expr  go to state 53
+
+
+State 29
+
+    5 expr: . expr AR_PLUS expr
+    6     | . expr AR_MINUS expr
+    7     | . expr AR_MUL expr
+    8     | . expr AR_DIV expr
+    9     | . expr AR_MOD expr
+   10     | . expr AR_PLUS AR_PLUS
+   11     | . expr BITWISE_XOR expr
+   12     | . expr BITWISE_OR expr
+   13     | . expr BITWISE_AND expr
+   14     | . expr BITWISE_AND BITWISE_AND expr
+   15     | . expr BITWISE_OR BITWISE_AND expr
+   16     | . expr LOG_COMPARE LOG_COMPARE expr
+   17     | . expr REL_LESSTHAN expr
+   18     | . expr REL_LESSEQUAL expr
+   19     | . expr REL_EQUAL expr
+   20     | . expr REL_GREATEQUAL expr
+   21     | . expr REL_GREATERTHAN expr
+   22     | . expr REL_NOTEQUAL expr
+   22     | expr REL_NOTEQUAL . expr
+   23     | . NUM_INTEGER
+   24     | . NUM_FLOAT
+   25     | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 50
+    NUM_INTEGER  shift, and go to state 9
+    NUM_FLOAT    shift, and go to state 10
+
+    expr  go to state 54
+
+
+State 30
+
+    5 expr: . expr AR_PLUS expr
+    6     | . expr AR_MINUS expr
+    7     | . expr AR_MUL expr
+    8     | . expr AR_DIV expr
+    9     | . expr AR_MOD expr
+   10     | . expr AR_PLUS AR_PLUS
+   11     | . expr BITWISE_XOR expr
+   12     | . expr BITWISE_OR expr
+   13     | . expr BITWISE_AND expr
+   14     | . expr BITWISE_AND BITWISE_AND expr
+   15     | . expr BITWISE_OR BITWISE_AND expr
+   16     | . expr LOG_COMPARE LOG_COMPARE expr
+   17     | . expr REL_LESSTHAN expr
+   17     | expr REL_LESSTHAN . expr
+   18     | . expr REL_LESSEQUAL expr
+   19     | . expr REL_EQUAL expr
+   20     | . expr REL_GREATEQUAL expr
+   21     | . expr REL_GREATERTHAN expr
+   22     | . expr REL_NOTEQUAL expr
+   23     | . NUM_INTEGER
+   24     | . NUM_FLOAT
+   25     | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 50
+    NUM_INTEGER  shift, and go to state 9
+    NUM_FLOAT    shift, and go to state 10
+
+    expr  go to state 55
+
+
+State 31
+
+    5 expr: . expr AR_PLUS expr
+    6     | . expr AR_MINUS expr
+    7     | . expr AR_MUL expr
+    8     | . expr AR_DIV expr
+    9     | . expr AR_MOD expr
+   10     | . expr AR_PLUS AR_PLUS
+   11     | . expr BITWISE_XOR expr
+   12     | . expr BITWISE_OR expr
+   13     | . expr BITWISE_AND expr
+   14     | . expr BITWISE_AND BITWISE_AND expr
+   15     | . expr BITWISE_OR BITWISE_AND expr
+   16     | . expr LOG_COMPARE LOG_COMPARE expr
+   17     | . expr REL_LESSTHAN expr
+   18     | . expr REL_LESSEQUAL expr
+   19     | . expr REL_EQUAL expr
+   20     | . expr REL_GREATEQUAL expr
+   21     | . expr REL_GREATERTHAN expr
+   21     | expr REL_GREATERTHAN . expr
+   22     | . expr REL_NOTEQUAL expr
+   23     | . NUM_INTEGER
+   24     | . NUM_FLOAT
+   25     | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 50
+    NUM_INTEGER  shift, and go to state 9
+    NUM_FLOAT    shift, and go to state 10
+
+    expr  go to state 56
+
+
+State 32
+
+    5 expr: . expr AR_PLUS expr
+    5     | expr AR_PLUS . expr
+    6     | . expr AR_MINUS expr
+    7     | . expr AR_MUL expr
+    8     | . expr AR_DIV expr
+    9     | . expr AR_MOD expr
+   10     | . expr AR_PLUS AR_PLUS
+   10     | expr AR_PLUS . AR_PLUS
+   11     | . expr BITWISE_XOR expr
+   12     | . expr BITWISE_OR expr
+   13     | . expr BITWISE_AND expr
+   14     | . expr BITWISE_AND BITWISE_AND expr
+   15     | . expr BITWISE_OR BITWISE_AND expr
+   16     | . expr LOG_COMPARE LOG_COMPARE expr
+   17     | . expr REL_LESSTHAN expr
+   18     | . expr REL_LESSEQUAL expr
+   19     | . expr REL_EQUAL expr
+   20     | . expr REL_GREATEQUAL expr
+   21     | . expr REL_GREATERTHAN expr
+   22     | . expr REL_NOTEQUAL expr
+   23     | . NUM_INTEGER
+   24     | . NUM_FLOAT
+   25     | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 50
+    NUM_INTEGER  shift, and go to state 9
+    NUM_FLOAT    shift, and go to state 10
+    AR_PLUS      shift, and go to state 57
+
+    expr  go to state 58
+
+
+State 33
+
+    5 expr: . expr AR_PLUS expr
+    6     | . expr AR_MINUS expr
+    6     | expr AR_MINUS . expr
+    7     | . expr AR_MUL expr
+    8     | . expr AR_DIV expr
+    9     | . expr AR_MOD expr
+   10     | . expr AR_PLUS AR_PLUS
+   11     | . expr BITWISE_XOR expr
+   12     | . expr BITWISE_OR expr
+   13     | . expr BITWISE_AND expr
+   14     | . expr BITWISE_AND BITWISE_AND expr
+   15     | . expr BITWISE_OR BITWISE_AND expr
+   16     | . expr LOG_COMPARE LOG_COMPARE expr
+   17     | . expr REL_LESSTHAN expr
+   18     | . expr REL_LESSEQUAL expr
+   19     | . expr REL_EQUAL expr
+   20     | . expr REL_GREATEQUAL expr
+   21     | . expr REL_GREATERTHAN expr
+   22     | . expr REL_NOTEQUAL expr
+   23     | . NUM_INTEGER
+   24     | . NUM_FLOAT
+   25     | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 50
+    NUM_INTEGER  shift, and go to state 9
+    NUM_FLOAT    shift, and go to state 10
+
+    expr  go to state 59
+
+
+State 34
+
+    5 expr: . expr AR_PLUS expr
+    6     | . expr AR_MINUS expr
+    7     | . expr AR_MUL expr
+    7     | expr AR_MUL . expr
+    8     | . expr AR_DIV expr
+    9     | . expr AR_MOD expr
+   10     | . expr AR_PLUS AR_PLUS
+   11     | . expr BITWISE_XOR expr
+   12     | . expr BITWISE_OR expr
+   13     | . expr BITWISE_AND expr
+   14     | . expr BITWISE_AND BITWISE_AND expr
+   15     | . expr BITWISE_OR BITWISE_AND expr
+   16     | . expr LOG_COMPARE LOG_COMPARE expr
+   17     | . expr REL_LESSTHAN expr
+   18     | . expr REL_LESSEQUAL expr
+   19     | . expr REL_EQUAL expr
+   20     | . expr REL_GREATEQUAL expr
+   21     | . expr REL_GREATERTHAN expr
+   22     | . expr REL_NOTEQUAL expr
+   23     | . NUM_INTEGER
+   24     | . NUM_FLOAT
+   25     | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 50
+    NUM_INTEGER  shift, and go to state 9
+    NUM_FLOAT    shift, and go to state 10
+
+    expr  go to state 60
+
+
+State 35
+
+    5 expr: . expr AR_PLUS expr
+    6     | . expr AR_MINUS expr
+    7     | . expr AR_MUL expr
+    8     | . expr AR_DIV expr
+    8     | expr AR_DIV . expr
+    9     | . expr AR_MOD expr
+   10     | . expr AR_PLUS AR_PLUS
+   11     | . expr BITWISE_XOR expr
+   12     | . expr BITWISE_OR expr
+   13     | . expr BITWISE_AND expr
+   14     | . expr BITWISE_AND BITWISE_AND expr
+   15     | . expr BITWISE_OR BITWISE_AND expr
+   16     | . expr LOG_COMPARE LOG_COMPARE expr
+   17     | . expr REL_LESSTHAN expr
+   18     | . expr REL_LESSEQUAL expr
+   19     | . expr REL_EQUAL expr
+   20     | . expr REL_GREATEQUAL expr
+   21     | . expr REL_GREATERTHAN expr
+   22     | . expr REL_NOTEQUAL expr
+   23     | . NUM_INTEGER
+   24     | . NUM_FLOAT
+   25     | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 50
+    NUM_INTEGER  shift, and go to state 9
+    NUM_FLOAT    shift, and go to state 10
+
+    expr  go to state 61
+
+
+State 36
+
+    5 expr: . expr AR_PLUS expr
+    6     | . expr AR_MINUS expr
+    7     | . expr AR_MUL expr
+    8     | . expr AR_DIV expr
+    9     | . expr AR_MOD expr
+    9     | expr AR_MOD . expr
+   10     | . expr AR_PLUS AR_PLUS
+   11     | . expr BITWISE_XOR expr
+   12     | . expr BITWISE_OR expr
+   13     | . expr BITWISE_AND expr
+   14     | . expr BITWISE_AND BITWISE_AND expr
+   15     | . expr BITWISE_OR BITWISE_AND expr
+   16     | . expr LOG_COMPARE LOG_COMPARE expr
+   17     | . expr REL_LESSTHAN expr
+   18     | . expr REL_LESSEQUAL expr
+   19     | . expr REL_EQUAL expr
+   20     | . expr REL_GREATEQUAL expr
+   21     | . expr REL_GREATERTHAN expr
+   22     | . expr REL_NOTEQUAL expr
+   23     | . NUM_INTEGER
+   24     | . NUM_FLOAT
+   25     | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 50
+    NUM_INTEGER  shift, and go to state 9
+    NUM_FLOAT    shift, and go to state 10
+
+    expr  go to state 62
+
+
+State 37
+
+    5 expr: . expr AR_PLUS expr
+    6     | . expr AR_MINUS expr
+    7     | . expr AR_MUL expr
+    8     | . expr AR_DIV expr
+    9     | . expr AR_MOD expr
+   10     | . expr AR_PLUS AR_PLUS
+   11     | . expr BITWISE_XOR expr
+   11     | expr BITWISE_XOR . expr
+   12     | . expr BITWISE_OR expr
+   13     | . expr BITWISE_AND expr
+   14     | . expr BITWISE_AND BITWISE_AND expr
+   15     | . expr BITWISE_OR BITWISE_AND expr
+   16     | . expr LOG_COMPARE LOG_COMPARE expr
+   17     | . expr REL_LESSTHAN expr
+   18     | . expr REL_LESSEQUAL expr
+   19     | . expr REL_EQUAL expr
+   20     | . expr REL_GREATEQUAL expr
+   21     | . expr REL_GREATERTHAN expr
+   22     | . expr REL_NOTEQUAL expr
+   23     | . NUM_INTEGER
+   24     | . NUM_FLOAT
+   25     | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 50
+    NUM_INTEGER  shift, and go to state 9
+    NUM_FLOAT    shift, and go to state 10
+
+    expr  go to state 63
+
+
+State 38
+
+    5 expr: . expr AR_PLUS expr
+    6     | . expr AR_MINUS expr
+    7     | . expr AR_MUL expr
+    8     | . expr AR_DIV expr
+    9     | . expr AR_MOD expr
+   10     | . expr AR_PLUS AR_PLUS
+   11     | . expr BITWISE_XOR expr
+   12     | . expr BITWISE_OR expr
+   13     | . expr BITWISE_AND expr
+   13     | expr BITWISE_AND . expr
+   14     | . expr BITWISE_AND BITWISE_AND expr
+   14     | expr BITWISE_AND . BITWISE_AND expr
+   15     | . expr BITWISE_OR BITWISE_AND expr
+   16     | . expr LOG_COMPARE LOG_COMPARE expr
+   17     | . expr REL_LESSTHAN expr
+   18     | . expr REL_LESSEQUAL expr
+   19     | . expr REL_EQUAL expr
+   20     | . expr REL_GREATEQUAL expr
+   21     | . expr REL_GREATERTHAN expr
+   22     | . expr REL_NOTEQUAL expr
+   23     | . NUM_INTEGER
+   24     | . NUM_FLOAT
+   25     | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 50
+    NUM_INTEGER  shift, and go to state 9
+    NUM_FLOAT    shift, and go to state 10
+    BITWISE_AND  shift, and go to state 64
+
+    expr  go to state 65
+
+
+State 39
+
+    5 expr: . expr AR_PLUS expr
+    6     | . expr AR_MINUS expr
+    7     | . expr AR_MUL expr
+    8     | . expr AR_DIV expr
+    9     | . expr AR_MOD expr
+   10     | . expr AR_PLUS AR_PLUS
+   11     | . expr BITWISE_XOR expr
+   12     | . expr BITWISE_OR expr
+   12     | expr BITWISE_OR . expr
+   13     | . expr BITWISE_AND expr
+   14     | . expr BITWISE_AND BITWISE_AND expr
+   15     | . expr BITWISE_OR BITWISE_AND expr
+   15     | expr BITWISE_OR . BITWISE_AND expr
+   16     | . expr LOG_COMPARE LOG_COMPARE expr
+   17     | . expr REL_LESSTHAN expr
+   18     | . expr REL_LESSEQUAL expr
+   19     | . expr REL_EQUAL expr
+   20     | . expr REL_GREATEQUAL expr
+   21     | . expr REL_GREATERTHAN expr
+   22     | . expr REL_NOTEQUAL expr
+   23     | . NUM_INTEGER
+   24     | . NUM_FLOAT
+   25     | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 50
+    NUM_INTEGER  shift, and go to state 9
+    NUM_FLOAT    shift, and go to state 10
+    BITWISE_AND  shift, and go to state 66
+
+    expr  go to state 67
+
+
+State 40
+
+   16 expr: expr LOG_COMPARE . LOG_COMPARE expr
+
+    LOG_COMPARE  shift, and go to state 68
+
+
+State 41
+
+   37 var_dec: datatype IDENTIFIER .
+
+    $default  reduce using rule 37 (var_dec)
+
+
+State 42
+
+    3 ED: var_dec SEMICOLON .
+
+    $default  reduce using rule 3 (ED)
+
+
+State 43
+
+   38 NUMBER: . NUM_INTEGER
+   39       | . NUM_FLOAT
+   40 var_def: var_dec REL_EQUAL . NUMBER
+
+    NUM_INTEGER  shift, and go to state 47
+    NUM_FLOAT    shift, and go to state 48
+
+    NUMBER  go to state 69
+
+
+State 44
+
+    4 ED: var_def SEMICOLON .
+
+    $default  reduce using rule 4 (ED)
+
+
+State 45
+
+   33 datatype: SHORT UNSIGNED INT .
+
+    $default  reduce using rule 33 (datatype)
+
+
+State 46
+
+   35 datatype: LONG UNSIGNED INT .
+
+    $default  reduce using rule 35 (datatype)
+
+
+State 47
+
+   38 NUMBER: NUM_INTEGER .
+
+    $default  reduce using rule 38 (NUMBER)
+
+
+State 48
+
+   39 NUMBER: NUM_FLOAT .
+
+    $default  reduce using rule 39 (NUMBER)
+
+
+State 49
+
+   41 var_def: IDENTIFIER REL_EQUAL NUMBER .
+
+    $default  reduce using rule 41 (var_def)
+
+
+State 50
+
+   25 expr: IDENTIFIER .
+
+    $default  reduce using rule 25 (expr)
+
+
+State 51
+
+    5 expr: expr . AR_PLUS expr
+    6     | expr . AR_MINUS expr
+    7     | expr . AR_MUL expr
+    8     | expr . AR_DIV expr
+    9     | expr . AR_MOD expr
+   10     | expr . AR_PLUS AR_PLUS
+   11     | expr . BITWISE_XOR expr
+   12     | expr . BITWISE_OR expr
+   13     | expr . BITWISE_AND expr
+   14     | expr . BITWISE_AND BITWISE_AND expr
+   15     | expr . BITWISE_OR BITWISE_AND expr
+   16     | expr . LOG_COMPARE LOG_COMPARE expr
+   17     | expr . REL_LESSTHAN expr
+   18     | expr . REL_LESSEQUAL expr
+   18     | expr REL_LESSEQUAL expr .  [SEMICOLON, REL_LESSEQUAL, REL_GREATEQUAL, REL_EQUAL, REL_NOTEQUAL, REL_LESSTHAN, REL_GREATERTHAN]
+   19     | expr . REL_EQUAL expr
+   20     | expr . REL_GREATEQUAL expr
+   21     | expr . REL_GREATERTHAN expr
+   22     | expr . REL_NOTEQUAL expr
+
+    AR_PLUS      shift, and go to state 32
+    AR_MINUS     shift, and go to state 33
+    AR_MUL       shift, and go to state 34
+    AR_DIV       shift, and go to state 35
+    AR_MOD       shift, and go to state 36
+    BITWISE_XOR  shift, and go to state 37
+    BITWISE_AND  shift, and go to state 38
+    BITWISE_OR   shift, and go to state 39
+    LOG_COMPARE  shift, and go to state 40
+
+    $default  reduce using rule 18 (expr)
+
+    Conflict between rule 18 and token REL_LESSEQUAL resolved as reduce (%left REL_LESSEQUAL).
+    Conflict between rule 18 and token REL_GREATEQUAL resolved as reduce (%left REL_GREATEQUAL).
+    Conflict between rule 18 and token REL_EQUAL resolved as reduce (%left REL_EQUAL).
+    Conflict between rule 18 and token REL_NOTEQUAL resolved as reduce (%left REL_NOTEQUAL).
+    Conflict between rule 18 and token REL_LESSTHAN resolved as reduce (%left REL_LESSTHAN).
+    Conflict between rule 18 and token REL_GREATERTHAN resolved as reduce (%left REL_GREATERTHAN).
+    Conflict between rule 18 and token AR_PLUS resolved as shift (REL_LESSEQUAL < AR_PLUS).
+    Conflict between rule 18 and token AR_MINUS resolved as shift (REL_LESSEQUAL < AR_MINUS).
+    Conflict between rule 18 and token AR_MUL resolved as shift (REL_LESSEQUAL < AR_MUL).
+    Conflict between rule 18 and token AR_DIV resolved as shift (REL_LESSEQUAL < AR_DIV).
+    Conflict between rule 18 and token AR_MOD resolved as shift (REL_LESSEQUAL < AR_MOD).
+    Conflict between rule 18 and token BITWISE_XOR resolved as shift (REL_LESSEQUAL < BITWISE_XOR).
+    Conflict between rule 18 and token BITWISE_AND resolved as shift (REL_LESSEQUAL < BITWISE_AND).
+    Conflict between rule 18 and token BITWISE_OR resolved as shift (REL_LESSEQUAL < BITWISE_OR).
+    Conflict between rule 18 and token LOG_COMPARE resolved as shift (REL_LESSEQUAL < LOG_COMPARE).
+
+
+State 52
+
+    5 expr: expr . AR_PLUS expr
+    6     | expr . AR_MINUS expr
+    7     | expr . AR_MUL expr
+    8     | expr . AR_DIV expr
+    9     | expr . AR_MOD expr
+   10     | expr . AR_PLUS AR_PLUS
+   11     | expr . BITWISE_XOR expr
+   12     | expr . BITWISE_OR expr
+   13     | expr . BITWISE_AND expr
+   14     | expr . BITWISE_AND BITWISE_AND expr
+   15     | expr . BITWISE_OR BITWISE_AND expr
+   16     | expr . LOG_COMPARE LOG_COMPARE expr
+   17     | expr . REL_LESSTHAN expr
+   18     | expr . REL_LESSEQUAL expr
+   19     | expr . REL_EQUAL expr
+   20     | expr . REL_GREATEQUAL expr
+   20     | expr REL_GREATEQUAL expr .  [SEMICOLON, REL_LESSEQUAL, REL_GREATEQUAL, REL_EQUAL, REL_NOTEQUAL, REL_LESSTHAN, REL_GREATERTHAN]
+   21     | expr . REL_GREATERTHAN expr
+   22     | expr . REL_NOTEQUAL expr
+
+    AR_PLUS      shift, and go to state 32
+    AR_MINUS     shift, and go to state 33
+    AR_MUL       shift, and go to state 34
+    AR_DIV       shift, and go to state 35
+    AR_MOD       shift, and go to state 36
+    BITWISE_XOR  shift, and go to state 37
+    BITWISE_AND  shift, and go to state 38
+    BITWISE_OR   shift, and go to state 39
+    LOG_COMPARE  shift, and go to state 40
+
+    $default  reduce using rule 20 (expr)
+
+    Conflict between rule 20 and token REL_LESSEQUAL resolved as reduce (%left REL_LESSEQUAL).
+    Conflict between rule 20 and token REL_GREATEQUAL resolved as reduce (%left REL_GREATEQUAL).
+    Conflict between rule 20 and token REL_EQUAL resolved as reduce (%left REL_EQUAL).
+    Conflict between rule 20 and token REL_NOTEQUAL resolved as reduce (%left REL_NOTEQUAL).
+    Conflict between rule 20 and token REL_LESSTHAN resolved as reduce (%left REL_LESSTHAN).
+    Conflict between rule 20 and token REL_GREATERTHAN resolved as reduce (%left REL_GREATERTHAN).
+    Conflict between rule 20 and token AR_PLUS resolved as shift (REL_GREATEQUAL < AR_PLUS).
+    Conflict between rule 20 and token AR_MINUS resolved as shift (REL_GREATEQUAL < AR_MINUS).
+    Conflict between rule 20 and token AR_MUL resolved as shift (REL_GREATEQUAL < AR_MUL).
+    Conflict between rule 20 and token AR_DIV resolved as shift (REL_GREATEQUAL < AR_DIV).
+    Conflict between rule 20 and token AR_MOD resolved as shift (REL_GREATEQUAL < AR_MOD).
+    Conflict between rule 20 and token BITWISE_XOR resolved as shift (REL_GREATEQUAL < BITWISE_XOR).
+    Conflict between rule 20 and token BITWISE_AND resolved as shift (REL_GREATEQUAL < BITWISE_AND).
+    Conflict between rule 20 and token BITWISE_OR resolved as shift (REL_GREATEQUAL < BITWISE_OR).
+    Conflict between rule 20 and token LOG_COMPARE resolved as shift (REL_GREATEQUAL < LOG_COMPARE).
+
+
+State 53
+
+    5 expr: expr . AR_PLUS expr
+    6     | expr . AR_MINUS expr
+    7     | expr . AR_MUL expr
+    8     | expr . AR_DIV expr
+    9     | expr . AR_MOD expr
+   10     | expr . AR_PLUS AR_PLUS
+   11     | expr . BITWISE_XOR expr
+   12     | expr . BITWISE_OR expr
+   13     | expr . BITWISE_AND expr
+   14     | expr . BITWISE_AND BITWISE_AND expr
+   15     | expr . BITWISE_OR BITWISE_AND expr
+   16     | expr . LOG_COMPARE LOG_COMPARE expr
+   17     | expr . REL_LESSTHAN expr
+   18     | expr . REL_LESSEQUAL expr
+   19     | expr . REL_EQUAL expr
+   19     | expr REL_EQUAL expr .  [SEMICOLON, REL_LESSEQUAL, REL_GREATEQUAL, REL_EQUAL, REL_NOTEQUAL, REL_LESSTHAN, REL_GREATERTHAN]
+   20     | expr . REL_GREATEQUAL expr
+   21     | expr . REL_GREATERTHAN expr
+   22     | expr . REL_NOTEQUAL expr
+
+    AR_PLUS      shift, and go to state 32
+    AR_MINUS     shift, and go to state 33
+    AR_MUL       shift, and go to state 34
+    AR_DIV       shift, and go to state 35
+    AR_MOD       shift, and go to state 36
+    BITWISE_XOR  shift, and go to state 37
+    BITWISE_AND  shift, and go to state 38
+    BITWISE_OR   shift, and go to state 39
+    LOG_COMPARE  shift, and go to state 40
+
+    $default  reduce using rule 19 (expr)
+
+    Conflict between rule 19 and token REL_LESSEQUAL resolved as reduce (%left REL_LESSEQUAL).
+    Conflict between rule 19 and token REL_GREATEQUAL resolved as reduce (%left REL_GREATEQUAL).
+    Conflict between rule 19 and token REL_EQUAL resolved as reduce (%left REL_EQUAL).
+    Conflict between rule 19 and token REL_NOTEQUAL resolved as reduce (%left REL_NOTEQUAL).
+    Conflict between rule 19 and token REL_LESSTHAN resolved as reduce (%left REL_LESSTHAN).
+    Conflict between rule 19 and token REL_GREATERTHAN resolved as reduce (%left REL_GREATERTHAN).
+    Conflict between rule 19 and token AR_PLUS resolved as shift (REL_EQUAL < AR_PLUS).
+    Conflict between rule 19 and token AR_MINUS resolved as shift (REL_EQUAL < AR_MINUS).
+    Conflict between rule 19 and token AR_MUL resolved as shift (REL_EQUAL < AR_MUL).
+    Conflict between rule 19 and token AR_DIV resolved as shift (REL_EQUAL < AR_DIV).
+    Conflict between rule 19 and token AR_MOD resolved as shift (REL_EQUAL < AR_MOD).
+    Conflict between rule 19 and token BITWISE_XOR resolved as shift (REL_EQUAL < BITWISE_XOR).
+    Conflict between rule 19 and token BITWISE_AND resolved as shift (REL_EQUAL < BITWISE_AND).
+    Conflict between rule 19 and token BITWISE_OR resolved as shift (REL_EQUAL < BITWISE_OR).
+    Conflict between rule 19 and token LOG_COMPARE resolved as shift (REL_EQUAL < LOG_COMPARE).
+
+
+State 54
+
+    5 expr: expr . AR_PLUS expr
+    6     | expr . AR_MINUS expr
+    7     | expr . AR_MUL expr
+    8     | expr . AR_DIV expr
+    9     | expr . AR_MOD expr
+   10     | expr . AR_PLUS AR_PLUS
+   11     | expr . BITWISE_XOR expr
+   12     | expr . BITWISE_OR expr
+   13     | expr . BITWISE_AND expr
+   14     | expr . BITWISE_AND BITWISE_AND expr
+   15     | expr . BITWISE_OR BITWISE_AND expr
+   16     | expr . LOG_COMPARE LOG_COMPARE expr
+   17     | expr . REL_LESSTHAN expr
+   18     | expr . REL_LESSEQUAL expr
+   19     | expr . REL_EQUAL expr
+   20     | expr . REL_GREATEQUAL expr
+   21     | expr . REL_GREATERTHAN expr
+   22     | expr . REL_NOTEQUAL expr
+   22     | expr REL_NOTEQUAL expr .  [SEMICOLON, REL_LESSEQUAL, REL_GREATEQUAL, REL_EQUAL, REL_NOTEQUAL, REL_LESSTHAN, REL_GREATERTHAN]
+
+    AR_PLUS      shift, and go to state 32
+    AR_MINUS     shift, and go to state 33
+    AR_MUL       shift, and go to state 34
+    AR_DIV       shift, and go to state 35
+    AR_MOD       shift, and go to state 36
+    BITWISE_XOR  shift, and go to state 37
+    BITWISE_AND  shift, and go to state 38
+    BITWISE_OR   shift, and go to state 39
+    LOG_COMPARE  shift, and go to state 40
+
+    $default  reduce using rule 22 (expr)
+
+    Conflict between rule 22 and token REL_LESSEQUAL resolved as reduce (%left REL_LESSEQUAL).
+    Conflict between rule 22 and token REL_GREATEQUAL resolved as reduce (%left REL_GREATEQUAL).
+    Conflict between rule 22 and token REL_EQUAL resolved as reduce (%left REL_EQUAL).
+    Conflict between rule 22 and token REL_NOTEQUAL resolved as reduce (%left REL_NOTEQUAL).
+    Conflict between rule 22 and token REL_LESSTHAN resolved as reduce (%left REL_LESSTHAN).
+    Conflict between rule 22 and token REL_GREATERTHAN resolved as reduce (%left REL_GREATERTHAN).
+    Conflict between rule 22 and token AR_PLUS resolved as shift (REL_NOTEQUAL < AR_PLUS).
+    Conflict between rule 22 and token AR_MINUS resolved as shift (REL_NOTEQUAL < AR_MINUS).
+    Conflict between rule 22 and token AR_MUL resolved as shift (REL_NOTEQUAL < AR_MUL).
+    Conflict between rule 22 and token AR_DIV resolved as shift (REL_NOTEQUAL < AR_DIV).
+    Conflict between rule 22 and token AR_MOD resolved as shift (REL_NOTEQUAL < AR_MOD).
+    Conflict between rule 22 and token BITWISE_XOR resolved as shift (REL_NOTEQUAL < BITWISE_XOR).
+    Conflict between rule 22 and token BITWISE_AND resolved as shift (REL_NOTEQUAL < BITWISE_AND).
+    Conflict between rule 22 and token BITWISE_OR resolved as shift (REL_NOTEQUAL < BITWISE_OR).
+    Conflict between rule 22 and token LOG_COMPARE resolved as shift (REL_NOTEQUAL < LOG_COMPARE).
+
+
+State 55
+
+    5 expr: expr . AR_PLUS expr
+    6     | expr . AR_MINUS expr
+    7     | expr . AR_MUL expr
+    8     | expr . AR_DIV expr
+    9     | expr . AR_MOD expr
+   10     | expr . AR_PLUS AR_PLUS
+   11     | expr . BITWISE_XOR expr
+   12     | expr . BITWISE_OR expr
+   13     | expr . BITWISE_AND expr
+   14     | expr . BITWISE_AND BITWISE_AND expr
+   15     | expr . BITWISE_OR BITWISE_AND expr
+   16     | expr . LOG_COMPARE LOG_COMPARE expr
+   17     | expr . REL_LESSTHAN expr
+   17     | expr REL_LESSTHAN expr .  [SEMICOLON, REL_LESSEQUAL, REL_GREATEQUAL, REL_EQUAL, REL_NOTEQUAL, REL_LESSTHAN, REL_GREATERTHAN]
+   18     | expr . REL_LESSEQUAL expr
+   19     | expr . REL_EQUAL expr
+   20     | expr . REL_GREATEQUAL expr
+   21     | expr . REL_GREATERTHAN expr
+   22     | expr . REL_NOTEQUAL expr
+
+    AR_PLUS      shift, and go to state 32
+    AR_MINUS     shift, and go to state 33
+    AR_MUL       shift, and go to state 34
+    AR_DIV       shift, and go to state 35
+    AR_MOD       shift, and go to state 36
+    BITWISE_XOR  shift, and go to state 37
+    BITWISE_AND  shift, and go to state 38
+    BITWISE_OR   shift, and go to state 39
+    LOG_COMPARE  shift, and go to state 40
+
+    $default  reduce using rule 17 (expr)
+
+    Conflict between rule 17 and token REL_LESSEQUAL resolved as reduce (%left REL_LESSEQUAL).
+    Conflict between rule 17 and token REL_GREATEQUAL resolved as reduce (%left REL_GREATEQUAL).
+    Conflict between rule 17 and token REL_EQUAL resolved as reduce (%left REL_EQUAL).
+    Conflict between rule 17 and token REL_NOTEQUAL resolved as reduce (%left REL_NOTEQUAL).
+    Conflict between rule 17 and token REL_LESSTHAN resolved as reduce (%left REL_LESSTHAN).
+    Conflict between rule 17 and token REL_GREATERTHAN resolved as reduce (%left REL_GREATERTHAN).
+    Conflict between rule 17 and token AR_PLUS resolved as shift (REL_LESSTHAN < AR_PLUS).
+    Conflict between rule 17 and token AR_MINUS resolved as shift (REL_LESSTHAN < AR_MINUS).
+    Conflict between rule 17 and token AR_MUL resolved as shift (REL_LESSTHAN < AR_MUL).
+    Conflict between rule 17 and token AR_DIV resolved as shift (REL_LESSTHAN < AR_DIV).
+    Conflict between rule 17 and token AR_MOD resolved as shift (REL_LESSTHAN < AR_MOD).
+    Conflict between rule 17 and token BITWISE_XOR resolved as shift (REL_LESSTHAN < BITWISE_XOR).
+    Conflict between rule 17 and token BITWISE_AND resolved as shift (REL_LESSTHAN < BITWISE_AND).
+    Conflict between rule 17 and token BITWISE_OR resolved as shift (REL_LESSTHAN < BITWISE_OR).
+    Conflict between rule 17 and token LOG_COMPARE resolved as shift (REL_LESSTHAN < LOG_COMPARE).
+
+
+State 56
+
+    5 expr: expr . AR_PLUS expr
+    6     | expr . AR_MINUS expr
+    7     | expr . AR_MUL expr
+    8     | expr . AR_DIV expr
+    9     | expr . AR_MOD expr
+   10     | expr . AR_PLUS AR_PLUS
+   11     | expr . BITWISE_XOR expr
+   12     | expr . BITWISE_OR expr
+   13     | expr . BITWISE_AND expr
+   14     | expr . BITWISE_AND BITWISE_AND expr
+   15     | expr . BITWISE_OR BITWISE_AND expr
+   16     | expr . LOG_COMPARE LOG_COMPARE expr
+   17     | expr . REL_LESSTHAN expr
+   18     | expr . REL_LESSEQUAL expr
+   19     | expr . REL_EQUAL expr
+   20     | expr . REL_GREATEQUAL expr
+   21     | expr . REL_GREATERTHAN expr
+   21     | expr REL_GREATERTHAN expr .  [SEMICOLON, REL_LESSEQUAL, REL_GREATEQUAL, REL_EQUAL, REL_NOTEQUAL, REL_LESSTHAN, REL_GREATERTHAN]
+   22     | expr . REL_NOTEQUAL expr
+
+    AR_PLUS      shift, and go to state 32
+    AR_MINUS     shift, and go to state 33
+    AR_MUL       shift, and go to state 34
+    AR_DIV       shift, and go to state 35
+    AR_MOD       shift, and go to state 36
+    BITWISE_XOR  shift, and go to state 37
+    BITWISE_AND  shift, and go to state 38
+    BITWISE_OR   shift, and go to state 39
+    LOG_COMPARE  shift, and go to state 40
+
+    $default  reduce using rule 21 (expr)
+
+    Conflict between rule 21 and token REL_LESSEQUAL resolved as reduce (%left REL_LESSEQUAL).
+    Conflict between rule 21 and token REL_GREATEQUAL resolved as reduce (%left REL_GREATEQUAL).
+    Conflict between rule 21 and token REL_EQUAL resolved as reduce (%left REL_EQUAL).
+    Conflict between rule 21 and token REL_NOTEQUAL resolved as reduce (%left REL_NOTEQUAL).
+    Conflict between rule 21 and token REL_LESSTHAN resolved as reduce (%left REL_LESSTHAN).
+    Conflict between rule 21 and token REL_GREATERTHAN resolved as reduce (%left REL_GREATERTHAN).
+    Conflict between rule 21 and token AR_PLUS resolved as shift (REL_GREATERTHAN < AR_PLUS).
+    Conflict between rule 21 and token AR_MINUS resolved as shift (REL_GREATERTHAN < AR_MINUS).
+    Conflict between rule 21 and token AR_MUL resolved as shift (REL_GREATERTHAN < AR_MUL).
+    Conflict between rule 21 and token AR_DIV resolved as shift (REL_GREATERTHAN < AR_DIV).
+    Conflict between rule 21 and token AR_MOD resolved as shift (REL_GREATERTHAN < AR_MOD).
+    Conflict between rule 21 and token BITWISE_XOR resolved as shift (REL_GREATERTHAN < BITWISE_XOR).
+    Conflict between rule 21 and token BITWISE_AND resolved as shift (REL_GREATERTHAN < BITWISE_AND).
+    Conflict between rule 21 and token BITWISE_OR resolved as shift (REL_GREATERTHAN < BITWISE_OR).
+    Conflict between rule 21 and token LOG_COMPARE resolved as shift (REL_GREATERTHAN < LOG_COMPARE).
+
+
+State 57
+
+   10 expr: expr AR_PLUS AR_PLUS .
+
+    $default  reduce using rule 10 (expr)
+
+
+State 58
+
+    5 expr: expr . AR_PLUS expr
+    5     | expr AR_PLUS expr .  [SEMICOLON, REL_LESSEQUAL, REL_GREATEQUAL, REL_EQUAL, REL_NOTEQUAL, REL_LESSTHAN, REL_GREATERTHAN, AR_PLUS, AR_MINUS, AR_MUL, AR_DIV, AR_MOD, BITWISE_XOR, BITWISE_AND, BITWISE_OR]
+    6     | expr . AR_MINUS expr
+    7     | expr . AR_MUL expr
+    8     | expr . AR_DIV expr
+    9     | expr . AR_MOD expr
+   10     | expr . AR_PLUS AR_PLUS
+   11     | expr . BITWISE_XOR expr
+   12     | expr . BITWISE_OR expr
+   13     | expr . BITWISE_AND expr
+   14     | expr . BITWISE_AND BITWISE_AND expr
+   15     | expr . BITWISE_OR BITWISE_AND expr
+   16     | expr . LOG_COMPARE LOG_COMPARE expr
+   17     | expr . REL_LESSTHAN expr
+   18     | expr . REL_LESSEQUAL expr
+   19     | expr . REL_EQUAL expr
+   20     | expr . REL_GREATEQUAL expr
+   21     | expr . REL_GREATERTHAN expr
+   22     | expr . REL_NOTEQUAL expr
+
+    LOG_COMPARE  shift, and go to state 40
+
+    $default  reduce using rule 5 (expr)
+
+    Conflict between rule 5 and token REL_LESSEQUAL resolved as reduce (REL_LESSEQUAL < AR_PLUS).
+    Conflict between rule 5 and token REL_GREATEQUAL resolved as reduce (REL_GREATEQUAL < AR_PLUS).
+    Conflict between rule 5 and token REL_EQUAL resolved as reduce (REL_EQUAL < AR_PLUS).
+    Conflict between rule 5 and token REL_NOTEQUAL resolved as reduce (REL_NOTEQUAL < AR_PLUS).
+    Conflict between rule 5 and token REL_LESSTHAN resolved as reduce (REL_LESSTHAN < AR_PLUS).
+    Conflict between rule 5 and token REL_GREATERTHAN resolved as reduce (REL_GREATERTHAN < AR_PLUS).
+    Conflict between rule 5 and token AR_PLUS resolved as reduce (%left AR_PLUS).
+    Conflict between rule 5 and token AR_MINUS resolved as reduce (%left AR_MINUS).
+    Conflict between rule 5 and token AR_MUL resolved as reduce (%left AR_MUL).
+    Conflict between rule 5 and token AR_DIV resolved as reduce (%left AR_DIV).
+    Conflict between rule 5 and token AR_MOD resolved as reduce (%left AR_MOD).
+    Conflict between rule 5 and token BITWISE_XOR resolved as reduce (%left BITWISE_XOR).
+    Conflict between rule 5 and token BITWISE_AND resolved as reduce (%left BITWISE_AND).
+    Conflict between rule 5 and token BITWISE_OR resolved as reduce (%left BITWISE_OR).
+    Conflict between rule 5 and token LOG_COMPARE resolved as shift (AR_PLUS < LOG_COMPARE).
+
+
+State 59
+
+    5 expr: expr . AR_PLUS expr
+    6     | expr . AR_MINUS expr
+    6     | expr AR_MINUS expr .  [SEMICOLON, REL_LESSEQUAL, REL_GREATEQUAL, REL_EQUAL, REL_NOTEQUAL, REL_LESSTHAN, REL_GREATERTHAN, AR_PLUS, AR_MINUS, AR_MUL, AR_DIV, AR_MOD, BITWISE_XOR, BITWISE_AND, BITWISE_OR]
+    7     | expr . AR_MUL expr
+    8     | expr . AR_DIV expr
+    9     | expr . AR_MOD expr
+   10     | expr . AR_PLUS AR_PLUS
+   11     | expr . BITWISE_XOR expr
+   12     | expr . BITWISE_OR expr
+   13     | expr . BITWISE_AND expr
+   14     | expr . BITWISE_AND BITWISE_AND expr
+   15     | expr . BITWISE_OR BITWISE_AND expr
+   16     | expr . LOG_COMPARE LOG_COMPARE expr
+   17     | expr . REL_LESSTHAN expr
+   18     | expr . REL_LESSEQUAL expr
+   19     | expr . REL_EQUAL expr
+   20     | expr . REL_GREATEQUAL expr
+   21     | expr . REL_GREATERTHAN expr
+   22     | expr . REL_NOTEQUAL expr
+
+    LOG_COMPARE  shift, and go to state 40
+
+    $default  reduce using rule 6 (expr)
+
+    Conflict between rule 6 and token REL_LESSEQUAL resolved as reduce (REL_LESSEQUAL < AR_MINUS).
+    Conflict between rule 6 and token REL_GREATEQUAL resolved as reduce (REL_GREATEQUAL < AR_MINUS).
+    Conflict between rule 6 and token REL_EQUAL resolved as reduce (REL_EQUAL < AR_MINUS).
+    Conflict between rule 6 and token REL_NOTEQUAL resolved as reduce (REL_NOTEQUAL < AR_MINUS).
+    Conflict between rule 6 and token REL_LESSTHAN resolved as reduce (REL_LESSTHAN < AR_MINUS).
+    Conflict between rule 6 and token REL_GREATERTHAN resolved as reduce (REL_GREATERTHAN < AR_MINUS).
+    Conflict between rule 6 and token AR_PLUS resolved as reduce (%left AR_PLUS).
+    Conflict between rule 6 and token AR_MINUS resolved as reduce (%left AR_MINUS).
+    Conflict between rule 6 and token AR_MUL resolved as reduce (%left AR_MUL).
+    Conflict between rule 6 and token AR_DIV resolved as reduce (%left AR_DIV).
+    Conflict between rule 6 and token AR_MOD resolved as reduce (%left AR_MOD).
+    Conflict between rule 6 and token BITWISE_XOR resolved as reduce (%left BITWISE_XOR).
+    Conflict between rule 6 and token BITWISE_AND resolved as reduce (%left BITWISE_AND).
+    Conflict between rule 6 and token BITWISE_OR resolved as reduce (%left BITWISE_OR).
+    Conflict between rule 6 and token LOG_COMPARE resolved as shift (AR_MINUS < LOG_COMPARE).
+
+
+State 60
+
+    5 expr: expr . AR_PLUS expr
+    6     | expr . AR_MINUS expr
+    7     | expr . AR_MUL expr
+    7     | expr AR_MUL expr .  [SEMICOLON, REL_LESSEQUAL, REL_GREATEQUAL, REL_EQUAL, REL_NOTEQUAL, REL_LESSTHAN, REL_GREATERTHAN, AR_PLUS, AR_MINUS, AR_MUL, AR_DIV, AR_MOD, BITWISE_XOR, BITWISE_AND, BITWISE_OR]
+    8     | expr . AR_DIV expr
+    9     | expr . AR_MOD expr
+   10     | expr . AR_PLUS AR_PLUS
+   11     | expr . BITWISE_XOR expr
+   12     | expr . BITWISE_OR expr
+   13     | expr . BITWISE_AND expr
+   14     | expr . BITWISE_AND BITWISE_AND expr
+   15     | expr . BITWISE_OR BITWISE_AND expr
+   16     | expr . LOG_COMPARE LOG_COMPARE expr
+   17     | expr . REL_LESSTHAN expr
+   18     | expr . REL_LESSEQUAL expr
+   19     | expr . REL_EQUAL expr
+   20     | expr . REL_GREATEQUAL expr
+   21     | expr . REL_GREATERTHAN expr
+   22     | expr . REL_NOTEQUAL expr
+
+    LOG_COMPARE  shift, and go to state 40
+
+    $default  reduce using rule 7 (expr)
+
+    Conflict between rule 7 and token REL_LESSEQUAL resolved as reduce (REL_LESSEQUAL < AR_MUL).
+    Conflict between rule 7 and token REL_GREATEQUAL resolved as reduce (REL_GREATEQUAL < AR_MUL).
+    Conflict between rule 7 and token REL_EQUAL resolved as reduce (REL_EQUAL < AR_MUL).
+    Conflict between rule 7 and token REL_NOTEQUAL resolved as reduce (REL_NOTEQUAL < AR_MUL).
+    Conflict between rule 7 and token REL_LESSTHAN resolved as reduce (REL_LESSTHAN < AR_MUL).
+    Conflict between rule 7 and token REL_GREATERTHAN resolved as reduce (REL_GREATERTHAN < AR_MUL).
+    Conflict between rule 7 and token AR_PLUS resolved as reduce (%left AR_PLUS).
+    Conflict between rule 7 and token AR_MINUS resolved as reduce (%left AR_MINUS).
+    Conflict between rule 7 and token AR_MUL resolved as reduce (%left AR_MUL).
+    Conflict between rule 7 and token AR_DIV resolved as reduce (%left AR_DIV).
+    Conflict between rule 7 and token AR_MOD resolved as reduce (%left AR_MOD).
+    Conflict between rule 7 and token BITWISE_XOR resolved as reduce (%left BITWISE_XOR).
+    Conflict between rule 7 and token BITWISE_AND resolved as reduce (%left BITWISE_AND).
+    Conflict between rule 7 and token BITWISE_OR resolved as reduce (%left BITWISE_OR).
+    Conflict between rule 7 and token LOG_COMPARE resolved as shift (AR_MUL < LOG_COMPARE).
+
+
+State 61
+
+    5 expr: expr . AR_PLUS expr
+    6     | expr . AR_MINUS expr
+    7     | expr . AR_MUL expr
+    8     | expr . AR_DIV expr
+    8     | expr AR_DIV expr .  [SEMICOLON, REL_LESSEQUAL, REL_GREATEQUAL, REL_EQUAL, REL_NOTEQUAL, REL_LESSTHAN, REL_GREATERTHAN, AR_PLUS, AR_MINUS, AR_MUL, AR_DIV, AR_MOD, BITWISE_XOR, BITWISE_AND, BITWISE_OR]
+    9     | expr . AR_MOD expr
+   10     | expr . AR_PLUS AR_PLUS
+   11     | expr . BITWISE_XOR expr
+   12     | expr . BITWISE_OR expr
+   13     | expr . BITWISE_AND expr
+   14     | expr . BITWISE_AND BITWISE_AND expr
+   15     | expr . BITWISE_OR BITWISE_AND expr
+   16     | expr . LOG_COMPARE LOG_COMPARE expr
+   17     | expr . REL_LESSTHAN expr
+   18     | expr . REL_LESSEQUAL expr
+   19     | expr . REL_EQUAL expr
+   20     | expr . REL_GREATEQUAL expr
+   21     | expr . REL_GREATERTHAN expr
+   22     | expr . REL_NOTEQUAL expr
+
+    LOG_COMPARE  shift, and go to state 40
+
+    $default  reduce using rule 8 (expr)
+
+    Conflict between rule 8 and token REL_LESSEQUAL resolved as reduce (REL_LESSEQUAL < AR_DIV).
+    Conflict between rule 8 and token REL_GREATEQUAL resolved as reduce (REL_GREATEQUAL < AR_DIV).
+    Conflict between rule 8 and token REL_EQUAL resolved as reduce (REL_EQUAL < AR_DIV).
+    Conflict between rule 8 and token REL_NOTEQUAL resolved as reduce (REL_NOTEQUAL < AR_DIV).
+    Conflict between rule 8 and token REL_LESSTHAN resolved as reduce (REL_LESSTHAN < AR_DIV).
+    Conflict between rule 8 and token REL_GREATERTHAN resolved as reduce (REL_GREATERTHAN < AR_DIV).
+    Conflict between rule 8 and token AR_PLUS resolved as reduce (%left AR_PLUS).
+    Conflict between rule 8 and token AR_MINUS resolved as reduce (%left AR_MINUS).
+    Conflict between rule 8 and token AR_MUL resolved as reduce (%left AR_MUL).
+    Conflict between rule 8 and token AR_DIV resolved as reduce (%left AR_DIV).
+    Conflict between rule 8 and token AR_MOD resolved as reduce (%left AR_MOD).
+    Conflict between rule 8 and token BITWISE_XOR resolved as reduce (%left BITWISE_XOR).
+    Conflict between rule 8 and token BITWISE_AND resolved as reduce (%left BITWISE_AND).
+    Conflict between rule 8 and token BITWISE_OR resolved as reduce (%left BITWISE_OR).
+    Conflict between rule 8 and token LOG_COMPARE resolved as shift (AR_DIV < LOG_COMPARE).
+
+
+State 62
+
+    5 expr: expr . AR_PLUS expr
+    6     | expr . AR_MINUS expr
+    7     | expr . AR_MUL expr
+    8     | expr . AR_DIV expr
+    9     | expr . AR_MOD expr
+    9     | expr AR_MOD expr .  [SEMICOLON, REL_LESSEQUAL, REL_GREATEQUAL, REL_EQUAL, REL_NOTEQUAL, REL_LESSTHAN, REL_GREATERTHAN, AR_PLUS, AR_MINUS, AR_MUL, AR_DIV, AR_MOD, BITWISE_XOR, BITWISE_AND, BITWISE_OR]
+   10     | expr . AR_PLUS AR_PLUS
+   11     | expr . BITWISE_XOR expr
+   12     | expr . BITWISE_OR expr
+   13     | expr . BITWISE_AND expr
+   14     | expr . BITWISE_AND BITWISE_AND expr
+   15     | expr . BITWISE_OR BITWISE_AND expr
+   16     | expr . LOG_COMPARE LOG_COMPARE expr
+   17     | expr . REL_LESSTHAN expr
+   18     | expr . REL_LESSEQUAL expr
+   19     | expr . REL_EQUAL expr
+   20     | expr . REL_GREATEQUAL expr
+   21     | expr . REL_GREATERTHAN expr
+   22     | expr . REL_NOTEQUAL expr
+
+    LOG_COMPARE  shift, and go to state 40
+
+    $default  reduce using rule 9 (expr)
+
+    Conflict between rule 9 and token REL_LESSEQUAL resolved as reduce (REL_LESSEQUAL < AR_MOD).
+    Conflict between rule 9 and token REL_GREATEQUAL resolved as reduce (REL_GREATEQUAL < AR_MOD).
+    Conflict between rule 9 and token REL_EQUAL resolved as reduce (REL_EQUAL < AR_MOD).
+    Conflict between rule 9 and token REL_NOTEQUAL resolved as reduce (REL_NOTEQUAL < AR_MOD).
+    Conflict between rule 9 and token REL_LESSTHAN resolved as reduce (REL_LESSTHAN < AR_MOD).
+    Conflict between rule 9 and token REL_GREATERTHAN resolved as reduce (REL_GREATERTHAN < AR_MOD).
+    Conflict between rule 9 and token AR_PLUS resolved as reduce (%left AR_PLUS).
+    Conflict between rule 9 and token AR_MINUS resolved as reduce (%left AR_MINUS).
+    Conflict between rule 9 and token AR_MUL resolved as reduce (%left AR_MUL).
+    Conflict between rule 9 and token AR_DIV resolved as reduce (%left AR_DIV).
+    Conflict between rule 9 and token AR_MOD resolved as reduce (%left AR_MOD).
+    Conflict between rule 9 and token BITWISE_XOR resolved as reduce (%left BITWISE_XOR).
+    Conflict between rule 9 and token BITWISE_AND resolved as reduce (%left BITWISE_AND).
+    Conflict between rule 9 and token BITWISE_OR resolved as reduce (%left BITWISE_OR).
+    Conflict between rule 9 and token LOG_COMPARE resolved as shift (AR_MOD < LOG_COMPARE).
+
+
+State 63
+
+    5 expr: expr . AR_PLUS expr
+    6     | expr . AR_MINUS expr
+    7     | expr . AR_MUL expr
+    8     | expr . AR_DIV expr
+    9     | expr . AR_MOD expr
+   10     | expr . AR_PLUS AR_PLUS
+   11     | expr . BITWISE_XOR expr
+   11     | expr BITWISE_XOR expr .  [SEMICOLON, REL_LESSEQUAL, REL_GREATEQUAL, REL_EQUAL, REL_NOTEQUAL, REL_LESSTHAN, REL_GREATERTHAN, AR_PLUS, AR_MINUS, AR_MUL, AR_DIV, AR_MOD, BITWISE_XOR, BITWISE_AND, BITWISE_OR]
+   12     | expr . BITWISE_OR expr
+   13     | expr . BITWISE_AND expr
+   14     | expr . BITWISE_AND BITWISE_AND expr
+   15     | expr . BITWISE_OR BITWISE_AND expr
+   16     | expr . LOG_COMPARE LOG_COMPARE expr
+   17     | expr . REL_LESSTHAN expr
+   18     | expr . REL_LESSEQUAL expr
+   19     | expr . REL_EQUAL expr
+   20     | expr . REL_GREATEQUAL expr
+   21     | expr . REL_GREATERTHAN expr
+   22     | expr . REL_NOTEQUAL expr
+
+    LOG_COMPARE  shift, and go to state 40
+
+    $default  reduce using rule 11 (expr)
+
+    Conflict between rule 11 and token REL_LESSEQUAL resolved as reduce (REL_LESSEQUAL < BITWISE_XOR).
+    Conflict between rule 11 and token REL_GREATEQUAL resolved as reduce (REL_GREATEQUAL < BITWISE_XOR).
+    Conflict between rule 11 and token REL_EQUAL resolved as reduce (REL_EQUAL < BITWISE_XOR).
+    Conflict between rule 11 and token REL_NOTEQUAL resolved as reduce (REL_NOTEQUAL < BITWISE_XOR).
+    Conflict between rule 11 and token REL_LESSTHAN resolved as reduce (REL_LESSTHAN < BITWISE_XOR).
+    Conflict between rule 11 and token REL_GREATERTHAN resolved as reduce (REL_GREATERTHAN < BITWISE_XOR).
+    Conflict between rule 11 and token AR_PLUS resolved as reduce (%left AR_PLUS).
+    Conflict between rule 11 and token AR_MINUS resolved as reduce (%left AR_MINUS).
+    Conflict between rule 11 and token AR_MUL resolved as reduce (%left AR_MUL).
+    Conflict between rule 11 and token AR_DIV resolved as reduce (%left AR_DIV).
+    Conflict between rule 11 and token AR_MOD resolved as reduce (%left AR_MOD).
+    Conflict between rule 11 and token BITWISE_XOR resolved as reduce (%left BITWISE_XOR).
+    Conflict between rule 11 and token BITWISE_AND resolved as reduce (%left BITWISE_AND).
+    Conflict between rule 11 and token BITWISE_OR resolved as reduce (%left BITWISE_OR).
+    Conflict between rule 11 and token LOG_COMPARE resolved as shift (BITWISE_XOR < LOG_COMPARE).
+
+
+State 64
+
+    5 expr: . expr AR_PLUS expr
+    6     | . expr AR_MINUS expr
+    7     | . expr AR_MUL expr
+    8     | . expr AR_DIV expr
+    9     | . expr AR_MOD expr
+   10     | . expr AR_PLUS AR_PLUS
+   11     | . expr BITWISE_XOR expr
+   12     | . expr BITWISE_OR expr
+   13     | . expr BITWISE_AND expr
+   14     | . expr BITWISE_AND BITWISE_AND expr
+   14     | expr BITWISE_AND BITWISE_AND . expr
+   15     | . expr BITWISE_OR BITWISE_AND expr
+   16     | . expr LOG_COMPARE LOG_COMPARE expr
+   17     | . expr REL_LESSTHAN expr
+   18     | . expr REL_LESSEQUAL expr
+   19     | . expr REL_EQUAL expr
+   20     | . expr REL_GREATEQUAL expr
+   21     | . expr REL_GREATERTHAN expr
+   22     | . expr REL_NOTEQUAL expr
+   23     | . NUM_INTEGER
+   24     | . NUM_FLOAT
+   25     | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 50
+    NUM_INTEGER  shift, and go to state 9
+    NUM_FLOAT    shift, and go to state 10
+
+    expr  go to state 70
+
+
+State 65
+
+    5 expr: expr . AR_PLUS expr
+    6     | expr . AR_MINUS expr
+    7     | expr . AR_MUL expr
+    8     | expr . AR_DIV expr
+    9     | expr . AR_MOD expr
+   10     | expr . AR_PLUS AR_PLUS
+   11     | expr . BITWISE_XOR expr
+   12     | expr . BITWISE_OR expr
+   13     | expr . BITWISE_AND expr
+   13     | expr BITWISE_AND expr .  [SEMICOLON, REL_LESSEQUAL, REL_GREATEQUAL, REL_EQUAL, REL_NOTEQUAL, REL_LESSTHAN, REL_GREATERTHAN, AR_PLUS, AR_MINUS, AR_MUL, AR_DIV, AR_MOD, BITWISE_XOR, BITWISE_AND, BITWISE_OR]
+   14     | expr . BITWISE_AND BITWISE_AND expr
+   15     | expr . BITWISE_OR BITWISE_AND expr
+   16     | expr . LOG_COMPARE LOG_COMPARE expr
+   17     | expr . REL_LESSTHAN expr
+   18     | expr . REL_LESSEQUAL expr
+   19     | expr . REL_EQUAL expr
+   20     | expr . REL_GREATEQUAL expr
+   21     | expr . REL_GREATERTHAN expr
+   22     | expr . REL_NOTEQUAL expr
+
+    LOG_COMPARE  shift, and go to state 40
+
+    $default  reduce using rule 13 (expr)
+
+    Conflict between rule 13 and token REL_LESSEQUAL resolved as reduce (REL_LESSEQUAL < BITWISE_AND).
+    Conflict between rule 13 and token REL_GREATEQUAL resolved as reduce (REL_GREATEQUAL < BITWISE_AND).
+    Conflict between rule 13 and token REL_EQUAL resolved as reduce (REL_EQUAL < BITWISE_AND).
+    Conflict between rule 13 and token REL_NOTEQUAL resolved as reduce (REL_NOTEQUAL < BITWISE_AND).
+    Conflict between rule 13 and token REL_LESSTHAN resolved as reduce (REL_LESSTHAN < BITWISE_AND).
+    Conflict between rule 13 and token REL_GREATERTHAN resolved as reduce (REL_GREATERTHAN < BITWISE_AND).
+    Conflict between rule 13 and token AR_PLUS resolved as reduce (%left AR_PLUS).
+    Conflict between rule 13 and token AR_MINUS resolved as reduce (%left AR_MINUS).
+    Conflict between rule 13 and token AR_MUL resolved as reduce (%left AR_MUL).
+    Conflict between rule 13 and token AR_DIV resolved as reduce (%left AR_DIV).
+    Conflict between rule 13 and token AR_MOD resolved as reduce (%left AR_MOD).
+    Conflict between rule 13 and token BITWISE_XOR resolved as reduce (%left BITWISE_XOR).
+    Conflict between rule 13 and token BITWISE_AND resolved as reduce (%left BITWISE_AND).
+    Conflict between rule 13 and token BITWISE_OR resolved as reduce (%left BITWISE_OR).
+    Conflict between rule 13 and token LOG_COMPARE resolved as shift (BITWISE_AND < LOG_COMPARE).
+
+
+State 66
+
+    5 expr: . expr AR_PLUS expr
+    6     | . expr AR_MINUS expr
+    7     | . expr AR_MUL expr
+    8     | . expr AR_DIV expr
+    9     | . expr AR_MOD expr
+   10     | . expr AR_PLUS AR_PLUS
+   11     | . expr BITWISE_XOR expr
+   12     | . expr BITWISE_OR expr
+   13     | . expr BITWISE_AND expr
+   14     | . expr BITWISE_AND BITWISE_AND expr
+   15     | . expr BITWISE_OR BITWISE_AND expr
+   15     | expr BITWISE_OR BITWISE_AND . expr
+   16     | . expr LOG_COMPARE LOG_COMPARE expr
+   17     | . expr REL_LESSTHAN expr
+   18     | . expr REL_LESSEQUAL expr
+   19     | . expr REL_EQUAL expr
+   20     | . expr REL_GREATEQUAL expr
+   21     | . expr REL_GREATERTHAN expr
+   22     | . expr REL_NOTEQUAL expr
+   23     | . NUM_INTEGER
+   24     | . NUM_FLOAT
+   25     | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 50
+    NUM_INTEGER  shift, and go to state 9
+    NUM_FLOAT    shift, and go to state 10
+
+    expr  go to state 71
+
+
+State 67
+
+    5 expr: expr . AR_PLUS expr
+    6     | expr . AR_MINUS expr
+    7     | expr . AR_MUL expr
+    8     | expr . AR_DIV expr
+    9     | expr . AR_MOD expr
+   10     | expr . AR_PLUS AR_PLUS
+   11     | expr . BITWISE_XOR expr
+   12     | expr . BITWISE_OR expr
+   12     | expr BITWISE_OR expr .  [SEMICOLON, REL_LESSEQUAL, REL_GREATEQUAL, REL_EQUAL, REL_NOTEQUAL, REL_LESSTHAN, REL_GREATERTHAN, AR_PLUS, AR_MINUS, AR_MUL, AR_DIV, AR_MOD, BITWISE_XOR, BITWISE_AND, BITWISE_OR]
+   13     | expr . BITWISE_AND expr
+   14     | expr . BITWISE_AND BITWISE_AND expr
+   15     | expr . BITWISE_OR BITWISE_AND expr
+   16     | expr . LOG_COMPARE LOG_COMPARE expr
+   17     | expr . REL_LESSTHAN expr
+   18     | expr . REL_LESSEQUAL expr
+   19     | expr . REL_EQUAL expr
+   20     | expr . REL_GREATEQUAL expr
+   21     | expr . REL_GREATERTHAN expr
+   22     | expr . REL_NOTEQUAL expr
+
+    LOG_COMPARE  shift, and go to state 40
+
+    $default  reduce using rule 12 (expr)
+
+    Conflict between rule 12 and token REL_LESSEQUAL resolved as reduce (REL_LESSEQUAL < BITWISE_OR).
+    Conflict between rule 12 and token REL_GREATEQUAL resolved as reduce (REL_GREATEQUAL < BITWISE_OR).
+    Conflict between rule 12 and token REL_EQUAL resolved as reduce (REL_EQUAL < BITWISE_OR).
+    Conflict between rule 12 and token REL_NOTEQUAL resolved as reduce (REL_NOTEQUAL < BITWISE_OR).
+    Conflict between rule 12 and token REL_LESSTHAN resolved as reduce (REL_LESSTHAN < BITWISE_OR).
+    Conflict between rule 12 and token REL_GREATERTHAN resolved as reduce (REL_GREATERTHAN < BITWISE_OR).
+    Conflict between rule 12 and token AR_PLUS resolved as reduce (%left AR_PLUS).
+    Conflict between rule 12 and token AR_MINUS resolved as reduce (%left AR_MINUS).
+    Conflict between rule 12 and token AR_MUL resolved as reduce (%left AR_MUL).
+    Conflict between rule 12 and token AR_DIV resolved as reduce (%left AR_DIV).
+    Conflict between rule 12 and token AR_MOD resolved as reduce (%left AR_MOD).
+    Conflict between rule 12 and token BITWISE_XOR resolved as reduce (%left BITWISE_XOR).
+    Conflict between rule 12 and token BITWISE_AND resolved as reduce (%left BITWISE_AND).
+    Conflict between rule 12 and token BITWISE_OR resolved as reduce (%left BITWISE_OR).
+    Conflict between rule 12 and token LOG_COMPARE resolved as shift (BITWISE_OR < LOG_COMPARE).
+
+
+State 68
+
+    5 expr: . expr AR_PLUS expr
+    6     | . expr AR_MINUS expr
+    7     | . expr AR_MUL expr
+    8     | . expr AR_DIV expr
+    9     | . expr AR_MOD expr
+   10     | . expr AR_PLUS AR_PLUS
+   11     | . expr BITWISE_XOR expr
+   12     | . expr BITWISE_OR expr
+   13     | . expr BITWISE_AND expr
+   14     | . expr BITWISE_AND BITWISE_AND expr
+   15     | . expr BITWISE_OR BITWISE_AND expr
+   16     | . expr LOG_COMPARE LOG_COMPARE expr
+   16     | expr LOG_COMPARE LOG_COMPARE . expr
+   17     | . expr REL_LESSTHAN expr
+   18     | . expr REL_LESSEQUAL expr
+   19     | . expr REL_EQUAL expr
+   20     | . expr REL_GREATEQUAL expr
+   21     | . expr REL_GREATERTHAN expr
+   22     | . expr REL_NOTEQUAL expr
+   23     | . NUM_INTEGER
+   24     | . NUM_FLOAT
+   25     | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 50
+    NUM_INTEGER  shift, and go to state 9
+    NUM_FLOAT    shift, and go to state 10
+
+    expr  go to state 72
+
+
+State 69
+
+   40 var_def: var_dec REL_EQUAL NUMBER .
+
+    $default  reduce using rule 40 (var_def)
+
+
+State 70
+
+    5 expr: expr . AR_PLUS expr
+    6     | expr . AR_MINUS expr
+    7     | expr . AR_MUL expr
+    8     | expr . AR_DIV expr
+    9     | expr . AR_MOD expr
+   10     | expr . AR_PLUS AR_PLUS
+   11     | expr . BITWISE_XOR expr
+   12     | expr . BITWISE_OR expr
+   13     | expr . BITWISE_AND expr
+   14     | expr . BITWISE_AND BITWISE_AND expr
+   14     | expr BITWISE_AND BITWISE_AND expr .  [SEMICOLON, REL_LESSEQUAL, REL_GREATEQUAL, REL_EQUAL, REL_NOTEQUAL, REL_LESSTHAN, REL_GREATERTHAN, AR_PLUS, AR_MINUS, AR_MUL, AR_DIV, AR_MOD, BITWISE_XOR, BITWISE_AND, BITWISE_OR]
+   15     | expr . BITWISE_OR BITWISE_AND expr
+   16     | expr . LOG_COMPARE LOG_COMPARE expr
+   17     | expr . REL_LESSTHAN expr
+   18     | expr . REL_LESSEQUAL expr
+   19     | expr . REL_EQUAL expr
+   20     | expr . REL_GREATEQUAL expr
+   21     | expr . REL_GREATERTHAN expr
+   22     | expr . REL_NOTEQUAL expr
+
+    LOG_COMPARE  shift, and go to state 40
+
+    $default  reduce using rule 14 (expr)
+
+    Conflict between rule 14 and token REL_LESSEQUAL resolved as reduce (REL_LESSEQUAL < BITWISE_AND).
+    Conflict between rule 14 and token REL_GREATEQUAL resolved as reduce (REL_GREATEQUAL < BITWISE_AND).
+    Conflict between rule 14 and token REL_EQUAL resolved as reduce (REL_EQUAL < BITWISE_AND).
+    Conflict between rule 14 and token REL_NOTEQUAL resolved as reduce (REL_NOTEQUAL < BITWISE_AND).
+    Conflict between rule 14 and token REL_LESSTHAN resolved as reduce (REL_LESSTHAN < BITWISE_AND).
+    Conflict between rule 14 and token REL_GREATERTHAN resolved as reduce (REL_GREATERTHAN < BITWISE_AND).
+    Conflict between rule 14 and token AR_PLUS resolved as reduce (%left AR_PLUS).
+    Conflict between rule 14 and token AR_MINUS resolved as reduce (%left AR_MINUS).
+    Conflict between rule 14 and token AR_MUL resolved as reduce (%left AR_MUL).
+    Conflict between rule 14 and token AR_DIV resolved as reduce (%left AR_DIV).
+    Conflict between rule 14 and token AR_MOD resolved as reduce (%left AR_MOD).
+    Conflict between rule 14 and token BITWISE_XOR resolved as reduce (%left BITWISE_XOR).
+    Conflict between rule 14 and token BITWISE_AND resolved as reduce (%left BITWISE_AND).
+    Conflict between rule 14 and token BITWISE_OR resolved as reduce (%left BITWISE_OR).
+    Conflict between rule 14 and token LOG_COMPARE resolved as shift (BITWISE_AND < LOG_COMPARE).
+
+
+State 71
+
+    5 expr: expr . AR_PLUS expr
+    6     | expr . AR_MINUS expr
+    7     | expr . AR_MUL expr
+    8     | expr . AR_DIV expr
+    9     | expr . AR_MOD expr
+   10     | expr . AR_PLUS AR_PLUS
+   11     | expr . BITWISE_XOR expr
+   12     | expr . BITWISE_OR expr
+   13     | expr . BITWISE_AND expr
+   14     | expr . BITWISE_AND BITWISE_AND expr
+   15     | expr . BITWISE_OR BITWISE_AND expr
+   15     | expr BITWISE_OR BITWISE_AND expr .  [SEMICOLON, REL_LESSEQUAL, REL_GREATEQUAL, REL_EQUAL, REL_NOTEQUAL, REL_LESSTHAN, REL_GREATERTHAN, AR_PLUS, AR_MINUS, AR_MUL, AR_DIV, AR_MOD, BITWISE_XOR, BITWISE_AND, BITWISE_OR]
+   16     | expr . LOG_COMPARE LOG_COMPARE expr
+   17     | expr . REL_LESSTHAN expr
+   18     | expr . REL_LESSEQUAL expr
+   19     | expr . REL_EQUAL expr
+   20     | expr . REL_GREATEQUAL expr
+   21     | expr . REL_GREATERTHAN expr
+   22     | expr . REL_NOTEQUAL expr
+
+    LOG_COMPARE  shift, and go to state 40
+
+    $default  reduce using rule 15 (expr)
+
+    Conflict between rule 15 and token REL_LESSEQUAL resolved as reduce (REL_LESSEQUAL < BITWISE_AND).
+    Conflict between rule 15 and token REL_GREATEQUAL resolved as reduce (REL_GREATEQUAL < BITWISE_AND).
+    Conflict between rule 15 and token REL_EQUAL resolved as reduce (REL_EQUAL < BITWISE_AND).
+    Conflict between rule 15 and token REL_NOTEQUAL resolved as reduce (REL_NOTEQUAL < BITWISE_AND).
+    Conflict between rule 15 and token REL_LESSTHAN resolved as reduce (REL_LESSTHAN < BITWISE_AND).
+    Conflict between rule 15 and token REL_GREATERTHAN resolved as reduce (REL_GREATERTHAN < BITWISE_AND).
+    Conflict between rule 15 and token AR_PLUS resolved as reduce (%left AR_PLUS).
+    Conflict between rule 15 and token AR_MINUS resolved as reduce (%left AR_MINUS).
+    Conflict between rule 15 and token AR_MUL resolved as reduce (%left AR_MUL).
+    Conflict between rule 15 and token AR_DIV resolved as reduce (%left AR_DIV).
+    Conflict between rule 15 and token AR_MOD resolved as reduce (%left AR_MOD).
+    Conflict between rule 15 and token BITWISE_XOR resolved as reduce (%left BITWISE_XOR).
+    Conflict between rule 15 and token BITWISE_AND resolved as reduce (%left BITWISE_AND).
+    Conflict between rule 15 and token BITWISE_OR resolved as reduce (%left BITWISE_OR).
+    Conflict between rule 15 and token LOG_COMPARE resolved as shift (BITWISE_AND < LOG_COMPARE).
+
+
+State 72
+
+    5 expr: expr . AR_PLUS expr
+    6     | expr . AR_MINUS expr
+    7     | expr . AR_MUL expr
+    8     | expr . AR_DIV expr
+    9     | expr . AR_MOD expr
+   10     | expr . AR_PLUS AR_PLUS
+   11     | expr . BITWISE_XOR expr
+   12     | expr . BITWISE_OR expr
+   13     | expr . BITWISE_AND expr
+   14     | expr . BITWISE_AND BITWISE_AND expr
+   15     | expr . BITWISE_OR BITWISE_AND expr
+   16     | expr . LOG_COMPARE LOG_COMPARE expr
+   16     | expr LOG_COMPARE LOG_COMPARE expr .  [SEMICOLON, REL_LESSEQUAL, REL_GREATEQUAL, REL_EQUAL, REL_NOTEQUAL, REL_LESSTHAN, REL_GREATERTHAN, AR_PLUS, AR_MINUS, AR_MUL, AR_DIV, AR_MOD, BITWISE_XOR, BITWISE_AND, BITWISE_OR, LOG_COMPARE]
+   17     | expr . REL_LESSTHAN expr
+   18     | expr . REL_LESSEQUAL expr
+   19     | expr . REL_EQUAL expr
+   20     | expr . REL_GREATEQUAL expr
+   21     | expr . REL_GREATERTHAN expr
+   22     | expr . REL_NOTEQUAL expr
+
+    $default  reduce using rule 16 (expr)
+
+    Conflict between rule 16 and token REL_LESSEQUAL resolved as reduce (REL_LESSEQUAL < LOG_COMPARE).
+    Conflict between rule 16 and token REL_GREATEQUAL resolved as reduce (REL_GREATEQUAL < LOG_COMPARE).
+    Conflict between rule 16 and token REL_EQUAL resolved as reduce (REL_EQUAL < LOG_COMPARE).
+    Conflict between rule 16 and token REL_NOTEQUAL resolved as reduce (REL_NOTEQUAL < LOG_COMPARE).
+    Conflict between rule 16 and token REL_LESSTHAN resolved as reduce (REL_LESSTHAN < LOG_COMPARE).
+    Conflict between rule 16 and token REL_GREATERTHAN resolved as reduce (REL_GREATERTHAN < LOG_COMPARE).
+    Conflict between rule 16 and token AR_PLUS resolved as reduce (AR_PLUS < LOG_COMPARE).
+    Conflict between rule 16 and token AR_MINUS resolved as reduce (AR_MINUS < LOG_COMPARE).
+    Conflict between rule 16 and token AR_MUL resolved as reduce (AR_MUL < LOG_COMPARE).
+    Conflict between rule 16 and token AR_DIV resolved as reduce (AR_DIV < LOG_COMPARE).
+    Conflict between rule 16 and token AR_MOD resolved as reduce (AR_MOD < LOG_COMPARE).
+    Conflict between rule 16 and token BITWISE_XOR resolved as reduce (BITWISE_XOR < LOG_COMPARE).
+    Conflict between rule 16 and token BITWISE_AND resolved as reduce (BITWISE_AND < LOG_COMPARE).
+    Conflict between rule 16 and token BITWISE_OR resolved as reduce (BITWISE_OR < LOG_COMPARE).
+    Conflict between rule 16 and token LOG_COMPARE resolved as reduce (%left LOG_COMPARE).
