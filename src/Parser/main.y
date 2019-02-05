@@ -31,12 +31,10 @@
 
 %%
 ED: 
-    expr | block | if | datatype | var_dec | var_def | if | else | if_else | if_else_if | while | func_dec | func_def | else_if | 
-|   ;
-    
+    expr | block | datatype | var_dec | var_def | while | func_dec | func_def | if_elses
    
+;
 
- 
 expr:
     expr AR_PLUS expr       {$$ = $1 + $3; printf("Addition");}
     |   expr AR_MINUS expr       {$$ = $1 - $3; printf("Subtraction");}
@@ -61,6 +59,8 @@ expr:
 |   IDENTIFIER
 |   ;
 
+;
+
 datatype: 
 
     FLOAT
@@ -75,16 +75,21 @@ datatype:
 |   LONG UNSIGNED INT  
 |   "void" 
 
+;
+
 var_dec: 
 
-    datatype IDENTIFIER    ;
+    datatype IDENTIFIER  
+    | ;
+;
 
 var_def: 
 
     var_dec '=' NUM_FLOAT        
 |   var_dec '=' NUM_INTEGER   
 |   IDENTIFIER '=' NUM_FLOAT              
-|   IDENTIFIER '=' NUM_INTEGER       
+|   IDENTIFIER '=' NUM_INTEGER     
+|   ;  
 ; 
 
 block: 
@@ -93,45 +98,37 @@ block:
 |   L_FLOWER_BRKT block R_FLOWER_BRKT
 |   L_FLOWER_BRKT "blah!" R_FLOWER_BRKT
 
-if: 
+;
 
-    IF L_PAREN expr R_PAREN L_FLOWER_BRKT block R_FLOWER_BRKT
+else_if:
+    ELSE L_FLOWER_BRKT block R_FLOWER_BRKT IF L_PAREN expr R_PAREN L_FLOWER_BRKT block R_FLOWER_BRKT | else_if           {printf("R");}
+;
 
-else: 
-
-    ELSE L_FLOWER_BRKT block R_FLOWER_BRKT
-
-else_if: 
-
-    ELSE IF L_FLOWER_BRKT expr R_FLOWER_BRKT L_FLOWER_BRKT block R_FLOWER_BRKT
-|   else_if
-
-if_else: 
-
-    if else
-
-if_else_if: 
-
-    if else_if else
+if_elses:
+    IF L_PAREN expr R_PAREN L_FLOWER_BRKT block R_FLOWER_BRKT else_if ELSE L_FLOWER_BRKT block R_FLOWER_BRKT 
+// |   IF L_PAREN expr R_PAREN L_FLOWER_BRKT block R_FLOWER_BRKT else_if 
+|   IF L_PAREN expr R_PAREN L_FLOWER_BRKT block R_FLOWER_BRKT
+// ;
+;
 
 while: 
-
     WHILE L_PAREN expr R_PAREN L_FLOWER_BRKT block R_FLOWER_BRKT
-
+;
 // Functions
 
 arg: 
-
     datatype IDENTIFIER 
 |   arg ','
 
-func_dec: 
+;
 
-    datatype IDENTIFIER L_PAREN arg R_PAREN     ; 
+func_dec: 
+    datatype IDENTIFIER L_PAREN arg R_PAREN ; 
+;
 
 func_def: 
-
     func_dec block
+;
 
 %%
 
