@@ -61,27 +61,31 @@ extern int yydebug;
     L_PAREN = 271,
     R_PAREN = 272,
     STRING = 273,
-    IDENTIFIER = 274,
-    NUM_INTEGER = 275,
-    NUM_FLOAT = 276,
-    SEMICOLON = 277,
-    REL_LESSEQUAL = 278,
-    REL_GREATEQUAL = 279,
-    REL_EQUAL = 280,
-    REL_NOTEQUAL = 281,
-    REL_LESSTHAN = 282,
-    REL_GREATERTHAN = 283,
-    AR_PLUS = 284,
-    AR_MINUS = 285,
-    AR_MUL = 286,
-    AR_DIV = 287,
-    AR_MOD = 288,
-    BITWISE_XOR = 289,
-    BITWISE_AND = 290,
-    BITWISE_OR = 291,
-    LOG_AND = 292,
-    LOG_OR = 293,
-    LOG_COMPARE = 294
+    VOID = 274,
+    BREAK = 275,
+    L_SQR_BRKT = 276,
+    R_SQR_BRKT = 277,
+    IDENTIFIER = 278,
+    NUM_INTEGER = 279,
+    NUM_FLOAT = 280,
+    SEMICOLON = 281,
+    REL_LESSEQUAL = 282,
+    REL_GREATEQUAL = 283,
+    REL_EQUAL = 284,
+    REL_NOTEQUAL = 285,
+    REL_LESSTHAN = 286,
+    REL_GREATERTHAN = 287,
+    AR_PLUS = 288,
+    AR_MINUS = 289,
+    AR_MUL = 290,
+    AR_DIV = 291,
+    AR_MOD = 292,
+    BITWISE_XOR = 293,
+    BITWISE_AND = 294,
+    BITWISE_OR = 295,
+    LOG_AND = 296,
+    LOG_OR = 297,
+    LOG_COMPARE = 298
   };
 #endif
 /* Tokens.  */
@@ -101,27 +105,31 @@ extern int yydebug;
 #define L_PAREN 271
 #define R_PAREN 272
 #define STRING 273
-#define IDENTIFIER 274
-#define NUM_INTEGER 275
-#define NUM_FLOAT 276
-#define SEMICOLON 277
-#define REL_LESSEQUAL 278
-#define REL_GREATEQUAL 279
-#define REL_EQUAL 280
-#define REL_NOTEQUAL 281
-#define REL_LESSTHAN 282
-#define REL_GREATERTHAN 283
-#define AR_PLUS 284
-#define AR_MINUS 285
-#define AR_MUL 286
-#define AR_DIV 287
-#define AR_MOD 288
-#define BITWISE_XOR 289
-#define BITWISE_AND 290
-#define BITWISE_OR 291
-#define LOG_AND 292
-#define LOG_OR 293
-#define LOG_COMPARE 294
+#define VOID 274
+#define BREAK 275
+#define L_SQR_BRKT 276
+#define R_SQR_BRKT 277
+#define IDENTIFIER 278
+#define NUM_INTEGER 279
+#define NUM_FLOAT 280
+#define SEMICOLON 281
+#define REL_LESSEQUAL 282
+#define REL_GREATEQUAL 283
+#define REL_EQUAL 284
+#define REL_NOTEQUAL 285
+#define REL_LESSTHAN 286
+#define REL_GREATERTHAN 287
+#define AR_PLUS 288
+#define AR_MINUS 289
+#define AR_MUL 290
+#define AR_DIV 291
+#define AR_MOD 292
+#define BITWISE_XOR 293
+#define BITWISE_AND 294
+#define BITWISE_OR 295
+#define LOG_AND 296
+#define LOG_OR 297
+#define LOG_COMPARE 298
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -130,9 +138,23 @@ typedef int YYSTYPE;
 # define YYSTYPE_IS_DECLARED 1
 #endif
 
+/* Location type.  */
+#if ! defined YYLTYPE && ! defined YYLTYPE_IS_DECLARED
+typedef struct YYLTYPE YYLTYPE;
+struct YYLTYPE
+{
+  int first_line;
+  int first_column;
+  int last_line;
+  int last_column;
+};
+# define YYLTYPE_IS_DECLARED 1
+# define YYLTYPE_IS_TRIVIAL 1
+#endif
+
 
 extern YYSTYPE yylval;
-
+extern YYLTYPE yylloc;
 int yyparse (void);
 
 #endif /* !YY_YY_Y_TAB_H_INCLUDED  */

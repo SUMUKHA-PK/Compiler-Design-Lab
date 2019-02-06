@@ -4,7 +4,7 @@
     void yyerror(const char *s);
 
     extern char *yytext;
-    extern int lineNo;
+    extern int yylineno;
 %}
 
 %locations
@@ -28,6 +28,9 @@
 %token R_PAREN
 %token STRING 
 %token VOID
+%token BREAK
+%token L_SQR_BRKT
+%token R_SQR_BRKT
 
 %token IDENTIFIER
 %token NUM_INTEGER 
@@ -41,67 +44,56 @@
 
 %%
 ED: 
-    SEMICOLON | expr ED | var_dec SEMICOLON ED | var_def SEMICOLON ED | while | func_dec SEMICOLON ED |  if_elses ED | func_def |
+    SEMICOLON | expr ED | datatype_identifier ED | while ED |  if_elses ED | function_call ED | 
 ;
 
 
 expr:
-    expr AR_PLUS expr       {$$ = $1 + $3; printf("Addition\n");}
-|   expr AR_MINUS expr       {$$ = $1 - $3; printf("Subtraction\n");}
-|   expr AR_MUL expr       {$$ = $1 * $3; printf("Multiplication\n");}
-|   expr AR_DIV expr       {$$ = $1 / $3; printf("Division\n");}
-|   expr AR_MOD expr       {$$ = $1 % $3; printf("Modulo\n");}
-|   expr AR_PLUS AR_PLUS      {$$ = $1++; printf("Increment\n");}
-|   expr BITWISE_XOR expr       {$$ = $1 ^ $3; printf("BITWISE_XOR\n");}
-|   expr BITWISE_OR expr       {$$ = $1 | $3; printf("BITWISE_OR\n");}
-|   expr BITWISE_AND expr       {$$ = $1 & $3; printf("BITWISE_AND\n");}
-|   expr BITWISE_AND BITWISE_AND expr   {$$ = $1 && $4; printf("Logical LOG_AND\n");}
-|   expr BITWISE_OR BITWISE_AND expr   {$$ = $1 || $4; printf("LOG_OR\n");}
-|   expr LOG_COMPARE LOG_COMPARE expr   {$$ = $1 == $4; printf("LOG_COMPARE\n");}
-|   expr REL_LESSTHAN expr       {$$ = $1 < $3; printf("REL_LESSTHAN\n");}
-|   expr REL_LESSEQUAL expr   {$$ = $1 <= $3; printf("REL_LESSEQUAL\n");}
-|   expr REL_EQUAL expr       {$$ = $1 = $3; printf("REL_EQUAL\n");}      
-|   expr REL_GREATEQUAL expr   {$$ = $1 >= $3; printf("REL_GREATEQUAL\n");}
-|   expr REL_GREATERTHAN expr       {$$ = $1 > $3; printf("REL_GREATERTHAN\n");}
-|   expr REL_NOTEQUAL expr   {$$ = $1 != $3; printf("REL_NOTEQUAL\n");}
-|   NUM_INTEGER 
-|   NUM_FLOAT
-|   IDENTIFIER 
+    expr AR_PLUS expr       {$$ = $1 + $3; printf("Line %d. Addition operator found!\n", yylineno);}
+|   expr AR_MINUS expr       {$$ = $1 - $3; printf("Line %d. Minux operator found\n", yylineno);}
+|   expr AR_MUL expr       {$$ = $1 * $3; printf("Line %d. Multiplication operator found\n", yylineno);}
+|   expr AR_DIV expr       {$$ = $1 / $3; printf("Line %d. Division operator found\n", yylineno);}
+|   expr AR_MOD expr       {$$ = $1 % $3; printf("Line %d. Modulo operator found\n", yylineno);}
+|   expr AR_PLUS AR_PLUS      {$$ = $1++; printf("Line %d. Increment operator found\n", yylineno);}
+|   expr BITWISE_XOR expr       {$$ = $1 ^ $3; printf("Line %d. Bitwise Xor expression found\n", yylineno);}
+|   expr BITWISE_OR expr       {$$ = $1 | $3; printf("Line %d. Bitwise or expression found\n", yylineno);}
+|   expr BITWISE_AND expr       {$$ = $1 & $3; printf("Line %d. Bitwise and expression found\n", yylineno);}
+|   expr BITWISE_AND BITWISE_AND expr   {$$ = $1 && $4; printf("Line %d. Logical and expression found\n", yylineno);}
+|   expr BITWISE_OR BITWISE_OR expr   {$$ = $1 || $4; printf("Line %d. Logical or expression found\n", yylineno);}
+|   expr LOG_COMPARE LOG_COMPARE expr   {$$ = $1 == $4; printf("Line %d. Compare expression found\n", yylineno);}
+|   expr REL_LESSTHAN expr       {$$ = $1 < $3; printf("Line %d. Less than\n expression found", yylineno);}
+|   expr REL_LESSEQUAL expr   {$$ = $1 <= $3; printf("Line %d. Less than or equal expression found\n", yylineno);}
+|   expr REL_EQUAL expr       {$$ = $1 = $3; printf("Line %d. Equal\n expression found", yylineno);}      
+|   expr REL_GREATEQUAL expr   {$$ = $1 >= $3; printf("Line %d. Greater than or equal expression found\n", yylineno);}
+|   expr REL_GREATERTHAN expr       {$$ = $1 > $3; printf("Line %d. Greater than expression found\n", yylineno);}
+|   expr REL_NOTEQUAL expr   {$$ = $1 != $3; printf("Line %d. Not equal expression found\n", yylineno);}
+|   NUM_INTEGER                 {printf("Line %d. Integer found\n", yylineno);}
+|   NUM_FLOAT                   {printf("Line %d. Floating Number found\n", yylineno);}
+|   IDENTIFIER                  {printf("Line %d. An Identifier found\n", yylineno);}
 ;
 
 datatype: 
 
-    FLOAT                 {printf("Found float\n");}
-|   DOUBLE                {printf("Found double\n");}
-|   CHAR                    {printf("Found Char\n");}
-|   UNSIGNED CHAR                   {printf("Found uc\n");}
-|   INT                 {printf("Found int\n");}
-|   UNSIGNED INT                    {printf("Found USI\n");}
-|   SHORT INT                   {printf("Found SI\n");}
-|   SHORT UNSIGNED INT                  {printf("Found SUI\n");}
-|   LONG INT                    {printf("Found LI\n");}
-|   LONG UNSIGNED INT                   {printf("Found LLI\n");}
-|   VOID                          {printf("Found void");}
+    FLOAT                 {printf("Line %d. Found float datatype\n", yylineno);}
+|   DOUBLE                {printf("Line %d. Found double datatype\n", yylineno);}
+|   CHAR                    {printf("Line %d. Found char datatype\n", yylineno);}
+|   UNSIGNED CHAR                   {printf("Line %d. Found unsigned char datatype\n", yylineno);}
+|   INT                 {printf("Line %d. Found int datatype\n", yylineno);}
+|   UNSIGNED INT                    {printf("Line %d. Found unsigned int datatype\n", yylineno);}
+|   SHORT INT                   {printf("Line %d. Found short int datatype\n", yylineno);}
+|   SHORT UNSIGNED INT                  {printf("Line %d. Found short unsigned int datatype\n", yylineno);}
+|   LONG INT                    {printf("Line %d. Found long int datatype\n", yylineno);}
+|   LONG UNSIGNED INT                   {printf("Line %d. Found long unsigned int\n", yylineno);}
+|   VOID                          {printf("Line %d. Found void\n", yylineno);}
 ;
 
-var_dec: 
 
-    datatype IDENTIFIER         {printf("Found declaration \n");}
-
-;
 
 NUMBER: 
-    NUM_INTEGER                 {printf("Found i number\n");}
-|   NUM_FLOAT                   {printf("Found f number\n");}
+    NUM_INTEGER                 {printf("Line %d. Found integer\n", yylineno);}
+|   NUM_FLOAT                   {printf("Line %d. Found floating point number\n", yylineno);}
 
 ;
-
-var_def: 
-
-    var_dec REL_EQUAL NUMBER           {printf("Found vardef vardec\n");}
-|   IDENTIFIER REL_EQUAL NUMBER                  {printf("Found vardef \n");}
-
-; 
 
 block: 
     ED
@@ -124,24 +116,42 @@ if_elses:
 ;
 
 while: 
-    WHILE L_PAREN expr R_PAREN L_FLOWER_BRKT block R_FLOWER_BRKT    {printf("While found!\n");}
+    WHILE L_PAREN expr R_PAREN L_FLOWER_BRKT block R_FLOWER_BRKT    {printf("Line %d. Found a while loop\n", yylineno);}
 ;
 
-// Functions
+datatype_identifier: 
 
-arg: 
-    datatype IDENTIFIER                            {printf("ARG found!\n");}
-|   arg ','
-
+    datatype IDENTIFIER X 
 ;
 
-func_dec: 
-    datatype IDENTIFIER L_PAREN arg R_PAREN              {printf("func dec found!");}
+X: 
+    SEMICOLON                           {printf("Line %d. Found a variable declaration\n", yylineno);}
+|   REL_EQUAL NUMBER  SEMICOLON         {printf("Line %d. Found a variable declaration and definition\n", yylineno);}
+|   "," Y                            {printf("Line %d. Possibly found arguments for a function\n", yylineno);}               
+|   L_PAREN X R_PAREN func  
+|           
 ;
 
-func_def: 
-    func_dec L_FLOWER_BRKT block R_FLOWER_BRKT             {printf("func def found\n");}
+Y: 
+    datatype_identifier 
+|   IDENTIFIER 
+|   X
 ;
+
+func: 
+
+    SEMICOLON                                           {printf("Line %d. Found a function declaration\n", yylineno);}
+|   L_FLOWER_BRKT block R_FLOWER_BRKT                   {printf("Line %d. Found a function definition\n", yylineno);}
+;
+
+function_call: 
+
+    IDENTIFIER L_PAREN Z R_PAREN SEMICOLON              {printf("Line %d. Found a function call\n", yylineno);}
+;
+
+Z: 
+    IDENTIFIER
+|   "," Z
 
 %%
 
@@ -151,10 +161,9 @@ void yyerror(const char *s){
 
 int main()
 {
-    printf("Enter expression: ");
+    printf("Enter expression: \n\n");
     if(!yyparse())
         printf("\nParsing complete\n");
     else
-        
-
+        printf("\nParsing error madarchod!\n");
 }

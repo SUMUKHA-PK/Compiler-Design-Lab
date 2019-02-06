@@ -1,4 +1,3 @@
+if ( x < 10 ) {
 
-
-int b;
-int g=0;
+}else else if (damuarchana) {}
