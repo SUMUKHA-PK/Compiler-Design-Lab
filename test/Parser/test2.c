@@ -4,7 +4,7 @@ if(aani<daamu){
 }else if(dhooma){
     
 }
-else if(shanda){
+else else if(shanda){
 
 }
 else{

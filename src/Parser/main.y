@@ -100,9 +100,8 @@ block:
 ;
 
 else_if:
-    IF L_PAREN expr R_PAREN L_FLOWER_BRKT block R_FLOWER_BRKT else_if           {printf("ELSEIF\n");}
-|   elses 
-|   L_FLOWER_BRKT block R_FLOWER_BRKT
+    IF L_PAREN expr R_PAREN L_FLOWER_BRKT R_FLOWER_BRKT elses
+|   L_FLOWER_BRKT R_FLOWER_BRKT 
 ;
 
 elses:
@@ -112,8 +111,9 @@ elses:
 
 
 if_elses:
-    IF L_PAREN expr R_PAREN L_FLOWER_BRKT block R_FLOWER_BRKT  elses            {printf("if else\n");}
+    IF L_PAREN expr R_PAREN L_FLOWER_BRKT R_FLOWER_BRKT  elses            {printf("if else\n");}
 ;
+
 
 while: 
     WHILE L_PAREN expr R_PAREN L_FLOWER_BRKT block R_FLOWER_BRKT    {printf("Line %d. Found a while loop\n", yylineno);}
