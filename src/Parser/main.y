@@ -161,22 +161,23 @@ Y:
     L_PAREN func        {printf("In Y. Taken the path of a function\n");}
 |   REL_EQUAL expr Z    {printf("In Y. Taken the path of = expr Z\n");}
 |   Z                   {printf("In Y. Taken the path of Z\n");}
-|   L_SQR_BRKT array
+|   L_SQR_BRKT array    
 ;
 
 array: 
-    expr array2
+    expr R_SQR_BRKT Z
+|   R_SQR_BRKT REL_EQUAL L_FLOWER_BRKT expr array3
 ;
 
-array2: 
-    L_FLOWER_BRKT expr array3
-|   Z 
-;
 
 array3: 
-    COMMA expr 
-|   array3
-|   R_FLOWER_BRKT
+    COMMA expr array4
+|   R_FLOWER_BRKT   Z
+;
+
+array4: 
+    array3
+;
 
 
 Z: 
