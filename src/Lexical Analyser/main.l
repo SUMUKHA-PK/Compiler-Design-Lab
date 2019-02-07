@@ -221,8 +221,6 @@ EOF                                        {return 0;}
 
 int yywrap(){}
 
-int mul_comment_flag = 0, start_multi=0,invalid_mul_comment=0, left_flower_brkt=0, last_lfb=0,left_bracket=0,last_brack=0;
-
 int symbolTableSize = 0,constantTableSize=0;
 
 int TableSize = 1000;

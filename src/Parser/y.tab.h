@@ -65,28 +65,31 @@ extern int yydebug;
     BREAK = 275,
     L_SQR_BRKT = 276,
     R_SQR_BRKT = 277,
-    IDENTIFIER = 278,
-    NUM_INTEGER = 279,
-    NUM_FLOAT = 280,
-    SEMICOLON = 281,
-    COMMA = 282,
-    REL_LESSEQUAL = 283,
-    REL_GREATEQUAL = 284,
-    REL_EQUAL = 285,
-    REL_NOTEQUAL = 286,
-    REL_LESSTHAN = 287,
-    REL_GREATERTHAN = 288,
-    AR_PLUS = 289,
-    AR_MINUS = 290,
-    AR_MUL = 291,
-    AR_DIV = 292,
-    AR_MOD = 293,
-    BITWISE_XOR = 294,
-    BITWISE_AND = 295,
-    BITWISE_OR = 296,
-    LOG_AND = 297,
-    LOG_OR = 298,
-    LOG_COMPARE = 299
+    MUL_COMMENT_A = 278,
+    MUL_COMMENT_B = 279,
+    SL_COMMENT = 280,
+    IDENTIFIER = 281,
+    NUM_INTEGER = 282,
+    NUM_FLOAT = 283,
+    SEMICOLON = 284,
+    COMMA = 285,
+    REL_LESSEQUAL = 286,
+    REL_GREATEQUAL = 287,
+    REL_EQUAL = 288,
+    REL_NOTEQUAL = 289,
+    REL_LESSTHAN = 290,
+    REL_GREATERTHAN = 291,
+    AR_PLUS = 292,
+    AR_MINUS = 293,
+    AR_MUL = 294,
+    AR_DIV = 295,
+    AR_MOD = 296,
+    BITWISE_XOR = 297,
+    BITWISE_AND = 298,
+    BITWISE_OR = 299,
+    LOG_AND = 300,
+    LOG_OR = 301,
+    LOG_COMPARE = 302
   };
 #endif
 /* Tokens.  */
@@ -110,28 +113,31 @@ extern int yydebug;
 #define BREAK 275
 #define L_SQR_BRKT 276
 #define R_SQR_BRKT 277
-#define IDENTIFIER 278
-#define NUM_INTEGER 279
-#define NUM_FLOAT 280
-#define SEMICOLON 281
-#define COMMA 282
-#define REL_LESSEQUAL 283
-#define REL_GREATEQUAL 284
-#define REL_EQUAL 285
-#define REL_NOTEQUAL 286
-#define REL_LESSTHAN 287
-#define REL_GREATERTHAN 288
-#define AR_PLUS 289
-#define AR_MINUS 290
-#define AR_MUL 291
-#define AR_DIV 292
-#define AR_MOD 293
-#define BITWISE_XOR 294
-#define BITWISE_AND 295
-#define BITWISE_OR 296
-#define LOG_AND 297
-#define LOG_OR 298
-#define LOG_COMPARE 299
+#define MUL_COMMENT_A 278
+#define MUL_COMMENT_B 279
+#define SL_COMMENT 280
+#define IDENTIFIER 281
+#define NUM_INTEGER 282
+#define NUM_FLOAT 283
+#define SEMICOLON 284
+#define COMMA 285
+#define REL_LESSEQUAL 286
+#define REL_GREATEQUAL 287
+#define REL_EQUAL 288
+#define REL_NOTEQUAL 289
+#define REL_LESSTHAN 290
+#define REL_GREATERTHAN 291
+#define AR_PLUS 292
+#define AR_MINUS 293
+#define AR_MUL 294
+#define AR_DIV 295
+#define AR_MOD 296
+#define BITWISE_XOR 297
+#define BITWISE_AND 298
+#define BITWISE_OR 299
+#define LOG_AND 300
+#define LOG_OR 301
+#define LOG_COMPARE 302
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
