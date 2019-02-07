@@ -1,3 +1,3 @@
-if ( x < 10 ) {
+int a = 10;
 
-}else else if (damuarchana) {}
+int a, b = 10;

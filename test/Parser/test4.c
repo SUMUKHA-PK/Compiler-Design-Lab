@@ -1,1 +1,1 @@
-int aani(int x);
+int func_name(int x);

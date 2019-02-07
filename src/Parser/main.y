@@ -36,6 +36,7 @@
 %token NUM_INTEGER 
 %token NUM_FLOAT
 %token SEMICOLON
+%token COMMA   
 
 %left REL_LESSEQUAL REL_GREATEQUAL REL_EQUAL REL_NOTEQUAL REL_LESSTHAN REL_GREATERTHAN
 %left AR_PLUS AR_MINUS AR_MUL AR_DIV AR_MOD BITWISE_XOR BITWISE_AND BITWISE_OR
@@ -44,7 +45,7 @@
 
 %%
 ED: 
-    SEMICOLON | expr ED | datatype_identifier ED | while ED |  if_elses ED | function_call ED | 
+    SEMICOLON | expr ED | while ED |  if_elses ED | var_func_dec_def ED | 
 ;
 
 
@@ -89,9 +90,9 @@ datatype:
 
 
 
-NUMBER: 
-    NUM_INTEGER                 {printf("Line %d. Found integer\n", yylineno);}
-|   NUM_FLOAT                   {printf("Line %d. Found floating point number\n", yylineno);}
+// NUMBER: 
+//     NUM_INTEGER                 {printf("Line %d. Found integer\n", yylineno);}
+// |   NUM_FLOAT                   {printf("Line %d. Found floating point number\n", yylineno);}
 
 ;
 
@@ -119,39 +120,46 @@ while:
     WHILE L_PAREN expr R_PAREN L_FLOWER_BRKT block R_FLOWER_BRKT    {printf("Line %d. Found a while loop\n", yylineno);}
 ;
 
-datatype_identifier: 
+var_func_dec_def: 
 
-    datatype IDENTIFIER X 
+    datatype X          {printf("In var_func. Line %d. Found datatype!\n", yylineno);}
 ;
 
 X: 
-    SEMICOLON                           {printf("Line %d. Found a variable declaration\n", yylineno);}
-|   REL_EQUAL NUMBER  SEMICOLON         {printf("Line %d. Found a variable declaration and definition\n", yylineno);}
-|   "," Y                            {printf("Line %d. Possibly found arguments for a function\n", yylineno);}               
-|   L_PAREN X R_PAREN func  
-|           
+    IDENTIFIER Y        {printf("In X. Line %d. Found an identifier\n", yylineno);}
 ;
 
 Y: 
-    datatype_identifier 
-|   IDENTIFIER 
-|   X
+    L_PAREN func        {printf("In Y. Taken the path of a function\n");}
+|   REL_EQUAL expr Z    {printf("In Y. Taken the path of = expr Z\n");}
+|   Z                   {printf("In Y. Taken the path of Z\n");}
+;
+
+
+Z: 
+    COMMA IDENTIFIER A  {printf("In Z. Taken the path of Comma Identifier A\n");}
+|   SEMICOLON           {printf("In Z. Stopped at ;\n");}
+;
+
+A: 
+|   REL_EQUAL expr Z    {printf("In A. Taken the path of = expr Z\n");}
+|   Z                   {printf("In A. Taken the path of Z\n");}
 ;
 
 func: 
+    R_PAREN C
+|   datatype IDENTIFIER B
 
-    SEMICOLON                                           {printf("Line %d. Found a function declaration\n", yylineno);}
-|   L_FLOWER_BRKT block R_FLOWER_BRKT                   {printf("Line %d. Found a function definition\n", yylineno);}
+C: 
+    SEMICOLON 
+|   L_FLOWER_BRKT block R_FLOWER_BRKT
 ;
 
-function_call: 
+B: 
+    R_PAREN C
+|   COMMA datatype IDENTIFIER B
+;  
 
-    IDENTIFIER L_PAREN Z R_PAREN SEMICOLON              {printf("Line %d. Found a function call\n", yylineno);}
-;
-
-Z: 
-    IDENTIFIER
-|   "," Z
 
 %%
 

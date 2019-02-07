@@ -1,10 +1,10 @@
 
-if(aani<daamu){
+if(var1 < var2){
 
-}else if(dhooma){
+}else if(var3){
     
 }
-else else if(shanda){
+else else if(var4){
 
 }
 else{
