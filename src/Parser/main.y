@@ -56,6 +56,7 @@ ED:
 |   while ED 
 |   if_elses ED 
 |   var_func_dec_def ED 
+|   fcall_vardef_arrayvalue ED
 | 
 ;
 
@@ -63,6 +64,9 @@ SEMICOLON_FOUND:
     SEMICOLON               {printf("Line %d. Semicolon found\n", yylineno);}
 ;
 
+IDENTIFIER_FOUND: 
+    IDENTIFIER              {printf("Line %d. Identifier found\n", yylineno);}
+;
 
 
 expr:
@@ -84,9 +88,8 @@ expr:
 |   expr REL_GREATEQUAL expr   {$$ = $1 >= $3; printf("Line %d. Greater than or equal expression found\n", yylineno);}
 |   expr REL_GREATERTHAN expr       {$$ = $1 > $3; printf("Line %d. Greater than expression found\n", yylineno);}
 |   expr REL_NOTEQUAL expr   {$$ = $1 != $3; printf("Line %d. Not equal expression found\n", yylineno);}
-|   NUM_INTEGER                 {printf("Line %d. Integer found\n", yylineno);}
-|   NUM_FLOAT                   {printf("Line %d. Floating Number found\n", yylineno);}
-|   IDENTIFIER                  {printf("Line %d. An Identifier found\n", yylineno);}
+|   NUMBER
+|   IDENTIFIER_FOUND            
 ;
 
 datatype: 
@@ -106,9 +109,9 @@ datatype:
 
 
 
-// NUMBER: 
-//     NUM_INTEGER                 {printf("Line %d. Found integer\n", yylineno);}
-// |   NUM_FLOAT                   {printf("Line %d. Found floating point number\n", yylineno);}
+NUMBER: 
+    NUM_INTEGER                 {printf("Line %d. Found integer\n", yylineno);}
+|   NUM_FLOAT                   {printf("Line %d. Found floating point number\n", yylineno);}
 
 ;
 
@@ -142,7 +145,7 @@ var_func_dec_def:
 ;
 
 X: 
-    IDENTIFIER Y        {printf("In X. Line %d. Found an identifier\n", yylineno);}
+    IDENTIFIER_FOUND Y        {printf("In X. Line %d. Found an identifier\n", yylineno);}
 ;
 
 Y: 
@@ -153,7 +156,7 @@ Y:
 
 
 Z: 
-    COMMA IDENTIFIER A  {printf("In Z. Taken the path of Comma Identifier A\n");}
+    COMMA IDENTIFIER_FOUND A  {printf("In Z. Taken the path of Comma Identifier A\n");}
 |   SEMICOLON_FOUND     {printf("In Z. Stopped at ;\n");}
 ;
 
@@ -164,7 +167,7 @@ A:
 
 func: 
     R_PAREN C
-|   datatype IDENTIFIER B
+|   datatype IDENTIFIER_FOUND B
 ;
 
 C: 
@@ -174,9 +177,52 @@ C:
 
 B: 
     R_PAREN C
-|   COMMA datatype IDENTIFIER B
+|   COMMA datatype IDENTIFIER_FOUND B
 ;  
 
+fcall_vardef_arrayvalue: 
+
+    IDENTIFIER_FOUND fcall_var_array          {printf("Line %d. Found a variable definition / function call / array value definition\n", yylineno);}
+;
+
+fcall_var_array: 
+
+    function_call                               {printf("Line %d. Found a function call\n", yylineno);}                      
+|   array_value_definition                      {printf("Line %d. Found an array integer definition\n", yylineno);}
+|   variable_definition                         {printf("Line %d. Found a variable definition\n", yylineno);}
+;
+
+function_call: 
+
+    L_PAREN arguments R_PAREN SEMICOLON_FOUND   {printf("Line %d. Done with function call production\n", yylineno);}            
+;
+
+array_value_definition: 
+
+    L_SQR_BRKT expr R_SQR_BRKT REL_EQUAL expr SEMICOLON_FOUND       
+;
+
+variable_definition: 
+
+    REL_EQUAL expr SEMICOLON_FOUND                  
+;
+
+arguments: 
+
+    expr fcall1         
+|                       // no arguments at all  {printf("No arguments at all\n");}
+;
+
+fcall1: 
+
+    COMMA expr fcall2   // multiple arguments   {printf("Multiple arguments\n");}
+|                                               {printf("One argument to that function\n");}
+;
+
+fcall2: 
+
+    fcall1                                      {printf("Done with fcall2\n");}
+;
 
 %%
 
