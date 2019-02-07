@@ -1,3 +1,3 @@
-int a = 10;
+int x;
 
-int a, b = 10;
+int x = 10;

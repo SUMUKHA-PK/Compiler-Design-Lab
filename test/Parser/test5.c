@@ -1,3 +1,9 @@
-int main(int x){
-    int hack = 0;
+if(var1 >= 10) {
+
+} 
+else if(var1 <= 20) {
+
+}
+else {
+
 }

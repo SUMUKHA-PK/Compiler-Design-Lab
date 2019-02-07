@@ -192,7 +192,7 @@ EOF                                        {return 0;}
 
 "&&"				                       {++TokenCount[LOG_AND_D]; return LOG_AND;}
 "||"				                       {++TokenCount[LOG_OR_D]; return LOG_OR;}
-"=="				                       {++TokenCount[LOG_COMPARE_D]; return LOG_COMPARE_D;}
+"=="				                       {++TokenCount[LOG_COMPARE_D]; return LOG_COMPARE;}
 
 "&"				                           {++TokenCount[BITWISE_AND_D]; return BITWISE_AND;}
 "|"				                           {++TokenCount[BITWISE_OR_D]; return BITWISE_OR;}
@@ -209,12 +209,14 @@ EOF                                        {return 0;}
 
 {IDENTIFIER}                               {++TokenCount[IDENTIFIER]; return IDENTIFIER;}
 
-{COMMA}                                   {return COMMA_D;}
+{COMMA}                                   {return COMMA;}
 
 {DOT}                                      {return DOT_D;}
 
-
 %%
+
+// TODO: Make a proper character class - a list of all characters present in the subset of C language we are working on. 
+// TODO: The lexer should raise an error if even a single character is out of the character class
 
 int yywrap(){}
 

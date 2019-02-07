@@ -1,1 +1,6 @@
-int func_name(int x);
+if(var1 < 10){
+
+}
+else {
+    
+}

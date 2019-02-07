@@ -45,8 +45,18 @@
 
 %%
 ED: 
-    SEMICOLON | expr ED | while ED |  if_elses ED | var_func_dec_def ED | 
+    SEMICOLON_FOUND 
+|   expr ED 
+|   while ED 
+|   if_elses ED 
+|   var_func_dec_def ED 
+| 
 ;
+
+SEMICOLON_FOUND: 
+    SEMICOLON               {printf("Line %d. Semicolon found\n", yylineno);}
+;
+
 
 
 expr:
@@ -61,7 +71,7 @@ expr:
 |   expr BITWISE_AND expr       {$$ = $1 & $3; printf("Line %d. Bitwise and expression found\n", yylineno);}
 |   expr BITWISE_AND BITWISE_AND expr   {$$ = $1 && $4; printf("Line %d. Logical and expression found\n", yylineno);}
 |   expr BITWISE_OR BITWISE_OR expr   {$$ = $1 || $4; printf("Line %d. Logical or expression found\n", yylineno);}
-|   expr LOG_COMPARE LOG_COMPARE expr   {$$ = $1 == $4; printf("Line %d. Compare expression found\n", yylineno);}
+|   expr REL_EQUAL REL_EQUAL expr   {$$ = $1 == $4; printf("Line %d. Compare expression found\n", yylineno);}
 |   expr REL_LESSTHAN expr       {$$ = $1 < $3; printf("Line %d. Less than\n expression found", yylineno);}
 |   expr REL_LESSEQUAL expr   {$$ = $1 <= $3; printf("Line %d. Less than or equal expression found\n", yylineno);}
 |   expr REL_EQUAL expr       {$$ = $1 = $3; printf("Line %d. Equal\n expression found", yylineno);}      
@@ -97,7 +107,7 @@ datatype:
 ;
 
 block: 
-    ED
+    ED                              {printf("Line %d. Found code block\n", yylineno);}
 ;
 
 else_if:
@@ -138,11 +148,11 @@ Y:
 
 Z: 
     COMMA IDENTIFIER A  {printf("In Z. Taken the path of Comma Identifier A\n");}
-|   SEMICOLON           {printf("In Z. Stopped at ;\n");}
+|   SEMICOLON_FOUND     {printf("In Z. Stopped at ;\n");}
 ;
 
 A: 
-|   REL_EQUAL expr Z    {printf("In A. Taken the path of = expr Z\n");}
+    REL_EQUAL expr Z    {printf("In A. Taken the path of = expr Z\n");}
 |   Z                   {printf("In A. Taken the path of Z\n");}
 ;
 
@@ -151,7 +161,7 @@ func:
 |   datatype IDENTIFIER B
 
 C: 
-    SEMICOLON 
+    SEMICOLON_FOUND 
 |   L_FLOWER_BRKT block R_FLOWER_BRKT
 ;
 
