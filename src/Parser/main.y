@@ -173,5 +173,5 @@ int main()
     if(!yyparse())
         printf("\nParsing complete\n");
     else
-        printf("\nParsing error madarchod!\n");
+        printf("\nParsing error!\n");
 }
