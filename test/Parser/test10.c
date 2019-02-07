@@ -1,6 +1,6 @@
 int func_name(int x);
 
-int main(int argc, char **argv) {
+int main(int argc, char argv) {
 
     int a = 0;
 
