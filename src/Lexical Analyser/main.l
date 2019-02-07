@@ -159,10 +159,10 @@ EOF                                        {return 0;}
 
 {VOID}                                     {++TokenCount[VOID_D]; return VOID; }
 
-"//"				                       {++TokenCount[SL_COMMENT_D]; return SL_COMMENT_D;}
+"//"				                       {++TokenCount[SL_COMMENT_D]; }
 "#"				                           {++TokenCount[PRE_PROC_D]; return PRE_PROC_D;}
-"/*"                                       {++TokenCount[MUL_COMMENT_A_D]; return MUL_COMMENT_A_D;}
-"*/"	                                   {++TokenCount[MUL_COMMENT_B_D]; return MUL_COMMENT_B_D;}
+"/*"                                       {++TokenCount[MUL_COMMENT_A_D]; }
+"*/"	                                   {++TokenCount[MUL_COMMENT_B_D]; }
 
 "return"			                       {++TokenCount[RETURN_D]; insertsymbolToken(yytext, "RETURN", yylineno, 0); return RETURN;}
 "if"				                       {++TokenCount[IF_D]; insertsymbolToken(yytext, "IF", yylineno, 0); return IF;}
@@ -220,8 +220,6 @@ EOF                                        {return 0;}
 // TODO: The lexer should raise an error if even a single character is out of the character class
 
 int yywrap(){}
-
-int mul_comment_flag = 0, start_multi=0,invalid_mul_comment=0, left_flower_brkt=0, last_lfb=0,left_bracket=0,last_brack=0;
 
 int symbolTableSize = 0,constantTableSize=0;
 
