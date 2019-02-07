@@ -159,10 +159,10 @@ EOF                                        {return 0;}
 
 {VOID}                                     {++TokenCount[VOID_D]; return VOID; }
 
-"//"				                       {++TokenCount[SL_COMMENT_D]; return SL_COMMENT_D;}
+"//"				                       {++TokenCount[SL_COMMENT_D]; }
 "#"				                           {++TokenCount[PRE_PROC_D]; return PRE_PROC_D;}
-"/*"                                       {++TokenCount[MUL_COMMENT_A_D]; return MUL_COMMENT_A_D;}
-"*/"	                                   {++TokenCount[MUL_COMMENT_B_D]; return MUL_COMMENT_B_D;}
+"/*"                                       {++TokenCount[MUL_COMMENT_A_D]; }
+"*/"	                                   {++TokenCount[MUL_COMMENT_B_D]; }
 
 "return"			                       {++TokenCount[RETURN_D]; insertsymbolToken(yytext, "RETURN", yylineno, 0); return RETURN;}
 "if"				                       {++TokenCount[IF_D]; insertsymbolToken(yytext, "IF", yylineno, 0); return IF;}

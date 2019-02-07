@@ -2099,7 +2099,7 @@ yyreturn:
 
 
 void yyerror(const char *s){
-   printf("Error: %s at token %s in Line %d\n",s, yytext, yylineno );
+   printf(RED "Error: %s at token %s in Line %d\n",s, yytext, yylineno);
 }
 
 int main()
@@ -2123,7 +2123,7 @@ int main()
     }
         
     else
-        printf("\nParsing error!\n");
+        printf("\nParsing error!\n"RESET);
     
 
 }
