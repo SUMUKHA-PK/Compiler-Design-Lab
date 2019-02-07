@@ -116,7 +116,12 @@ NUMBER:
 ;
 
 block: 
-    ED                              {printf("Line %d. Found code block\n", yylineno);}
+    ED Q                              {printf("Line %d. Found code block\n", yylineno);}
+;
+
+Q: 
+    RETURN expr
+|
 ;
 
 else_if:
