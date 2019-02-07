@@ -65,13 +65,19 @@
 #line 1 "main.y" /* yacc.c:339  */
 
     #include<stdio.h>
+    // #include "symbolTable.h"
 
     void yyerror(const char *s);
 
     extern char *yytext;
     extern int yylineno;
 
-#line 75 "y.tab.c" /* yacc.c:339  */
+    #define RED   "\x1B[31m"
+    #define RESET "\x1B[0m"
+    #define GREEN "\x1B[32m"
+    #define BLUE  "\x1B[34m"
+
+#line 81 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -224,7 +230,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 228 "y.tab.c" /* yacc.c:358  */
+#line 234 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -527,13 +533,13 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    48,    48,    49,    50,    51,    52,    53,    57,    63,
-      64,    65,    66,    67,    68,    69,    70,    71,    72,    73,
-      74,    75,    76,    77,    78,    79,    80,    81,    82,    83,
-      88,    89,    90,    91,    92,    93,    94,    95,    96,    97,
-      98,   110,   114,   115,   119,   120,   125,   130,   135,   139,
-     143,   144,   145,   150,   151,   155,   156,   160,   161,   164,
-     165,   169,   170
+       0,    54,    54,    55,    56,    57,    58,    59,    63,    69,
+      70,    71,    72,    73,    74,    75,    76,    77,    78,    79,
+      80,    81,    82,    83,    84,    85,    86,    87,    88,    89,
+      94,    95,    96,    97,    98,    99,   100,   101,   102,   103,
+     104,   116,   120,   121,   125,   126,   131,   136,   141,   145,
+     149,   150,   151,   156,   157,   161,   162,   166,   167,   171,
+     172,   176,   177
 };
 #endif
 
@@ -1503,283 +1509,283 @@ yyreduce:
   switch (yyn)
     {
         case 8:
-#line 57 "main.y" /* yacc.c:1646  */
-    {printf("Line %d. Semicolon found\n", yylineno);}
-#line 1509 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 9:
 #line 63 "main.y" /* yacc.c:1646  */
-    {(yyval) = (yyvsp[-2]) + (yyvsp[0]); printf("Line %d. Addition operator found!\n", yylineno);}
+    {printf("Line %d. Semicolon found\n", yylineno);}
 #line 1515 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 10:
-#line 64 "main.y" /* yacc.c:1646  */
-    {(yyval) = (yyvsp[-2]) - (yyvsp[0]); printf("Line %d. Minux operator found\n", yylineno);}
+  case 9:
+#line 69 "main.y" /* yacc.c:1646  */
+    {(yyval) = (yyvsp[-2]) + (yyvsp[0]); printf("Line %d. Addition operator found!\n", yylineno);}
 #line 1521 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 11:
-#line 65 "main.y" /* yacc.c:1646  */
-    {(yyval) = (yyvsp[-2]) * (yyvsp[0]); printf("Line %d. Multiplication operator found\n", yylineno);}
+  case 10:
+#line 70 "main.y" /* yacc.c:1646  */
+    {(yyval) = (yyvsp[-2]) - (yyvsp[0]); printf("Line %d. Minux operator found\n", yylineno);}
 #line 1527 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 12:
-#line 66 "main.y" /* yacc.c:1646  */
-    {(yyval) = (yyvsp[-2]) / (yyvsp[0]); printf("Line %d. Division operator found\n", yylineno);}
+  case 11:
+#line 71 "main.y" /* yacc.c:1646  */
+    {(yyval) = (yyvsp[-2]) * (yyvsp[0]); printf("Line %d. Multiplication operator found\n", yylineno);}
 #line 1533 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 13:
-#line 67 "main.y" /* yacc.c:1646  */
-    {(yyval) = (yyvsp[-2]) % (yyvsp[0]); printf("Line %d. Modulo operator found\n", yylineno);}
+  case 12:
+#line 72 "main.y" /* yacc.c:1646  */
+    {(yyval) = (yyvsp[-2]) / (yyvsp[0]); printf("Line %d. Division operator found\n", yylineno);}
 #line 1539 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 14:
-#line 68 "main.y" /* yacc.c:1646  */
-    {(yyval) = (yyvsp[-2])++; printf("Line %d. Increment operator found\n", yylineno);}
+  case 13:
+#line 73 "main.y" /* yacc.c:1646  */
+    {(yyval) = (yyvsp[-2]) % (yyvsp[0]); printf("Line %d. Modulo operator found\n", yylineno);}
 #line 1545 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 15:
-#line 69 "main.y" /* yacc.c:1646  */
-    {(yyval) = (yyvsp[-2]) ^ (yyvsp[0]); printf("Line %d. Bitwise Xor expression found\n", yylineno);}
+  case 14:
+#line 74 "main.y" /* yacc.c:1646  */
+    {(yyval) = (yyvsp[-2])++; printf("Line %d. Increment operator found\n", yylineno);}
 #line 1551 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 16:
-#line 70 "main.y" /* yacc.c:1646  */
-    {(yyval) = (yyvsp[-2]) | (yyvsp[0]); printf("Line %d. Bitwise or expression found\n", yylineno);}
+  case 15:
+#line 75 "main.y" /* yacc.c:1646  */
+    {(yyval) = (yyvsp[-2]) ^ (yyvsp[0]); printf("Line %d. Bitwise Xor expression found\n", yylineno);}
 #line 1557 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 17:
-#line 71 "main.y" /* yacc.c:1646  */
-    {(yyval) = (yyvsp[-2]) & (yyvsp[0]); printf("Line %d. Bitwise and expression found\n", yylineno);}
+  case 16:
+#line 76 "main.y" /* yacc.c:1646  */
+    {(yyval) = (yyvsp[-2]) | (yyvsp[0]); printf("Line %d. Bitwise or expression found\n", yylineno);}
 #line 1563 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 18:
-#line 72 "main.y" /* yacc.c:1646  */
-    {(yyval) = (yyvsp[-3]) && (yyvsp[0]); printf("Line %d. Logical and expression found\n", yylineno);}
+  case 17:
+#line 77 "main.y" /* yacc.c:1646  */
+    {(yyval) = (yyvsp[-2]) & (yyvsp[0]); printf("Line %d. Bitwise and expression found\n", yylineno);}
 #line 1569 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 19:
-#line 73 "main.y" /* yacc.c:1646  */
-    {(yyval) = (yyvsp[-3]) || (yyvsp[0]); printf("Line %d. Logical or expression found\n", yylineno);}
+  case 18:
+#line 78 "main.y" /* yacc.c:1646  */
+    {(yyval) = (yyvsp[-3]) && (yyvsp[0]); printf("Line %d. Logical and expression found\n", yylineno);}
 #line 1575 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 20:
-#line 74 "main.y" /* yacc.c:1646  */
-    {(yyval) = (yyvsp[-3]) == (yyvsp[0]); printf("Line %d. Compare expression found\n", yylineno);}
+  case 19:
+#line 79 "main.y" /* yacc.c:1646  */
+    {(yyval) = (yyvsp[-3]) || (yyvsp[0]); printf("Line %d. Logical or expression found\n", yylineno);}
 #line 1581 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 21:
-#line 75 "main.y" /* yacc.c:1646  */
-    {(yyval) = (yyvsp[-2]) < (yyvsp[0]); printf("Line %d. Less than\n expression found", yylineno);}
+  case 20:
+#line 80 "main.y" /* yacc.c:1646  */
+    {(yyval) = (yyvsp[-3]) == (yyvsp[0]); printf("Line %d. Compare expression found\n", yylineno);}
 #line 1587 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 22:
-#line 76 "main.y" /* yacc.c:1646  */
-    {(yyval) = (yyvsp[-2]) <= (yyvsp[0]); printf("Line %d. Less than or equal expression found\n", yylineno);}
+  case 21:
+#line 81 "main.y" /* yacc.c:1646  */
+    {(yyval) = (yyvsp[-2]) < (yyvsp[0]); printf("Line %d. Less than\n expression found", yylineno);}
 #line 1593 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 23:
-#line 77 "main.y" /* yacc.c:1646  */
-    {(yyval) = (yyvsp[-2]) = (yyvsp[0]); printf("Line %d. Equal\n expression found", yylineno);}
+  case 22:
+#line 82 "main.y" /* yacc.c:1646  */
+    {(yyval) = (yyvsp[-2]) <= (yyvsp[0]); printf("Line %d. Less than or equal expression found\n", yylineno);}
 #line 1599 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 24:
-#line 78 "main.y" /* yacc.c:1646  */
-    {(yyval) = (yyvsp[-2]) >= (yyvsp[0]); printf("Line %d. Greater than or equal expression found\n", yylineno);}
+  case 23:
+#line 83 "main.y" /* yacc.c:1646  */
+    {(yyval) = (yyvsp[-2]) = (yyvsp[0]); printf("Line %d. Equal\n expression found", yylineno);}
 #line 1605 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 25:
-#line 79 "main.y" /* yacc.c:1646  */
-    {(yyval) = (yyvsp[-2]) > (yyvsp[0]); printf("Line %d. Greater than expression found\n", yylineno);}
+  case 24:
+#line 84 "main.y" /* yacc.c:1646  */
+    {(yyval) = (yyvsp[-2]) >= (yyvsp[0]); printf("Line %d. Greater than or equal expression found\n", yylineno);}
 #line 1611 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 26:
-#line 80 "main.y" /* yacc.c:1646  */
-    {(yyval) = (yyvsp[-2]) != (yyvsp[0]); printf("Line %d. Not equal expression found\n", yylineno);}
+  case 25:
+#line 85 "main.y" /* yacc.c:1646  */
+    {(yyval) = (yyvsp[-2]) > (yyvsp[0]); printf("Line %d. Greater than expression found\n", yylineno);}
 #line 1617 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 27:
-#line 81 "main.y" /* yacc.c:1646  */
-    {printf("Line %d. Integer found\n", yylineno);}
+  case 26:
+#line 86 "main.y" /* yacc.c:1646  */
+    {(yyval) = (yyvsp[-2]) != (yyvsp[0]); printf("Line %d. Not equal expression found\n", yylineno);}
 #line 1623 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 28:
-#line 82 "main.y" /* yacc.c:1646  */
-    {printf("Line %d. Floating Number found\n", yylineno);}
+  case 27:
+#line 87 "main.y" /* yacc.c:1646  */
+    {printf("Line %d. Integer found\n", yylineno);}
 #line 1629 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 29:
-#line 83 "main.y" /* yacc.c:1646  */
-    {printf("Line %d. An Identifier found\n", yylineno);}
+  case 28:
+#line 88 "main.y" /* yacc.c:1646  */
+    {printf("Line %d. Floating Number found\n", yylineno);}
 #line 1635 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 30:
-#line 88 "main.y" /* yacc.c:1646  */
-    {printf("Line %d. Found float datatype\n", yylineno);}
+  case 29:
+#line 89 "main.y" /* yacc.c:1646  */
+    {printf("Line %d. An Identifier found\n", yylineno);}
 #line 1641 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 31:
-#line 89 "main.y" /* yacc.c:1646  */
-    {printf("Line %d. Found double datatype\n", yylineno);}
+  case 30:
+#line 94 "main.y" /* yacc.c:1646  */
+    {printf("Line %d. Found float datatype\n", yylineno);}
 #line 1647 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 32:
-#line 90 "main.y" /* yacc.c:1646  */
-    {printf("Line %d. Found char datatype\n", yylineno);}
+  case 31:
+#line 95 "main.y" /* yacc.c:1646  */
+    {printf("Line %d. Found double datatype\n", yylineno);}
 #line 1653 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 33:
-#line 91 "main.y" /* yacc.c:1646  */
-    {printf("Line %d. Found unsigned char datatype\n", yylineno);}
+  case 32:
+#line 96 "main.y" /* yacc.c:1646  */
+    {printf("Line %d. Found char datatype\n", yylineno);}
 #line 1659 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 34:
-#line 92 "main.y" /* yacc.c:1646  */
-    {printf("Line %d. Found int datatype\n", yylineno);}
+  case 33:
+#line 97 "main.y" /* yacc.c:1646  */
+    {printf("Line %d. Found unsigned char datatype\n", yylineno);}
 #line 1665 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 35:
-#line 93 "main.y" /* yacc.c:1646  */
-    {printf("Line %d. Found unsigned int datatype\n", yylineno);}
+  case 34:
+#line 98 "main.y" /* yacc.c:1646  */
+    {printf("Line %d. Found int datatype\n", yylineno);}
 #line 1671 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 36:
-#line 94 "main.y" /* yacc.c:1646  */
-    {printf("Line %d. Found short int datatype\n", yylineno);}
+  case 35:
+#line 99 "main.y" /* yacc.c:1646  */
+    {printf("Line %d. Found unsigned int datatype\n", yylineno);}
 #line 1677 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 37:
-#line 95 "main.y" /* yacc.c:1646  */
-    {printf("Line %d. Found short unsigned int datatype\n", yylineno);}
+  case 36:
+#line 100 "main.y" /* yacc.c:1646  */
+    {printf("Line %d. Found short int datatype\n", yylineno);}
 #line 1683 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 38:
-#line 96 "main.y" /* yacc.c:1646  */
-    {printf("Line %d. Found long int datatype\n", yylineno);}
+  case 37:
+#line 101 "main.y" /* yacc.c:1646  */
+    {printf("Line %d. Found short unsigned int datatype\n", yylineno);}
 #line 1689 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 39:
-#line 97 "main.y" /* yacc.c:1646  */
-    {printf("Line %d. Found long unsigned int\n", yylineno);}
+  case 38:
+#line 102 "main.y" /* yacc.c:1646  */
+    {printf("Line %d. Found long int datatype\n", yylineno);}
 #line 1695 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 40:
-#line 98 "main.y" /* yacc.c:1646  */
-    {printf("Line %d. Found void\n", yylineno);}
+  case 39:
+#line 103 "main.y" /* yacc.c:1646  */
+    {printf("Line %d. Found long unsigned int\n", yylineno);}
 #line 1701 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 41:
-#line 110 "main.y" /* yacc.c:1646  */
-    {printf("Line %d. Found code block\n", yylineno);}
+  case 40:
+#line 104 "main.y" /* yacc.c:1646  */
+    {printf("Line %d. Found void\n", yylineno);}
 #line 1707 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 44:
-#line 119 "main.y" /* yacc.c:1646  */
-    {printf("ELSES\n");}
+  case 41:
+#line 116 "main.y" /* yacc.c:1646  */
+    {printf("Line %d. Found code block\n", yylineno);}
 #line 1713 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 46:
+  case 44:
 #line 125 "main.y" /* yacc.c:1646  */
-    {printf("if else\n");}
+    {printf("ELSES\n");}
 #line 1719 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 47:
-#line 130 "main.y" /* yacc.c:1646  */
-    {printf("Line %d. Found a while loop\n", yylineno);}
+  case 46:
+#line 131 "main.y" /* yacc.c:1646  */
+    {printf("if else\n");}
 #line 1725 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 48:
-#line 135 "main.y" /* yacc.c:1646  */
-    {printf("In var_func. Line %d. Found datatype!\n", yylineno);}
+  case 47:
+#line 136 "main.y" /* yacc.c:1646  */
+    {printf("Line %d. Found a while loop\n", yylineno);}
 #line 1731 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 49:
-#line 139 "main.y" /* yacc.c:1646  */
-    {printf("In X. Line %d. Found an identifier\n", yylineno);}
+  case 48:
+#line 141 "main.y" /* yacc.c:1646  */
+    {printf("In var_func. Line %d. Found datatype!\n", yylineno);}
 #line 1737 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 50:
-#line 143 "main.y" /* yacc.c:1646  */
-    {printf("In Y. Taken the path of a function\n");}
+  case 49:
+#line 145 "main.y" /* yacc.c:1646  */
+    {printf("In X. Line %d. Found an identifier\n", yylineno);}
 #line 1743 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 51:
-#line 144 "main.y" /* yacc.c:1646  */
-    {printf("In Y. Taken the path of = expr Z\n");}
+  case 50:
+#line 149 "main.y" /* yacc.c:1646  */
+    {printf("In Y. Taken the path of a function\n");}
 #line 1749 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 52:
-#line 145 "main.y" /* yacc.c:1646  */
-    {printf("In Y. Taken the path of Z\n");}
+  case 51:
+#line 150 "main.y" /* yacc.c:1646  */
+    {printf("In Y. Taken the path of = expr Z\n");}
 #line 1755 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 53:
-#line 150 "main.y" /* yacc.c:1646  */
-    {printf("In Z. Taken the path of Comma Identifier A\n");}
+  case 52:
+#line 151 "main.y" /* yacc.c:1646  */
+    {printf("In Y. Taken the path of Z\n");}
 #line 1761 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 54:
-#line 151 "main.y" /* yacc.c:1646  */
-    {printf("In Z. Stopped at ;\n");}
+  case 53:
+#line 156 "main.y" /* yacc.c:1646  */
+    {printf("In Z. Taken the path of Comma Identifier A\n");}
 #line 1767 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 55:
-#line 155 "main.y" /* yacc.c:1646  */
-    {printf("In A. Taken the path of = expr Z\n");}
+  case 54:
+#line 157 "main.y" /* yacc.c:1646  */
+    {printf("In Z. Stopped at ;\n");}
 #line 1773 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 56:
-#line 156 "main.y" /* yacc.c:1646  */
-    {printf("In A. Taken the path of Z\n");}
+  case 55:
+#line 161 "main.y" /* yacc.c:1646  */
+    {printf("In A. Taken the path of = expr Z\n");}
 #line 1779 "y.tab.c" /* yacc.c:1646  */
     break;
 
+  case 56:
+#line 162 "main.y" /* yacc.c:1646  */
+    {printf("In A. Taken the path of Z\n");}
+#line 1785 "y.tab.c" /* yacc.c:1646  */
+    break;
 
-#line 1783 "y.tab.c" /* yacc.c:1646  */
+
+#line 1789 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2014,7 +2020,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 174 "main.y" /* yacc.c:1906  */
+#line 181 "main.y" /* yacc.c:1906  */
 
 
 void yyerror(const char *s){
@@ -2023,9 +2029,26 @@ void yyerror(const char *s){
 
 int main()
 {
+    initTables();
+
     printf("Enter expression: \n\n");
-    if(!yyparse())
+    if(!yyparse()){
         printf("\nParsing complete\n");
+        printf(GREEN "\n\nSYMBOL TABLE" RESET);
+        printf("\n-----------------------------------------------------------------\n");
+        printf(BLUE "%-20s%10s%24s\n","VALUE","TYPE","LINE NUMBER" RESET);
+        printf("-----------------------------------------------------------------\n");
+        printTable(0);
+
+        printf(GREEN "\n\nCONSTANT TABLE" RESET);
+        printf("\n-----------------------------------------------------------------\n");
+        printf(BLUE "%-20s%10s%24s\n","VALUE","TYPE","LINE NUMBER" RESET);
+        printf("-----------------------------------------------------------------\n");
+        printTable(1);
+    }
+        
     else
         printf("\nParsing error!\n");
+    
+
 }

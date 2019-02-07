@@ -2,6 +2,7 @@
 
 #include "../Parser/y.tab.h"
 
+
 // Datatypes
 #define RED   "\x1B[31m"
 #define RESET "\x1B[0m"
@@ -148,13 +149,13 @@ IDENTIFIER [a-zA-Z_]+[a-zA-Z0-9_]*
 \n { }                                      
 
 EOF                                        {return 0;}
-{CHAR}				                       {++TokenCount[CHAR_D]; return CHAR;}
+{CHAR}				                       {++TokenCount[CHAR_D]; insertsymbolToken(yytext, "CHARACTER", yylineno, 0); return CHAR;}
 
-{INT}                                      {++TokenCount[INT_D]; return INT;} 
+{INT}                                      {++TokenCount[INT_D]; insertsymbolToken(yytext, "INTEGER", yylineno, 0); return INT;} 
 
 
-{FLOAT}                      			   {++TokenCount[FLOAT_D]; return FLOAT; }
-{DOUBLE}                         		   {++TokenCount[DOUBLE_D]; return DOUBLE; }
+{FLOAT}                      			   {++TokenCount[FLOAT_D]; insertsymbolToken(yytext, "FLOAT", yylineno, 0); return FLOAT; }
+{DOUBLE}                         		   {++TokenCount[DOUBLE_D]; insertsymbolToken(yytext, "DOUBLE", yylineno, 0); return DOUBLE; }
 
 {VOID}                                     {++TokenCount[VOID_D]; return VOID; }
 
@@ -163,11 +164,11 @@ EOF                                        {return 0;}
 "/*"                                       {++TokenCount[MUL_COMMENT_A_D]; return MUL_COMMENT_A_D;}
 "*/"	                                   {++TokenCount[MUL_COMMENT_B_D]; return MUL_COMMENT_B_D;}
 
-"return"			                       {++TokenCount[RETURN_D]; return RETURN;}
-"if"				                       {++TokenCount[IF_D]; return IF;}
-"else"				                       {++TokenCount[ELSE_D]; return ELSE;}
-"while"				                       {++TokenCount[WHILE_D]; return WHILE;}
-"break"                                    {++TokenCount[BREAK_D]; return BREAK;}
+"return"			                       {++TokenCount[RETURN_D]; insertsymbolToken(yytext, "RETURN", yylineno, 0); return RETURN;}
+"if"				                       {++TokenCount[IF_D]; insertsymbolToken(yytext, "IF", yylineno, 0); return IF;}
+"else"				                       {++TokenCount[ELSE_D]; insertsymbolToken(yytext, "ELSE", yylineno, 0); return ELSE;}
+"while"				                       {++TokenCount[WHILE_D]; insertsymbolToken(yytext, "WHILE", yylineno, 0); return WHILE;}
+"break"                                    {++TokenCount[BREAK_D]; insertsymbolToken(yytext, "BREAK", yylineno, 0); return BREAK;}
 
 "{"				                           {++TokenCount[L_FLOWER_BRKT_D]; return L_FLOWER_BRKT;}
 "}"				                           {++TokenCount[R_FLOWER_BRKT_D]; return R_FLOWER_BRKT;}
@@ -198,16 +199,16 @@ EOF                                        {return 0;}
 "|"				                           {++TokenCount[BITWISE_OR_D]; return BITWISE_OR;}
 "^"				                           {++TokenCount[BITWISE_XOR_D]; return BITWISE_XOR;}
 
-{INTEGER}								   {++TokenCount[NUM_INTEGER_D]; return NUM_INTEGER;}
+{INTEGER}								   {++TokenCount[NUM_INTEGER_D]; insertsymbolToken(yytext, "INTEGER", yylineno, 1); return NUM_INTEGER;}
 
-{INTEGER}"."{INTEGER}                      {++TokenCount[NUM_FLOAT_D]; return NUM_FLOAT;}
+{INTEGER}"."{INTEGER}                      {++TokenCount[NUM_FLOAT_D]; insertsymbolToken(yytext, "FLOAT", yylineno, 1); return NUM_FLOAT;}
 
 
 {QUOTE}({SPACE}|{CHARACTERS}|{SPECIAL_CHARS}|{NEWLINE})*{QUOTE} {++TokenCount[STRING]; return STRING;}
 
 {QUOTE}                                    {return SINGLE_QUOTE_D;}
 
-{IDENTIFIER}                               {++TokenCount[IDENTIFIER]; return IDENTIFIER;}
+{IDENTIFIER}                               {++TokenCount[IDENTIFIER]; insertsymbolToken(yytext, "IDENTIFIER", yylineno, 0); return IDENTIFIER;}
 
 {COMMA}                                   {return COMMA;}
 

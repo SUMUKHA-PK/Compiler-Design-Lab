@@ -1,10 +1,16 @@
 %{
     #include<stdio.h>
+    // #include "symbolTable.h"
 
     void yyerror(const char *s);
 
     extern char *yytext;
     extern int yylineno;
+
+    #define RED   "\x1B[31m"
+    #define RESET "\x1B[0m"
+    #define GREEN "\x1B[32m"
+    #define BLUE  "\x1B[34m"
 %}
 
 %locations
@@ -159,6 +165,7 @@ A:
 func: 
     R_PAREN C
 |   datatype IDENTIFIER B
+;
 
 C: 
     SEMICOLON_FOUND 
@@ -179,9 +186,26 @@ void yyerror(const char *s){
 
 int main()
 {
+    initTables();
+
     printf("Enter expression: \n\n");
-    if(!yyparse())
+    if(!yyparse()){
         printf("\nParsing complete\n");
+        printf(GREEN "\n\nSYMBOL TABLE" RESET);
+        printf("\n-----------------------------------------------------------------\n");
+        printf(BLUE "%-20s%10s%24s\n","VALUE","TYPE","LINE NUMBER" RESET);
+        printf("-----------------------------------------------------------------\n");
+        printTable(0);
+
+        printf(GREEN "\n\nCONSTANT TABLE" RESET);
+        printf("\n-----------------------------------------------------------------\n");
+        printf(BLUE "%-20s%10s%24s\n","VALUE","TYPE","LINE NUMBER" RESET);
+        printf("-----------------------------------------------------------------\n");
+        printTable(1);
+    }
+        
     else
         printf("\nParsing error!\n");
+    
+
 }
