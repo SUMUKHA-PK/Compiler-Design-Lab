@@ -15,4 +15,6 @@ int main(int argc, char argv) {
 
 int func_name(int x) {
 
+    return x + 1;
+
 }
