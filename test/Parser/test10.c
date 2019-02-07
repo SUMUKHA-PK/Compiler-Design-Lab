@@ -8,5 +8,13 @@ int main(int argc, char argv) {
         a++;
     }
 
+    func_name(a);
+
     return 0;
+}
+
+int func_name(int x) {
+
+    return x + 1;
+
 }
