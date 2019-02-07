@@ -120,7 +120,7 @@ block:
 ;
 
 Q: 
-    RETURN expr
+    RETURN expr SEMICOLON_FOUND
 |
 ;
 
