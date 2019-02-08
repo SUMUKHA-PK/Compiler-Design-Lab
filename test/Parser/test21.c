@@ -1,9 +1,6 @@
 int main() {
 
-    while( {
+    while() {
         
     }
-
-
-
 }
