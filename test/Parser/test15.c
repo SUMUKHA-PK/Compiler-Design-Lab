@@ -1,3 +1,5 @@
 int main() {
-    return 0;
+
+    double d = 123.123123123
+
 }

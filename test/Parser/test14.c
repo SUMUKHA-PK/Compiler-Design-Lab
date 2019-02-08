@@ -1,6 +1,1 @@
-int main() {
-
-    int array[] = {1, 2, 3, 4};
-
-    return 0;
-}
+int int x = 10;
