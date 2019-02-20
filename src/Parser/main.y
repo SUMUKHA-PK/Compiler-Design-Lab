@@ -6,7 +6,7 @@
 
 
     extern char *yytext;
-    extern int yylineno,sl_flag = -1, mul_comment_flag = 0, start_multi=0,invalid_mul_comment=0, left_flower_brkt=0, last_lfb=0,left_bracket=0,last_brack=0;	
+    extern int yylineno,sl_flag = -1, mul_comment_flag = 0, start_multi=0,invalid_mul_comment=0;	
 
     #define RED   "\x1B[31m"
     #define RESET "\x1B[0m"
@@ -260,7 +260,6 @@ void yyerror(const char *s){
 int main()
 {
 	initTables();
-    printf("Enter expression: \n\n");
     if(!yyparse()){
 		if(invalid_mul_comment==1){
 			printf(RED "ERROR : Invalid multi line commenting at line %d\n",start_multi);

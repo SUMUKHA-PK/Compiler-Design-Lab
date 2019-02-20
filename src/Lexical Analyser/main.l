@@ -233,12 +233,9 @@ EOF                                        {return 0;}
 {DOT}                                      {if(yylineno!=sl_flag&&mul_comment_flag!=1) return DOT_D;}
 
 .                                           {printf(RED "Found UNRECOGNISED TOKEN : %s at line %d\n\n",yytext,yylineno);
-                                            printf(RESET);}
+                                            printf(RESET);return 1 ;}
 
 %%
-
-// TODO: Make a proper character class - a list of all characters present in the subset of C language we are working on. 
-// TODO: The lexer should raise an error if even a single character is out of the character class
 
 int yywrap(){}
 
