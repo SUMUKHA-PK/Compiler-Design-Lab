@@ -1,7 +1,8 @@
 %{
 
-#include "../Parser/y.tab.h"
+#include "../Parser/y.tab.c"
 
+// int sl_flag = -1, mul_comment_flag = 0, start_multi=0,invalid_mul_comment=0, left_flower_brkt=0, last_lfb=0,left_bracket=0,last_brack=0;
 
 // Datatypes
 #define RED   "\x1B[31m"
@@ -112,7 +113,6 @@
 
 
 unsigned int TokenCount[TOTALNUMBER_D];
-int sl_flag = -1;
 
 %}
 
@@ -148,8 +148,24 @@ IDENTIFIER [a-zA-Z_]+[a-zA-Z0-9_]*
 
 "//"				                       {++TokenCount[SL_COMMENT_D]; sl_flag = yylineno;}
 "#"				                           {++TokenCount[PRE_PROC_D]; if(yylineno!=sl_flag) return PRE_PROC_D;}
-"/*"                                       {++TokenCount[MUL_COMMENT_A_D]; }
-"*/"	                                   {++TokenCount[MUL_COMMENT_B_D]; }
+"/*"                                       {++TokenCount[MUL_COMMENT_A_D]; if(mul_comment_flag==0) {
+                                                                                mul_comment_flag=1;
+                                                                                start_multi = yylineno;
+                                                                            }
+                                                                            else{
+                                                                                invalid_mul_comment = 1;
+                                                                            }
+                                            }
+"*/"	                                   {++TokenCount[MUL_COMMENT_B_D]; if(mul_comment_flag==1){
+                                                                                invalid_mul_comment=0;
+                                                                                mul_comment_flag=0;
+                                                                                printf("Multi line comments found from line %d to %d\n",start_multi,yylineno);
+                                                                            }
+                                                                            else{
+                                                                                printf(RED "ERROR : No multi line comment starter found. End found at %d\n",yylineno);
+                                                                                printf(RESET);
+                                                                            }
+                                           }
 
 \n { }                                      
 
@@ -216,7 +232,8 @@ EOF                                        {return 0;}
 
 {DOT}                                      {if(yylineno!=sl_flag) return DOT_D;}
 
-.                                           {printf("Found UNRECOGNISED token!");}
+.                                           {printf(RED "Found UNRECOGNISED TOKEN : %s at line %d\n\n",yytext,yylineno);
+                                            printf(RESET);}
 
 %%
 
@@ -226,7 +243,7 @@ EOF                                        {return 0;}
 int yywrap(){}
 
 int symbolTableSize = 0,constantTableSize=0;
-
+    
 int TableSize = 1000;
 
 typedef struct symbol {

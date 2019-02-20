@@ -2,16 +2,17 @@
     #include<stdio.h>
 
     void yyerror(const char *s);
+	// extern int 
 
-   
 
     extern char *yytext;
-    extern int yylineno;
+    extern int yylineno,sl_flag = -1, mul_comment_flag = 0, start_multi=0,invalid_mul_comment=0, left_flower_brkt=0, last_lfb=0,left_bracket=0,last_brack=0;	
 
     #define RED   "\x1B[31m"
     #define RESET "\x1B[0m"
     #define GREEN "\x1B[32m"
     #define BLUE  "\x1B[34m"
+
 %}
 
 %locations
@@ -258,264 +259,17 @@ void yyerror(const char *s){
 
 int main()
 {
-
-int mul_comment_flag = 0, start_multi=0,invalid_mul_comment=0, left_flower_brkt=0, last_lfb=0,left_bracket=0,last_brack=0;
-
-    initTables();
-
-    // int getNextToken = yylex();
-
-    // while(getNextToken) {
-	// 	if(getNextToken == CHAR) {
-	// 		printf("KEYWORD : %s\n\n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 		insertsymbolToken(yytext, "CHARACTER", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == INT){
-	// 		printf("KEYWORD : %s\n\n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 		insertsymbolToken(yytext, "INTEGER", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == FLOAT){
-	// 		printf("KEYWORD : %s\n\n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 		insertsymbolToken(yytext, "FLOAT", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken==DOUBLE){
-	// 		printf("KEYWORD : %s\n\n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 		insertsymbolToken(yytext, "DOUBLE", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == SHORT){
-	// 		printf("KEYWORD : %s\n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 		insertsymbolToken(yytext, "SHORT", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == UNSIGNED){
-	// 		printf("KEYWORD : %s\n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 		insertsymbolToken(yytext, "UNSIGNED", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == LONG){
-	// 		printf("KEYWORD : %s\n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 		insertsymbolToken(yytext, "LONG", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == SL_COMMENT){
-	// 		printf("SINGLE LINE COMMENT at line %d\n",yylineno);
-	// 	}
-	// 	// else if(getNextToken == PRE_PROC){
-	// 	// 	printf("PRE PROCESSOR DIRECTIVES: %s at line %d\n",yytext,yylineno);
-	// 	// }
-	// 	else if(getNextToken == RETURN){
-	// 		printf("RETURN CALLED at %d\n",yylineno);
-	// 		insertsymbolToken(yytext, "RETURN", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == IF){
-	// 		printf("Found %s at line %d\n\n",yytext,yylineno);
-	// 		insertsymbolToken(yytext, "IF", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == ELSE){
-	// 		printf("Found %s at line %d\n\n",yytext,yylineno);
-	// 		insertsymbolToken(yytext, "ELSE", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == WHILE){
-	// 		printf("Found %s at line %d\n\n",yytext,yylineno);
-	// 		insertsymbolToken(yytext, "WHILE", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == L_FLOWER_BRKT){
-	// 		left_flower_brkt ++;
-	// 		printf("Found %s \n",yytext);
-	// 		insertsymbolToken(yytext, "L F BRACKET", yylineno, 0);	
-	// 	}
-	// 	else if(getNextToken == R_FLOWER_BRKT){
-	// 		left_flower_brkt--;
-	// 		last_lfb = yylineno;
-	// 		printf("Found %s \n",yytext);	
-	// 		insertsymbolToken(yytext, "R F BRACKET", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == L_PAREN){
-	// 		left_bracket++;
-	// 		printf("Found : %s \n ",yytext);
-	// 		insertsymbolToken(yytext, "L BRACKET", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == R_PAREN){
-	// 		left_bracket--;
-	// 		last_brack = yylineno;
-	// 		printf("Found : %s \n ",yytext);
-	// 		insertsymbolToken(yytext, "R BRACKET", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == SEMICOLON){
-	// 		printf("SEMICOLON at line %d\n",yylineno);
-	// 		insertsymbolToken(yytext, "SEMICOLON", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken==AR_PLUS){
-	// 		printf("ARITHEMATIC OPERATOR : %s\n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 		insertsymbolToken(yytext, "AR_PLUS", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == AR_MINUS){
-	// 		printf("ARITHEMATIC OPERATOR : %s\n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 		insertsymbolToken(yytext, "AR_MINUS", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == AR_MUL){
-	// 		printf("ARITHEMATIC OPERATOR : %s\n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 		insertsymbolToken(yytext, "AR_MUL", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == AR_DIV){
-	// 		printf("ARITHEMATIC OPERATOR : %s\n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 		insertsymbolToken(yytext, "AR_DIV", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == AR_MOD){
-	// 		printf("ARITHEMATIC OPERATOR : %s\n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 		insertsymbolToken(yytext, "AR_MOD", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == REL_LESSTHAN){
-	// 		printf("RELATIONAL OPERATOR : %s\n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 		insertsymbolToken(yytext, "REL_LESSTHAN", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == REL_LESSEQUAL){
-	// 		printf("RELATIONAL OPERATOR : %s\n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 		insertsymbolToken(yytext, "REL_LESSEQUAL", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == REL_EQUAL){
-	// 		printf("RELATIONAL OPERATOR : %s\n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 		insertsymbolToken(yytext, "REL_EQUAL", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == REL_GREATERTHAN){
-	// 		printf("RELATIONAL OPERATOR : %s\n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 		insertsymbolToken(yytext, "REL_GREATERTHAN", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == REL_GREATEQUAL){
-	// 		printf("RELATIONAL OPERATOR : %s\n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 		insertsymbolToken(yytext, "REL_GREATEQUAL", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == REL_NOTEQUAL){
-	// 		printf("RELATIONAL OPERATOR : %s\n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 		insertsymbolToken(yytext, "REL_NOTEQUAL", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == LOG_AND){
-	// 		printf("LOGICAL OPERATOR: %s\n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 		insertsymbolToken(yytext, "LOG_AND", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == LOG_OR){
-	// 		printf("LOGICAL OPERATOR: %s\n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 		insertsymbolToken(yytext, "LOG_OR", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == LOG_COMPARE){
-	// 		printf("LOGICAL OPERATOR: %s\n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 		insertsymbolToken(yytext, "LOG_COMPARE", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == BITWISE_AND){
-	// 		printf("BITWISE OPERATOR: %s\n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 		insertsymbolToken(yytext, "BITWISE_AND", yylineno, 0);
-	// 	}	
-	// 	else if(getNextToken == BITWISE_OR){
-	// 		printf("BITWISE OPERATOR: %s\n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 		insertsymbolToken(yytext, "BITWISE_OR", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == BITWISE_XOR){
-	// 		printf("BITWISE OPERATOR: %s\n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 		insertsymbolToken(yytext, "BITWISE_XOR", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == NUM_INTEGER){
-	// 		printf("INTEGER : %s \n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 		insertsymbolToken(yytext, "INTEGER", yylineno, 1);
-	// 	}	
-	// 	else if(getNextToken == NUM_FLOAT){
-	// 		printf("FLOAT : %s \n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 		insertsymbolToken(yytext, "FLOAT", yylineno, 1);
-	// 	}
-	// 	else if(getNextToken == IDENTIFIER){
-	// 		printf("IDENTIFIER: %s\n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 		insertsymbolToken(yytext, "IDENTIFIER", yylineno, 0);
-	// 	}
-	// 	else if(getNextToken == STRING){
-	// 		printf("STRING : %s\n",yytext);
-	// 		printf("At line %d\n\n",yylineno);
-	// 	}
-	// 	// else if(getNextToken == NEWLINE){
-
-	// 	// }
-	// 	// else if(getNextToken == TAB){
-
-	// 	// }
-	// 	else if(getNextToken == MUL_COMMENT_A){
-	// 		if(mul_comment_flag==0){
-	// 			mul_comment_flag=1;
-	// 			start_multi = yylineno;
-	// 		}
-	// 		else{
-	// 			invalid_mul_comment = 1;
-	// 		}
-	// 	}
-	// 	else if(getNextToken == MUL_COMMENT_B){
-	// 		if(mul_comment_flag==1){
-	// 			invalid_mul_comment=0;
-	// 			mul_comment_flag=0;
-	// 			printf("Multi line comments found from line %d to %d\n",start_multi,yylineno);
-	// 		}
-	// 		else{
-	// 			printf(RED "ERROR : No multi line comment starter found. End found at %d\n",yylineno);
-	// 			printf(RESET);
-	// 		}
-	// 	}
-	// 	// else if (getNextToken == SINGLE_QUOTE){
-	// 	// 	printf(RED "ERROR : Incomplete String : %s",yytext);
-	// 	// 	printf(RESET);
-	// 	// 	getNextToken = yylex();
-	// 	// 	printf("%s\n\n",yytext);
-	// 	// }
-	// 	else if(getNextToken == COMMA){
-	// 		printf("Found %s at line %d\n\n",yytext,yylineno);
-	// 	}
-	// 	// else if(getNextToken == DOT){
-	// 	// 	printf("Found %s at line %d\n\n",yytext,yylineno);
-	// 	// }
-	// 	else{
-	// 		printf(RED "Found UNRECOGNISED TOKEN : %s at line %d\n\n",yytext,yylineno);
-	// 		printf(RESET);
-	// 	}
-	// 	getNextToken = yylex();
-	// }
-	// if(invalid_mul_comment==1){
-	// 	printf(RED "ERROR : Invalid multi line commenting at line %d\n",start_multi);
-	// 	printf(RESET);
-	// }
-	// else if(mul_comment_flag==1){
-	// 	printf(RED "ERROR : No multi line comment ender, starts at line %d\n",yylineno);
-	// 	printf(RESET);
-	// }
-	// if(left_flower_brkt!=0){
-	// 	printf(RED "ERROR: expected declaration or statement at end of input, line number %d\n",last_lfb);
-	// 	printf(RESET);
-	// }
-	// if(left_bracket!=0){
-	// 	printf(RED "ERROR: expected declaration or statement at end of input, line number %d\n",last_brack);
-	// 	printf(RESET);
-	// }
-
+	initTables();
     printf("Enter expression: \n\n");
     if(!yyparse()){
+		if(invalid_mul_comment==1){
+			printf(RED "ERROR : Invalid multi line commenting at line %d\n",start_multi);
+			printf(RESET);
+		}
+		else if(mul_comment_flag==1){
+			printf(RED "ERROR : No multi line comment ender, starts at line %d\n",yylineno);
+			printf(RESET);
+		}
         printf("\nParsing complete\n");
         printf(GREEN "\n\nSYMBOL TABLE" RESET);
         printf("\n-----------------------------------------------------------------\n");

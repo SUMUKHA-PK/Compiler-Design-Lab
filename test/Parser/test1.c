@@ -2,4 +2,4 @@ int x;
 
 //int x = 10;
 
-int g=0;
+int g=0; ~
