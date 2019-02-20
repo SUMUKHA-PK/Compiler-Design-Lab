@@ -112,7 +112,7 @@
 
 
 unsigned int TokenCount[TOTALNUMBER_D];
-
+int sl_flag = -1;
 
 %}
 
@@ -146,73 +146,77 @@ IDENTIFIER [a-zA-Z_]+[a-zA-Z0-9_]*
 
 %%
 
-\n { }                                      
-
-EOF                                        {return 0;}
-{CHAR}				                       {++TokenCount[CHAR_D]; insertsymbolToken(yytext, "CHARACTER", yylineno, 0); return CHAR;}
-
-{INT}                                      {++TokenCount[INT_D]; insertsymbolToken(yytext, "INTEGER", yylineno, 0); return INT;} 
-
-
-{FLOAT}                      			   {++TokenCount[FLOAT_D]; insertsymbolToken(yytext, "FLOAT", yylineno, 0); return FLOAT; }
-{DOUBLE}                         		   {++TokenCount[DOUBLE_D]; insertsymbolToken(yytext, "DOUBLE", yylineno, 0); return DOUBLE; }
-
-{VOID}                                     {++TokenCount[VOID_D]; return VOID; }
-
-"//"				                       {++TokenCount[SL_COMMENT_D]; }
-"#"				                           {++TokenCount[PRE_PROC_D]; return PRE_PROC_D;}
+"//"				                       {++TokenCount[SL_COMMENT_D]; sl_flag = yylineno;}
+"#"				                           {++TokenCount[PRE_PROC_D]; if(yylineno!=sl_flag) return PRE_PROC_D;}
 "/*"                                       {++TokenCount[MUL_COMMENT_A_D]; }
 "*/"	                                   {++TokenCount[MUL_COMMENT_B_D]; }
 
-"return"			                       {++TokenCount[RETURN_D]; insertsymbolToken(yytext, "RETURN", yylineno, 0); return RETURN;}
-"if"				                       {++TokenCount[IF_D]; insertsymbolToken(yytext, "IF", yylineno, 0); return IF;}
-"else"				                       {++TokenCount[ELSE_D]; insertsymbolToken(yytext, "ELSE", yylineno, 0); return ELSE;}
-"while"				                       {++TokenCount[WHILE_D]; insertsymbolToken(yytext, "WHILE", yylineno, 0); return WHILE;}
-"break"                                    {++TokenCount[BREAK_D]; insertsymbolToken(yytext, "BREAK", yylineno, 0); return BREAK;}
+\n { }                                      
 
-"{"				                           {++TokenCount[L_FLOWER_BRKT_D]; return L_FLOWER_BRKT;}
-"}"				                           {++TokenCount[R_FLOWER_BRKT_D]; return R_FLOWER_BRKT;}
-"("				                           {++TokenCount[L_PAREN_D]; return L_PAREN;}
-")"				                           {++TokenCount[R_PAREN_D]; return R_PAREN;}
-"["                                        {++TokenCount[L_SQR_BRKT_D]; return L_SQR_BRKT;}
-"]"                                        {++TokenCount[R_SQR_BRKT_D]; return L_SQR_BRKT;}
-";"				                           {++TokenCount[SEMICOLON_D]; return SEMICOLON;}
+EOF                                        {return 0;}
+{CHAR}				                       {++TokenCount[CHAR_D]; if(yylineno!=sl_flag) {insertsymbolToken(yytext, "CHARACTER", yylineno, 0); return CHAR;}}
 
-"+"				                           {++TokenCount[AR_PLUS_D]; return AR_PLUS;}
-"-"				                           {++TokenCount[AR_MINUS_D]; return AR_MINUS;}
-"*"				                           {++TokenCount[AR_MUL_D]; return AR_MUL;}
-"/"				                           {++TokenCount[AR_DIV_D]; return AR_DIV;}
-"%"				                           {++TokenCount[AR_MOD_D]; return AR_MOD;}
-
-"<"				                           {++TokenCount[REL_LESSTHAN_D]; return REL_LESSTHAN;}
-"<="				                       {++TokenCount[REL_LESSEQUAL_D]; return REL_LESSEQUAL;}
-"="				                           {++TokenCount[REL_EQUAL_D]; return REL_EQUAL;}
-">="				                       {++TokenCount[REL_GREATEQUAL_D]; return REL_GREATEQUAL;}
-">"				                           {++TokenCount[REL_GREATERTHAN_D]; return REL_GREATERTHAN;}
-"!="				                       {++TokenCount[REL_NOTEQUAL_D]; return REL_NOTEQUAL;}
-
-"&&"				                       {++TokenCount[LOG_AND_D]; return LOG_AND;}
-"||"				                       {++TokenCount[LOG_OR_D]; return LOG_OR;}
-"=="				                       {++TokenCount[LOG_COMPARE_D]; return LOG_COMPARE;}
-
-"&"				                           {++TokenCount[BITWISE_AND_D]; return BITWISE_AND;}
-"|"				                           {++TokenCount[BITWISE_OR_D]; return BITWISE_OR;}
-"^"				                           {++TokenCount[BITWISE_XOR_D]; return BITWISE_XOR;}
-
-{INTEGER}								   {++TokenCount[NUM_INTEGER_D]; insertsymbolToken(yytext, "INTEGER", yylineno, 1); return NUM_INTEGER;}
-
-{INTEGER}"."{INTEGER}                      {++TokenCount[NUM_FLOAT_D]; insertsymbolToken(yytext, "FLOAT", yylineno, 1); return NUM_FLOAT;}
+{INT}                                      {++TokenCount[INT_D]; if(yylineno!=sl_flag) {insertsymbolToken(yytext, "INTEGER", yylineno, 0); return INT;} }
 
 
-{QUOTE}({SPACE}|{CHARACTERS}|{SPECIAL_CHARS}|{NEWLINE})*{QUOTE} {++TokenCount[STRING]; return STRING;}
+{FLOAT}                      			   {++TokenCount[FLOAT_D]; if(yylineno!=sl_flag) {insertsymbolToken(yytext, "FLOAT", yylineno, 0); return FLOAT; }}
+{DOUBLE}                         		   {++TokenCount[DOUBLE_D]; if(yylineno!=sl_flag) {insertsymbolToken(yytext, "DOUBLE", yylineno, 0); return DOUBLE; }}
+
+{VOID}                                     {++TokenCount[VOID_D]; if(yylineno!=sl_flag) return VOID; }
+
+
+"return"			                       {++TokenCount[RETURN_D]; if(yylineno!=sl_flag) {insertsymbolToken(yytext, "RETURN", yylineno, 0); return RETURN;}}
+"if"				                       {++TokenCount[IF_D]; if(yylineno!=sl_flag) {insertsymbolToken(yytext, "IF", yylineno, 0); return IF;}}
+"else"				                       {++TokenCount[ELSE_D]; if(yylineno!=sl_flag) {insertsymbolToken(yytext, "ELSE", yylineno, 0); return ELSE;}}
+"while"				                       {++TokenCount[WHILE_D]; if(yylineno!=sl_flag) {insertsymbolToken(yytext, "WHILE", yylineno, 0); return WHILE;}}
+"break"                                    {++TokenCount[BREAK_D]; if(yylineno!=sl_flag) {insertsymbolToken(yytext, "BREAK", yylineno, 0); return BREAK;}}
+
+"{"				                           {++TokenCount[L_FLOWER_BRKT_D]; if(yylineno!=sl_flag) return L_FLOWER_BRKT;}
+"}"				                           {++TokenCount[R_FLOWER_BRKT_D]; if(yylineno!=sl_flag) return R_FLOWER_BRKT;}
+"("				                           {++TokenCount[L_PAREN_D]; if(yylineno!=sl_flag) return L_PAREN;}
+")"				                           {++TokenCount[R_PAREN_D]; if(yylineno!=sl_flag) return R_PAREN;}
+"["                                        {++TokenCount[L_SQR_BRKT_D]; if(yylineno!=sl_flag) return L_SQR_BRKT;}
+"]"                                        {++TokenCount[R_SQR_BRKT_D]; if(yylineno!=sl_flag) return L_SQR_BRKT;}
+";"				                           {++TokenCount[SEMICOLON_D]; if(yylineno!=sl_flag) return SEMICOLON;}
+
+"+"				                           {++TokenCount[AR_PLUS_D]; if(yylineno!=sl_flag) return AR_PLUS;}
+"-"				                           {++TokenCount[AR_MINUS_D]; if(yylineno!=sl_flag) return AR_MINUS;}
+"*"				                           {++TokenCount[AR_MUL_D]; if(yylineno!=sl_flag) return AR_MUL;}
+"/"				                           {++TokenCount[AR_DIV_D]; if(yylineno!=sl_flag) return AR_DIV;}
+"%"				                           {++TokenCount[AR_MOD_D]; if(yylineno!=sl_flag) return AR_MOD;}
+
+"<"				                           {++TokenCount[REL_LESSTHAN_D]; if(yylineno!=sl_flag) return REL_LESSTHAN;}
+"<="				                       {++TokenCount[REL_LESSEQUAL_D]; if(yylineno!=sl_flag) return REL_LESSEQUAL;}
+"="				                           {++TokenCount[REL_EQUAL_D]; if(yylineno!=sl_flag) return REL_EQUAL;}
+">="				                       {++TokenCount[REL_GREATEQUAL_D]; if(yylineno!=sl_flag) return REL_GREATEQUAL;}
+">"				                           {++TokenCount[REL_GREATERTHAN_D]; if(yylineno!=sl_flag) return REL_GREATERTHAN;}
+"!="				                       {++TokenCount[REL_NOTEQUAL_D]; if(yylineno!=sl_flag) return REL_NOTEQUAL;}
+
+"&&"				                       {++TokenCount[LOG_AND_D]; if(yylineno!=sl_flag) return LOG_AND;}
+"||"				                       {++TokenCount[LOG_OR_D]; if(yylineno!=sl_flag) return LOG_OR;}
+"=="				                       {++TokenCount[LOG_COMPARE_D]; if(yylineno!=sl_flag) return LOG_COMPARE;}
+
+"&"				                           {++TokenCount[BITWISE_AND_D]; if(yylineno!=sl_flag) return BITWISE_AND;}
+"|"				                           {++TokenCount[BITWISE_OR_D]; if(yylineno!=sl_flag) return BITWISE_OR;}
+"^"				                           {++TokenCount[BITWISE_XOR_D]; if(yylineno!=sl_flag) return BITWISE_XOR;}
+" "                                        {}
+
+{INTEGER}								   {++TokenCount[NUM_INTEGER_D]; if(yylineno!=sl_flag) {insertsymbolToken(yytext, "INTEGER", yylineno, 1); return NUM_INTEGER;}}
+
+{INTEGER}"."{INTEGER}                      {++TokenCount[NUM_FLOAT_D]; if(yylineno!=sl_flag) {insertsymbolToken(yytext, "FLOAT", yylineno, 1); return NUM_FLOAT;}}
+
+
+{QUOTE}({SPACE}|{CHARACTERS}|{SPECIAL_CHARS}|{NEWLINE})*{QUOTE} {++TokenCount[STRING]; if(yylineno!=sl_flag) return STRING;}
 
 {QUOTE}                                    {return SINGLE_QUOTE_D;}
 
-{IDENTIFIER}                               {++TokenCount[IDENTIFIER]; insertsymbolToken(yytext, "IDENTIFIER", yylineno, 0); return IDENTIFIER;}
+{IDENTIFIER}                               {++TokenCount[IDENTIFIER]; if(yylineno!=sl_flag) {insertsymbolToken(yytext, "IDENTIFIER", yylineno, 0); return IDENTIFIER;}}
 
-{COMMA}                                   {return COMMA;}
+{COMMA}                                   {if(yylineno!=sl_flag) return COMMA;}
 
-{DOT}                                      {return DOT_D;}
+{DOT}                                      {if(yylineno!=sl_flag) return DOT_D;}
+
+.                                           {printf("Found UNRECOGNISED token!");}
 
 %%
 
