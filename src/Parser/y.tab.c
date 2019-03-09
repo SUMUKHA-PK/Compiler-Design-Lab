@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.2.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.0.2"
+#define YYBISON_VERSION "3.0.4"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -71,9 +71,9 @@
     
     #include "y.tab.h"
 
-    #include "tableStructure.h"
+    // #include "tableStructure.h"
 
-    #include "comments.h"
+    // #include "comments.h"
 
     void yyerror(const char *s);
 
@@ -1861,14 +1861,14 @@ int main()
 {
 	initTables();
     if(!yyparse()){
-		if(invalid_mul_comment==1){
-			printf(RED "ERROR : Invalid multi line commenting at line %d\n",start_multi);
-			printf(RESET);
-		}
-		else if(mul_comment_flag==1){
-			printf(RED "ERROR : No multi line comment ender, starts at line %d\n",yylineno);
-			printf(RESET);
-		}
+		// if(invalid_mul_comment==1){
+		// 	printf(RED "ERROR : Invalid multi line commenting at line %d\n",start_multi);
+		// 	printf(RESET);
+		// }
+		// else if(mul_comment_flag==1){
+		// 	printf(RED "ERROR : No multi line comment ender, starts at line %d\n",yylineno);
+		// 	printf(RESET);
+		// }
         printf("\nParsing complete\n");
         printf(GREEN "\n\nSYMBOL TABLE" RESET);
         printf("\n-----------------------------------------------------------------\n");

@@ -6,9 +6,9 @@
     
     #include "y.tab.h"
 
-    #include "tableStructure.h"
+    // #include "tableStructure.h"
 
-    #include "comments.h"
+    // #include "comments.h"
 
     void yyerror(const char *s);
 
@@ -48,14 +48,14 @@
 
 start_unit: 
 
-    external_declaration
+    external_declaration            
 |   start_unit external_declaration
 ;
 
 external_declaration: 
 
-    function_definition
-|   declaration
+    function_definition    
+|   declaration             
 ;
 
 function_definition: 
@@ -224,7 +224,7 @@ constant_expression:
 type_specifier: 
 
     VOID
-|   INT
+|   INT                 
 |   CHAR
 |   FLOAT
 |   DOUBLE
@@ -235,12 +235,12 @@ type_specifier:
 
 declarator: 
 
-    direct_declarator
+    direct_declarator           
 ;
 
 direct_declarator: 
 
-    IDENTIFIER
+    IDENTIFIER                  
 |   '(' declarator ')'
 |   direct_declarator '[' constant_expression ']'
 |   direct_declarator '[' ']'
@@ -300,7 +300,7 @@ declaration_list:
 
 declaration_specifiers: 
 
-    type_specifier
+    type_specifier          
 ;
 
 init_declaration_list: 
@@ -339,14 +339,14 @@ int main()
 {
 	initTables();
     if(!yyparse()){
-		if(invalid_mul_comment==1){
-			printf(RED "ERROR : Invalid multi line commenting at line %d\n",start_multi);
-			printf(RESET);
-		}
-		else if(mul_comment_flag==1){
-			printf(RED "ERROR : No multi line comment ender, starts at line %d\n",yylineno);
-			printf(RESET);
-		}
+		// if(invalid_mul_comment==1){
+		// 	printf(RED "ERROR : Invalid multi line commenting at line %d\n",start_multi);
+		// 	printf(RESET);
+		// }
+		// else if(mul_comment_flag==1){
+		// 	printf(RED "ERROR : No multi line comment ender, starts at line %d\n",yylineno);
+		// 	printf(RESET);
+		// }
         printf("\nParsing complete\n");
         printf(GREEN "\n\nSYMBOL TABLE" RESET);
         printf("\n-----------------------------------------------------------------\n");

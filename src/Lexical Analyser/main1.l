@@ -1,11 +1,12 @@
 %{
 
-#include "../Parser/y.tab.h"
-#include "../Parser/tableStructure.h"
-#include "../Parser/comments.h"
 #include<stdio.h>
-    #include<stdlib.h>
-    #include<string.h>
+#include<stdlib.h>
+#include<string.h>
+
+#include "../Parser/y.tab.h"
+// #include "../Parser/tableStructure.h"
+#include "../Parser/comments.h"
 
 // Datatypes
 #define RED   "\x1B[31m"
@@ -21,7 +22,11 @@ DIGIT [0-9]
 LETTER [a-zA-Z_]
 IDENTIFIER [a-zA-Z_]+[a-zA-Z0-9_]* 
 
+NEWLINE "\\n"
+
 %%
+
+\n  { }
 
 "//" { sl_flag = yylineno;}
 "/*"                                       {if(mul_comment_flag==0) {
@@ -56,6 +61,8 @@ IDENTIFIER [a-zA-Z_]+[a-zA-Z0-9_]*
 "short" {if(yylineno!=sl_flag&&mul_comment_flag!=1) {insertsymbolToken(yytext, "SHORT", yylineno, 0); return SHORT;}}
 "while" {if(yylineno!=sl_flag&&mul_comment_flag!=1) {insertsymbolToken(yytext, "WHILE", yylineno, 0); return WHILE;}}
 "void"  {if(yylineno!=sl_flag&&mul_comment_flag!=1) {insertsymbolToken(yytext, "VOID", yylineno, 0); return VOID;}}
+
+{IDENTIFIER}        {if(yylineno!=sl_flag&&mul_comment_flag!=1) {insertsymbolToken(yytext, "IDENTIFIER", yylineno, 0); return IDENTIFIER;}}
 
 {DIGIT}+    {if(yylineno!=sl_flag&&mul_comment_flag!=1) {insertsymbolToken(yytext, "NUM_INTEGER", yylineno, 1); return NUM_INTEGER;}}
 {DIGIT}*"."{DIGIT}+ {if(yylineno!=sl_flag&&mul_comment_flag!=1) {insertsymbolToken(yytext, "NUM_FLOAT", yylineno, 1); return NUM_FLOAT;}}
@@ -92,6 +99,7 @@ LETTER?\"(\\.|[^\\"])*\"	{if(yylineno!=sl_flag&&mul_comment_flag!=1) { insertsym
 ">"			{  return('>'); }
 "^"			{  return('^'); }
 "|"			{  return('|'); }
+
 
 
 %%
