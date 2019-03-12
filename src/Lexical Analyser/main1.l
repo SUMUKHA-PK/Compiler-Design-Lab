@@ -5,7 +5,7 @@
 #include<string.h>
 
 #include "../Parser/y.tab.h"
-// #include "../Parser/tableStructure.h"
+//#include "../Parser/tableStructure.h"
 #include "../Parser/comments.h"
 
 // Datatypes

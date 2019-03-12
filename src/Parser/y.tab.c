@@ -71,9 +71,9 @@
     
     #include "y.tab.h"
 
-    // #include "tableStructure.h"
+    //#include "tableStructure.h"
 
-    // #include "comments.h"
+    #include "comments.h"
 
     void yyerror(const char *s);
 
@@ -85,9 +85,10 @@
     #define GREEN "\x1B[32m"
     #define BLUE  "\x1B[34m"
 
+    int sl_flag = -1, mul_comment_flag = 0, start_multi = 0, invalid_mul_comment = 0;
 
 
-#line 91 "y.tab.c" /* yacc.c:339  */
+#line 92 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -214,7 +215,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 218 "y.tab.c" /* yacc.c:358  */
+#line 219 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -516,18 +517,18 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    51,    51,    52,    57,    58,    63,    64,    65,    66,
-      71,    72,    73,    74,    75,    80,    81,    86,    91,    92,
-      93,    94,    99,   100,   105,   106,   111,   116,   117,   118,
-     119,   120,   125,   126,   127,   128,   133,   134,   135,   136,
-     137,   138,   143,   144,   145,   146,   151,   152,   153,   158,
-     159,   160,   161,   162,   167,   168,   169,   174,   175,   180,
-     181,   186,   187,   192,   193,   198,   199,   204,   205,   210,
-     215,   216,   221,   226,   227,   228,   229,   230,   231,   232,
-     233,   238,   243,   244,   245,   246,   247,   248,   249,   254,
-     255,   260,   261,   266,   267,   268,   273,   278,   279,   280,
-     281,   282,   283,   284,   285,   286,   291,   292,   297,   298,
-     303,   308,   309,   314,   315,   319,   320,   321,   325,   326
+       0,    52,    52,    53,    58,    59,    64,    65,    66,    67,
+      72,    73,    74,    75,    76,    81,    82,    87,    92,    93,
+      94,    95,   100,   101,   106,   107,   112,   117,   118,   119,
+     120,   121,   126,   127,   128,   129,   134,   135,   136,   137,
+     138,   139,   144,   145,   146,   147,   152,   153,   154,   159,
+     160,   161,   162,   163,   168,   169,   170,   175,   176,   181,
+     182,   187,   188,   193,   194,   199,   200,   205,   206,   211,
+     216,   217,   222,   227,   228,   229,   230,   231,   232,   233,
+     234,   239,   244,   245,   246,   247,   248,   249,   250,   255,
+     256,   261,   262,   267,   268,   269,   274,   279,   280,   281,
+     282,   283,   284,   285,   286,   287,   292,   293,   298,   299,
+     304,   309,   310,   315,   316,   320,   321,   322,   326,   327
 };
 #endif
 
@@ -1612,7 +1613,7 @@ yyreduce:
   switch (yyn)
     {
       
-#line 1616 "y.tab.c" /* yacc.c:1646  */
+#line 1617 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1847,7 +1848,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 329 "main1.y" /* yacc.c:1906  */
+#line 330 "main1.y" /* yacc.c:1906  */
 
 
 
@@ -1861,14 +1862,14 @@ int main()
 {
 	initTables();
     if(!yyparse()){
-		// if(invalid_mul_comment==1){
-		// 	printf(RED "ERROR : Invalid multi line commenting at line %d\n",start_multi);
-		// 	printf(RESET);
-		// }
-		// else if(mul_comment_flag==1){
-		// 	printf(RED "ERROR : No multi line comment ender, starts at line %d\n",yylineno);
-		// 	printf(RESET);
-		// }
+		if(invalid_mul_comment==1){
+			printf(RED "ERROR : Invalid multi line commenting at line %d\n",start_multi);
+			printf(RESET);
+		}
+		else if(mul_comment_flag==1){
+			printf(RED "ERROR : No multi line comment ender, starts at line %d\n",yylineno);
+			printf(RESET);
+		}
         printf("\nParsing complete\n");
         printf(GREEN "\n\nSYMBOL TABLE" RESET);
         printf("\n-----------------------------------------------------------------\n");

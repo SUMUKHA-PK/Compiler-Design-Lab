@@ -6,9 +6,9 @@
     
     #include "y.tab.h"
 
-    // #include "tableStructure.h"
+    //#include "tableStructure.h"
 
-    // #include "comments.h"
+    #include "comments.h"
 
     void yyerror(const char *s);
 
@@ -20,6 +20,7 @@
     #define GREEN "\x1B[32m"
     #define BLUE  "\x1B[34m"
 
+    int sl_flag = -1, mul_comment_flag = 0, start_multi = 0, invalid_mul_comment = 0;
 
 %}
 
@@ -339,14 +340,14 @@ int main()
 {
 	initTables();
     if(!yyparse()){
-		// if(invalid_mul_comment==1){
-		// 	printf(RED "ERROR : Invalid multi line commenting at line %d\n",start_multi);
-		// 	printf(RESET);
-		// }
-		// else if(mul_comment_flag==1){
-		// 	printf(RED "ERROR : No multi line comment ender, starts at line %d\n",yylineno);
-		// 	printf(RESET);
-		// }
+		if(invalid_mul_comment==1){
+			printf(RED "ERROR : Invalid multi line commenting at line %d\n",start_multi);
+			printf(RESET);
+		}
+		else if(mul_comment_flag==1){
+			printf(RED "ERROR : No multi line comment ender, starts at line %d\n",yylineno);
+			printf(RESET);
+		}
         printf("\nParsing complete\n");
         printf(GREEN "\n\nSYMBOL TABLE" RESET);
         printf("\n-----------------------------------------------------------------\n");
