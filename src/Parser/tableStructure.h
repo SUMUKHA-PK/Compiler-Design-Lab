@@ -2,13 +2,13 @@
 #define _TABLE_STRUCTURE_H 1
 
 #include<stdio.h>
-    #include<stdlib.h>
-    #include<string.h>
+#include<stdlib.h>
+#include<string.h>
 
-int symbolTableSize = 0,constantTableSize=0;
+extern int symbolTableSize, constantTableSize;
     
 // Hardcoded TableSize value. 0
-int TableSize = 1000;
+extern int TableSize;
 
 
 // Structure of a symbol

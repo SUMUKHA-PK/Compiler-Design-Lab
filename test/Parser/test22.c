@@ -1,5 +1,5 @@
-int main() {
+// int main() {
 
-   func_name);
-   return 0;
-}
+//    func_name);
+//    return 0;
+// }

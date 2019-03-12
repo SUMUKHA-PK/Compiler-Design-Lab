@@ -1,4 +1,4 @@
-for(int i=0;i<10;i++){
-    int x = 1;
-    x = x+1;
+for(int i=0;i<2;i=1){
+    int x = 0;
+    int p;
 }

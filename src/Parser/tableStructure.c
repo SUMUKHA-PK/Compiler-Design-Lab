@@ -2,7 +2,16 @@
 
 #include "tableStructure.h"
 
+ symbolTableSize  = 1000;
+ constantTableSize = 1000;
+TableSize = 1000;
+
 void initTables(){
+
+    symbolTableSize  = 1000;
+    constantTableSize = 1000;
+    
+
 	for(int i=0;i<TableSize;i++){
 		symbolTable[i]=NULL;
 		constantTable[i] = NULL;

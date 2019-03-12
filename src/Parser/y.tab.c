@@ -68,10 +68,8 @@
     #include<stdio.h>
     #include<stdlib.h>
     #include<string.h>
-    
-    #include "y.tab.h"
 
-    //#include "tableStructure.h"
+    #include "tableStructure.h"
 
     #include "comments.h"
 
@@ -88,7 +86,7 @@
     int sl_flag = -1, mul_comment_flag = 0, start_multi = 0, invalid_mul_comment = 0;
 
 
-#line 92 "y.tab.c" /* yacc.c:339  */
+#line 90 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -215,7 +213,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 219 "y.tab.c" /* yacc.c:358  */
+#line 217 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -517,18 +515,18 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    52,    52,    53,    58,    59,    64,    65,    66,    67,
-      72,    73,    74,    75,    76,    81,    82,    87,    92,    93,
-      94,    95,   100,   101,   106,   107,   112,   117,   118,   119,
-     120,   121,   126,   127,   128,   129,   134,   135,   136,   137,
-     138,   139,   144,   145,   146,   147,   152,   153,   154,   159,
-     160,   161,   162,   163,   168,   169,   170,   175,   176,   181,
-     182,   187,   188,   193,   194,   199,   200,   205,   206,   211,
-     216,   217,   222,   227,   228,   229,   230,   231,   232,   233,
-     234,   239,   244,   245,   246,   247,   248,   249,   250,   255,
-     256,   261,   262,   267,   268,   269,   274,   279,   280,   281,
-     282,   283,   284,   285,   286,   287,   292,   293,   298,   299,
-     304,   309,   310,   315,   316,   320,   321,   322,   326,   327
+       0,    50,    50,    51,    56,    57,    62,    63,    64,    65,
+      70,    71,    72,    73,    74,    79,    80,    85,    90,    91,
+      92,    93,    98,    99,   104,   105,   110,   115,   116,   117,
+     118,   119,   124,   125,   126,   127,   132,   133,   134,   135,
+     136,   137,   142,   143,   144,   145,   150,   151,   152,   157,
+     158,   159,   160,   161,   166,   167,   168,   173,   174,   179,
+     180,   185,   186,   191,   192,   197,   198,   203,   204,   209,
+     214,   215,   220,   225,   226,   227,   228,   229,   230,   231,
+     232,   237,   242,   243,   244,   245,   246,   247,   248,   253,
+     254,   259,   260,   265,   266,   267,   272,   277,   278,   279,
+     280,   281,   282,   283,   284,   285,   290,   291,   296,   297,
+     302,   307,   308,   313,   314,   318,   319,   320,   324,   325
 };
 #endif
 
@@ -1613,7 +1611,7 @@ yyreduce:
   switch (yyn)
     {
       
-#line 1617 "y.tab.c" /* yacc.c:1646  */
+#line 1615 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1848,7 +1846,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 330 "main1.y" /* yacc.c:1906  */
+#line 328 "main1.y" /* yacc.c:1906  */
 
 
 
