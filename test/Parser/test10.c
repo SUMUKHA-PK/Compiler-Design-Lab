@@ -5,16 +5,16 @@ int main(int argc, char argv) {
     int a = 0;
 
     while(a < 10) {
-        a++;
+        a=1;
     }
 
-    func_name(a);
+    // func_name(a);
 
-    return 0;
+    // return 0;
 }
 
 int func_name(int x) {
 
-    return x + 1;
+    // return x + 1;
 
 }

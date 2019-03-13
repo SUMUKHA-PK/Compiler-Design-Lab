@@ -1,23 +1,64 @@
 #include<stdio.h>
 
 #include "tableStructure.h"
+#include "comments.h"
 
- symbolTableSize  = 1000;
- constantTableSize = 1000;
+symbolTableSize  = 1000;
+constantTableSize = 1000;
 TableSize = 1000;
+currTableID = -1;
+int start = 0;
 
-void initTables(){
+Tables * currTable = NULL, *headTable = NULL;
+
+void initTable(Tables* table){
 
     symbolTableSize  = 1000;
     constantTableSize = 1000;
     
 	for(int i=0;i<TableSize;i++){
-		symbolTable[i]=NULL;
-		constantTable[i] = NULL;
+		table->symbolTable[i]=NULL;
+		table->constantTable[i] = NULL;
 	}
 }
 
-void printTable(int table){
+int getCurrTableID(){
+    return currTableID;
+}
+
+// Cues the creation of a new table pointer, maintains that as the curr pointer
+void incrementTableScope(){
+    Tables *newTable = (Tables*)malloc(sizeof(Tables));
+    initTable(newTable);
+    // Main scope
+    if(currTableID == -1){
+        newTable->ID = currTableID+1;
+        currTableID = newTable->ID;
+        currTable = newTable;
+        newTable->parent = NULL;
+        newTable->next = NULL;
+        headTable = newTable;
+        
+    }
+    // Internal scope
+    else{
+        printf("BATHN");
+        newTable->ID = currTableID+1;
+        currTableID = newTable->ID;
+        newTable->parent = currTable;
+        currTable->next = newTable;
+        currTable = newTable;
+        newTable->next = NULL;
+    }
+}
+
+// Accesses parent of the current table and sets that to current status
+void returnToParentScope(){
+    currTable = currTable->parent;
+    currTableID = currTable->ID;
+}
+
+void printTable(int table,Tables * tableP){
 	int i;
 	if(table==0) {
 		int tableSize = symbolTableSize;
@@ -28,8 +69,8 @@ void printTable(int table){
 	
 	for(i=0;i<TableSize;i++){
 		symbolToken * temp;
-		if(table==0) temp = symbolTable[i];
-		else temp = constantTable[i];
+		if(table==0) temp = tableP->symbolTable[i];
+		else temp = tableP->constantTable[i];
 		while(temp!=NULL){
 			printf("%-10s%10s%20d\n",temp->value,temp->type,temp->line);
 			temp=temp->next;
@@ -37,6 +78,28 @@ void printTable(int table){
 	}
 }
 
+void printTables(){  
+    Tables * temp = headTable;
+    while(temp!=NULL){
+        printf(GREEN "\n\nSYMBOL TABLE" RESET);
+        printf("\n-----------------------------------------------------------------\n");
+        printf(BLUE "%-20s%10s%24s\n","VALUE","TYPE","LINE NUMBER" RESET);
+        printf("-----------------------------------------------------------------\n");
+        printTable(0,temp);
+
+        printf(GREEN "\n\nCONSTANT TABLE" RESET);
+        printf("\n-----------------------------------------------------------------\n");
+        printf(BLUE "%-20s%10s%24s\n","VALUE","TYPE","LINE NUMBER" RESET);
+        printf("-----------------------------------------------------------------\n");
+        printTable(1,temp);
+
+        printf("\n-----------------------------------------------------------------\n");
+        printf("\n--------------------------Scope complete-------------------------\n");
+        printf("\n-----------------------------------------------------------------\n");
+        
+        temp=temp->next;
+    }
+}
 int hash(unsigned char * s){
 	unsigned long hashVar = 5381;
 	int c;
@@ -58,29 +121,36 @@ symbolToken* createsymbolToken(char *value, char *type, int lineNumber){
 }
 
 void insertsymbolToken(char *value, char *type, int lineNumber, int tableno){
+
+    if(start==0){
+        incrementTableScope();
+        start=1;
+    }
+
+    Tables * table = currTable;
     int hashIndex = hash(value);
 
     symbolToken *item = createsymbolToken(value, type, lineNumber);
 
     if(tableno == 0)
     {
-        symbolToken * temp = symbolTable[hashIndex];
+        symbolToken * temp = table->symbolTable[hashIndex];
         while(temp!=NULL && temp->next!=NULL)
             temp = temp->next;
 
         if(temp == NULL)
-            symbolTable[hashIndex] = item;
+            table->symbolTable[hashIndex] = item;
         else
             temp->next = item;
     }
     else
     {
-        symbolToken * temp = constantTable[hashIndex];
+        symbolToken * temp = table->constantTable[hashIndex];
         while(temp!=NULL && temp->next!=NULL)
             temp = temp->next;
 
         if(temp == NULL)
-            constantTable[hashIndex] = item;
+            table->constantTable[hashIndex] = item;
         else
             temp->next = item;
     }

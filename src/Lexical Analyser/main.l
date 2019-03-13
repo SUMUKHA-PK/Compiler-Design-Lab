@@ -170,30 +170,99 @@ LETTER?\"(\\.|[^\\"])*\"	                {   if(yylineno!=sl_flag&&mul_comment_f
                                                     return REL_NOTEQUAL;
                                                 }
                                             }
-";"			                                { return(';'); }
-"{"		                                    { return('{'); }
-"}"		                                    { return('}'); }
-","			                                { return(','); }
-":"			                                { return(':'); }
-"="			                                { return('='); }
-"("			                                { return('('); }
-")"			                                { return(')'); }
-"["		                                    { return('['); }
-"]"		                                    { return(']'); }
-"."			                                { return('.'); }
-"&"			                                { return('&'); }
-"!"			                                { return('!'); }
-"~"			                                {  return('~'); }
-"-"			                                {  return('-'); }
-"+"			                                {  return('+'); }
-"*"			                                {  return('*'); }
-"/"			                                {  return('/'); }
-"%"			                                {  return('%'); }
-"<"			                                {  return('<'); }
-">"			                                {  return('>'); }
-"^"			                                {  return('^'); }
-"|"			                                {  return('|'); }
-
+";"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
+                                                 return(';'); 
+                                                }
+                                            }
+"{"		                                    { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
+                                                 incrementTableScope(); return('{');
+                                                }
+                                            }
+"}"		                                    { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
+                                                 returnToParentScope(); return('}'); 
+                                                }
+                                            }
+","			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
+                                                 return(','); 
+                                                }
+                                            }
+":"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
+                                                 return(':'); 
+                                                }
+                                            }
+"="			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
+                                                 return('='); 
+                                                }
+                                            }
+"("			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
+                                                 return('('); 
+                                                }
+                                            }
+")"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
+                                                 return(')'); 
+                                                }
+                                            }
+"["		                                    { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
+                                                 return('['); 
+                                                }
+                                            }
+"]"		                                    { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
+                                                 return(']'); 
+                                                }
+                                            }
+"."			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
+                                                 return('.'); 
+                                                }
+                                            }
+"&"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
+                                                 return('&'); 
+                                                }
+                                            }
+"!"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
+                                                 return('!'); 
+                                                }
+                                            }
+"~"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
+                                                 return('~'); 
+                                                }
+                                            }
+"-"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
+                                                 return('-'); 
+                                                }
+                                            }
+"+"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
+                                                 return('+'); 
+                                                }
+                                            }
+"*"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
+                                                 return('*'); 
+                                                }
+                                            }
+"/"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
+                                                 return('/'); 
+                                                }
+                                            }
+"%"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
+                                                 return('%'); 
+                                                }
+                                            }
+"<"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
+                                                 return('<'); 
+                                                }
+                                            }
+">"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
+                                                 return('>'); 
+                                                }
+                                            }
+"^"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
+                                                 return('^'); 
+                                                }
+                                            }
+"|"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
+                                                 return('|'); 
+                                                }
+                                            }   
+                                            
 %%
 
 int yywrap(){}

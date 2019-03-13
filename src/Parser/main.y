@@ -8,15 +8,13 @@
 
     #include "comments.h"
 
-    void yyerror(const char *s);
-
-     extern char *yytext;
-    extern int yylineno;	
 
     #define RED   "\x1B[31m"
-    #define RESET "\x1B[0m"
-    #define GREEN "\x1B[32m"
-    #define BLUE  "\x1B[34m"
+
+    void yyerror(const char *s);
+
+    extern char *yytext;
+    extern int yylineno;	
 
     int sl_flag = -1, mul_comment_flag = 0, start_multi = 0, invalid_mul_comment = 0;
 
@@ -336,7 +334,6 @@ extern int yylex();
 
 int main()
 {
-	initTables();
     if(!yyparse()){
 		if(invalid_mul_comment==1){
 			printf(RED "ERROR : Invalid multi line commenting at line %d\n",start_multi);
@@ -347,17 +344,7 @@ int main()
 			printf(RESET);
 		}
         printf("\nParsing complete\n");
-        printf(GREEN "\n\nSYMBOL TABLE" RESET);
-        printf("\n-----------------------------------------------------------------\n");
-        printf(BLUE "%-20s%10s%24s\n","VALUE","TYPE","LINE NUMBER" RESET);
-        printf("-----------------------------------------------------------------\n");
-        printTable(0);
-
-        printf(GREEN "\n\nCONSTANT TABLE" RESET);
-        printf("\n-----------------------------------------------------------------\n");
-        printf(BLUE "%-20s%10s%24s\n","VALUE","TYPE","LINE NUMBER" RESET);
-        printf("-----------------------------------------------------------------\n");
-        printTable(1);
+        printTables();
     }
         
     else

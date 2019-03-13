@@ -73,20 +73,18 @@
 
     #include "comments.h"
 
-    void yyerror(const char *s);
-
-     extern char *yytext;
-    extern int yylineno;	
 
     #define RED   "\x1B[31m"
-    #define RESET "\x1B[0m"
-    #define GREEN "\x1B[32m"
-    #define BLUE  "\x1B[34m"
+
+    void yyerror(const char *s);
+
+    extern char *yytext;
+    extern int yylineno;	
 
     int sl_flag = -1, mul_comment_flag = 0, start_multi = 0, invalid_mul_comment = 0;
 
 
-#line 90 "y.tab.c" /* yacc.c:339  */
+#line 88 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -213,7 +211,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 217 "y.tab.c" /* yacc.c:358  */
+#line 215 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -515,18 +513,18 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    50,    50,    51,    56,    57,    62,    63,    64,    65,
-      70,    71,    72,    73,    74,    79,    80,    85,    90,    91,
-      92,    93,    98,    99,   104,   105,   110,   115,   116,   117,
-     118,   119,   124,   125,   126,   127,   132,   133,   134,   135,
-     136,   137,   142,   143,   144,   145,   150,   151,   152,   157,
-     158,   159,   160,   161,   166,   167,   168,   173,   174,   179,
-     180,   185,   186,   191,   192,   197,   198,   203,   204,   209,
-     214,   215,   220,   225,   226,   227,   228,   229,   230,   231,
-     232,   237,   242,   243,   244,   245,   246,   247,   248,   253,
-     254,   259,   260,   265,   266,   267,   272,   277,   278,   279,
-     280,   281,   282,   283,   284,   285,   290,   291,   296,   297,
-     302,   307,   308,   313,   314,   318,   319,   320,   324,   325
+       0,    48,    48,    49,    54,    55,    60,    61,    62,    63,
+      68,    69,    70,    71,    72,    77,    78,    83,    88,    89,
+      90,    91,    96,    97,   102,   103,   108,   113,   114,   115,
+     116,   117,   122,   123,   124,   125,   130,   131,   132,   133,
+     134,   135,   140,   141,   142,   143,   148,   149,   150,   155,
+     156,   157,   158,   159,   164,   165,   166,   171,   172,   177,
+     178,   183,   184,   189,   190,   195,   196,   201,   202,   207,
+     212,   213,   218,   223,   224,   225,   226,   227,   228,   229,
+     230,   235,   240,   241,   242,   243,   244,   245,   246,   251,
+     252,   257,   258,   263,   264,   265,   270,   275,   276,   277,
+     278,   279,   280,   281,   282,   283,   288,   289,   294,   295,
+     300,   305,   306,   311,   312,   316,   317,   318,   322,   323
 };
 #endif
 
@@ -1611,7 +1609,7 @@ yyreduce:
   switch (yyn)
     {
       
-#line 1615 "y.tab.c" /* yacc.c:1646  */
+#line 1613 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1846,7 +1844,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 328 "main.y" /* yacc.c:1906  */
+#line 326 "main.y" /* yacc.c:1906  */
 
 
 
@@ -1858,7 +1856,6 @@ extern int yylex();
 
 int main()
 {
-	initTables();
     if(!yyparse()){
 		if(invalid_mul_comment==1){
 			printf(RED "ERROR : Invalid multi line commenting at line %d\n",start_multi);
@@ -1869,17 +1866,7 @@ int main()
 			printf(RESET);
 		}
         printf("\nParsing complete\n");
-        printf(GREEN "\n\nSYMBOL TABLE" RESET);
-        printf("\n-----------------------------------------------------------------\n");
-        printf(BLUE "%-20s%10s%24s\n","VALUE","TYPE","LINE NUMBER" RESET);
-        printf("-----------------------------------------------------------------\n");
-        printTable(0);
-
-        printf(GREEN "\n\nCONSTANT TABLE" RESET);
-        printf("\n-----------------------------------------------------------------\n");
-        printf(BLUE "%-20s%10s%24s\n","VALUE","TYPE","LINE NUMBER" RESET);
-        printf("-----------------------------------------------------------------\n");
-        printTable(1);
+        printTables();
     }
         
     else
