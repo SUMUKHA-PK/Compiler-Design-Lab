@@ -8,6 +8,7 @@
 
     #include "comments.h"
 
+    extern int yylex();
 
     #define RED   "\x1B[31m"
 
@@ -32,9 +33,9 @@
 %token NUM_INTEGER NUM_FLOAT 
 %token STRING_LITERAL
 
-%token REL_LESSEQUAL REL_GREATEQUAL REL_EQUAL REL_NOTEQUAL REL_LESSTHAN REL_GREATERTHAN
+%left REL_LESSEQUAL REL_GREATEQUAL REL_EQUAL REL_NOTEQUAL REL_LESSTHAN REL_GREATERTHAN
 
-%token LOG_AND LOG_OR LOG_COMPARE
+%left LOG_AND LOG_OR LOG_COMPARE
 
 %token INC_OP 
 %token DEC_OP
@@ -70,13 +71,10 @@ statement:
 |   expression_statement
 |   if_statement
 |   while_statement
+|   jump_statement
 ;
 
-statement_list: 
 
-    statement
-|   statement_list statement
-;
 
 labeled_statement: 
 
@@ -86,10 +84,25 @@ labeled_statement:
 compound_statement: 
 
     '{' '}'
-|   '{' statement_list '}'
-|   '{' declaration_list '}'
-|   '{' declaration_list statement_list '}'
+|   '{' list_of_lists '}'        {printf("Got a compound statement\n");}
 ;
+
+list: 
+
+    declaration_list  {printf("Got a declaration / declaration_list\n");}
+|   statement     {printf("Got a statement_list\n");}
+;
+
+
+list_of_lists: 
+
+    list
+|   list_of_lists list
+;
+
+
+
+
 
 expression_statement: 
 
@@ -106,6 +119,13 @@ if_statement:
 while_statement: 
 
     WHILE '(' expression ')' statement
+;
+
+jump_statement: 
+
+    RETURN expression ';'
+|   BREAK ';'
+|   CONTINUE ';'
 ;
 
 primary_expression: 
@@ -221,10 +241,10 @@ constant_expression:
 type_specifier: 
 
     VOID
-|   INT                 
-|   CHAR
-|   FLOAT
-|   DOUBLE
+|   INT             {printf("Found int\n");}                 
+|   CHAR            {{printf("Found char\n");}}
+|   FLOAT           {{printf("Found float\n");}}
+|   DOUBLE          {printf("Found double\n");}
 |   SHORT
 |   LONG
 |   UNSIGNED
