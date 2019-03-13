@@ -6,6 +6,7 @@
 
 #include "../Parser/y.tab.h"
 #include "../Parser/comments.h"
+#include "../Parser/tableStructure.h"
 
 // Colours for terminal
 #define RED   "\x1B[31m"

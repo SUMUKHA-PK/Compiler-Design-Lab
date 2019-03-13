@@ -3,10 +3,10 @@
 #include "tableStructure.h"
 #include "comments.h"
 
-symbolTableSize  = 1000;
-constantTableSize = 1000;
-TableSize = 1000;
-currTableID = -1;
+int symbolTableSize  = 1000;
+int constantTableSize = 1000;
+int TableSize = 1000;
+int currTableID = -1;
 int start = 0;
 
 Tables * currTable = NULL, *headTable = NULL;
@@ -81,6 +81,11 @@ void printTable(int table,Tables * tableP){
 void printTables(){  
     Tables * temp = headTable;
     while(temp!=NULL){
+
+        printf("\n-----------------------------------------------------------------\n");
+        printf("\n--------------------------Scope starting-------------------------\n");
+        printf("\n-----------------------------------------------------------------\n");
+
         printf(GREEN "\n\nSYMBOL TABLE" RESET);
         printf("\n-----------------------------------------------------------------\n");
         printf(BLUE "%-20s%10s%24s\n","VALUE","TYPE","LINE NUMBER" RESET);
