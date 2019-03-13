@@ -140,9 +140,9 @@ primary_expression:
 unary_expression: 
 
     primary_expression
-|   INC_OP unary_expression
-|   DEC_OP unary_expression
-|   unary_operator unary_expression
+|   INC_OP unary_expression             
+|   DEC_OP unary_expression             
+|   unary_operator unary_expression     
 ;
 
 unary_operator: 
@@ -238,7 +238,7 @@ constant_expression:
     log_or_expression
 ;
 
-type_specifier: 
+declaration_specifiers: 
 
     VOID
 |   INT             {printf("Found int\n");}                 
@@ -315,10 +315,7 @@ declaration_list:
 |   declaration_list ',' declaration
 ;
 
-declaration_specifiers: 
 
-    type_specifier          
-;
 
 init_declaration_list: 
 
