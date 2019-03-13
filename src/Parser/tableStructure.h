@@ -10,7 +10,6 @@ extern int symbolTableSize, constantTableSize;
 // Hardcoded TableSize value. 0
 extern int TableSize;
 
-
 // Structure of a symbol
 typedef struct symbol {
 	char value[100];

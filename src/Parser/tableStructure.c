@@ -11,7 +11,6 @@ void initTables(){
     symbolTableSize  = 1000;
     constantTableSize = 1000;
     
-
 	for(int i=0;i<TableSize;i++){
 		symbolTable[i]=NULL;
 		constantTable[i] = NULL;
@@ -74,7 +73,6 @@ void insertsymbolToken(char *value, char *type, int lineNumber, int tableno){
         else
             temp->next = item;
     }
-
     else
     {
         symbolToken * temp = constantTable[hashIndex];

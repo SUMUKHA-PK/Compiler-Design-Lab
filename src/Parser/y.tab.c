@@ -62,7 +62,7 @@
 
 
 /* Copy the first part of user declarations.  */
-#line 1 "main1.y" /* yacc.c:339  */
+#line 1 "main.y" /* yacc.c:339  */
 
 
     #include<stdio.h>
@@ -1846,7 +1846,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 328 "main1.y" /* yacc.c:1906  */
+#line 328 "main.y" /* yacc.c:1906  */
 
 
 
