@@ -33,20 +33,24 @@ typedef struct table {
 extern int TableSize, currTableID;
 
 // Initializes the 2 tables - allocates memory to 2 tables.
-void initTable(Tables* table);
+extern void initTable(Tables* table);
 
 // Print a give table
 // table = 0 => print symbolTable
 // table = 1 => print constantTable
-void printTable(int table,Tables* tableP);
+extern void printTable(int table,Tables* tableP);
 
 // The awesome hash function
 int hash(unsigned char * s);
 
 // Creates, initialises a symbol and returns a pointer to it.
-symbolToken* createsymbolToken(char *value, char *type, int lineNumber);
+extern symbolToken* createsymbolToken(char *value, char *type, int lineNumber);
 
 // Inserts a given symbol into a specified table.
-void insertsymbolToken(char *value, char *type, int lineNumber, int tableno);
+extern void insertsymbolToken(char *value, char *type, int lineNumber, int tableno);
+
+extern void incrementTableScope();
+
+extern void returnToParentScope();
 
 #endif // _TABLE_STRUCTURE_H
