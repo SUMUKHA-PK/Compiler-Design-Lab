@@ -56,7 +56,8 @@ NEWLINE "\\n"
                                             }
 "char"                                      {   if(yylineno!=sl_flag&&mul_comment_flag!=1) {
                                                     insertsymbolToken(yytext, "CHARACTER", yylineno, 0); 
-                                                    strcpy(yylval.id,yytext);
+                                                    strcpy(yylval.symAttrib.val,yytext);
+                                                    strcpy(yylval.symAttrib.type,yytext);
                                                     return CHAR;
                                                 }
                                             }
@@ -67,7 +68,8 @@ NEWLINE "\\n"
                                             }
 "double"                                    {   if(yylineno!=sl_flag&&mul_comment_flag!=1) {
                                                     insertsymbolToken(yytext, "DOUBLE", yylineno, 0); 
-                                                    strcpy(yylval.id,yytext);
+                                                    strcpy(yylval.symAttrib.val,yytext);
+                                                    strcpy(yylval.symAttrib.type,yytext);
                                                     return DOUBLE;
                                                 }
                                             }
@@ -78,7 +80,8 @@ NEWLINE "\\n"
                                             }
 "float"                                     {   if(yylineno!=sl_flag&&mul_comment_flag!=1) {
                                                     insertsymbolToken(yytext, "FLOAT", yylineno, 0); 
-                                                    strcpy(yylval.id,yytext);
+                                                    strcpy(yylval.symAttrib.val,yytext);
+                                                    strcpy(yylval.symAttrib.type,yytext);
 
                                                     return FLOAT;
                                                 }
@@ -90,7 +93,8 @@ NEWLINE "\\n"
                                             }
 "int"                                       {   if(yylineno!=sl_flag&&mul_comment_flag!=1) {
                                                     insertsymbolToken(yytext, "INT", yylineno, 0); 
-                                                    strcpy(yylval.id,yytext);
+                                                    strcpy(yylval.symAttrib.val,yytext);
+                                                    strcpy(yylval.symAttrib.type,yytext);
 
                                                    
                                                     return INT;
@@ -118,31 +122,41 @@ NEWLINE "\\n"
                                             }
 "void"                                      {   if(yylineno!=sl_flag&&mul_comment_flag!=1) {
                                                     insertsymbolToken(yytext, "VOID", yylineno, 0); 
-                                                    strcpy(yylval.id,yytext);
+                                                    strcpy(yylval.symAttrib.val,yytext);
+                                                    strcpy(yylval.symAttrib.type,yytext);
                                                     return VOID;
                                                 }
                                             }
 
 {IDENTIFIER}                                {   if(yylineno!=sl_flag&&mul_comment_flag!=1) {
                                                     // insertsymbolToken(yytext, "IDENTIFIER", yylineno, 0);
+                                                    strcpy(yylval.symAttrib.val,yytext);
                                                     return IDENTIFIER;
                                                 }
                                             }
 
 {DIGIT}+                                    {   if(yylineno!=sl_flag&&mul_comment_flag!=1) {
                                                     insertsymbolToken(yytext, "NUM_INTEGER", yylineno, 1); 
+                                                    strcpy(yylval.symAttrib.val, yytext);
+                                                    strcpy(yylval.symAttrib.type, "int");
+                                                    yylval.symAttrib.num = atoi(yytext);
                                                     return NUM_INTEGER;
                                                 }
                                             }
 
 {DIGIT}*"."{DIGIT}+                         {   if(yylineno!=sl_flag&&mul_comment_flag!=1) {
                                                     insertsymbolToken(yytext, "NUM_FLOAT", yylineno, 1); 
+                                                    strcpy(yylval.symAttrib.val, yytext);
+                                                    yylval.symAttrib.floatNum = strtof(yytext, NULL);
+                                                    strcpy(yylval.symAttrib.type, "float");
                                                     return NUM_FLOAT;
                                                 }
                                             }
 
 LETTER?\"(\\.|[^\\"])*\"	                {   if(yylineno!=sl_flag&&mul_comment_flag!=1) { 
                                                     insertsymbolToken(yytext, "STRING_LITERAL", yylineno, 1);
+                                                    strcpy(yylval.symAttrib.val, yytext);
+                                                    strcpy(yylval.symAttrib.type, "string_literal");
                                                     return(STRING_LITERAL);
                                                 } 
                                             }
