@@ -176,3 +176,19 @@ int findInHashTable(char * value,char *type){
     }
     return f;
 }
+
+void deleteFromHashTable(char * value,char *type){
+
+    Tables * table = currTable;
+    int hashIndex = hash(value);
+    symbolToken * temp = table->symbolTable[hashIndex];
+    symbolToken * temp1 = temp;
+    while(temp!=NULL){
+        if(!strcmp(temp->value,value)&&!strcmp(temp->type,type)){
+            
+            return;
+        }
+        temp1=temp;
+        temp=temp->next;
+    }
+}

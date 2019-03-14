@@ -24,6 +24,10 @@
     char Type[100];
     char functype[100];
     char returnType[100];
+    char argTypes[100][100];
+    int numArgs1 = 0;
+    int numArgs2 = 0;
+    int decORdef = 0; //0OR1
 
 %}
 
@@ -93,8 +97,8 @@
 %type <symAttrib> expression 
 %type <symAttrib> init_declarator
 %type <symAttrib> direct_declarator
-
-
+%type <symAttrib> parameter_list
+%type <symAttrib> parameter_declaration
 %type <symAttrib> return
 %type <symAttrib> RETURN
 
@@ -116,18 +120,18 @@ start_unit:
 
 external_declaration: 
 
-    function_definition    
+    function_definition         
 |   declaration             
 ;
 
 function_definition: 
     declaration_specifiers direct_declarator declaration_list compound_statement  { if(returnType[0]=='\0') strcpy(returnType,"void");
-                                                                                    if(strcmp($1.type,returnType)){
+                                                                                        if(strcmp($1.type,returnType)){
                                                                                         returnTypeMisMatchError($1.type,$1.val,returnType, yylineno);
                                                                                     }
                                                                                   }
 |   declaration_specifiers direct_declarator compound_statement                   { if(returnType[0]=='\0') strcpy(returnType,"void");
-                                                                                    if(strcmp($1.type,returnType)){
+                                                                                        if(strcmp($1.type,returnType)){
                                                                                         returnTypeMisMatchError($1.type,$1.val,returnType, yylineno);
                                                                                     }
                                                                                   }
@@ -161,7 +165,19 @@ direct_declarator:
 // |   '(' direct_declarator ')'
 |   direct_declarator '[' log_or_expression ']'
 |   direct_declarator '[' ']'
-|   direct_declarator '(' parameter_list ')'
+|   direct_declarator '(' parameter_list ')'     {
+                                                    if(decORdef==0){
+                                                        decORdef=1;
+                                                    }
+                                                    else{
+                                                        if(numArgs2>numArgs1){
+                                                            tooManyArgumentsError(yylineno);
+                                                        }
+                                                        else if(numArgs2<numArgs1){
+                                                            tooLessArgumentsError(yylineno);   
+                                                        }
+                                                    }
+                                                 }           
 |   direct_declarator '(' identifier_list ')'
 |   direct_declarator '(' ')'
 ;
@@ -187,8 +203,30 @@ init_declaration_list:
 
 parameter_list: 
 
-    parameter_declaration       
-|   parameter_list ',' parameter_declaration         
+    parameter_declaration                       {
+                                                    if(decORdef==0) {
+                                                        strcpy(argTypes[numArgs1],$1.type); numArgs1++; //printf("Argtype: %s\n",$1.type);
+                                                    }
+                                                    else{
+                                                        // printf("SOMETHING:1 %s1 %s",argTypes[numArgs2],$1.type);
+                                                        if(strcmp(argTypes[numArgs2],$1.type)){
+                                                            argumentTypeMismatchError(argTypes[numArgs2],$1.type,yylineno);          
+                                                        }
+                                                        numArgs2++;
+                                                    }
+                                                }   
+|   parameter_list ',' parameter_declaration    {
+                                                    if(decORdef==0) {
+                                                        strcpy(argTypes[numArgs1],$3.type); numArgs1++; //printf("Argtype: %s\n",$3.type);
+                                                    }
+                                                    else{
+                                                        // printf("SOMETHING:j %sj %s",argTypes[numArgs2],$3.type);
+                                                        if(strcmp(argTypes[numArgs2],$3.type)){
+                                                            argumentTypeMismatchError(argTypes[numArgs2],$3.type,yylineno);        
+                                                        }
+                                                        numArgs2++;
+                                                    }
+                                                }       
 ;
 
 identifier_list:
@@ -200,22 +238,24 @@ identifier_list:
 parameter_declaration: 
 
     declaration_specifiers direct_declarator 
-|   declaration_specifiers direct_abstract_declarator
+// |   declaration_specifiers direct_abstract_declarator
 |   declaration_specifiers
 ;
 
-direct_abstract_declarator:
+// direct_abstract_declarator:
 
-     '(' direct_abstract_declarator ')'
-|    '[' ']'
-|    '[' log_or_expression ']'
-|    direct_abstract_declarator '[' ']'
-|    direct_abstract_declarator '[' log_or_expression ']'
-|    '(' ')'
-|    '(' parameter_list ')'
-|    direct_abstract_declarator '(' ')'
-|    direct_abstract_declarator '(' parameter_list ')'
-;
+// //      '(' direct_abstract_declarator ')'
+// // |    '[' ']'
+// // |    '[' log_or_expression ']'
+// |    direct_abstract_declarator '[' ']'
+// |    direct_abstract_declarator '[' log_or_expression ']'
+// // |    '(' ')'
+// // |    '(' parameter_list ')'
+// |    direct_abstract_declarator '(' ')'                     
+// |    direct_abstract_declarator '(' parameter_list ')'      {
+//                                                                 strcpy(argTypes[numArgs1],$3.type); numArgs1++; printf("Argtype: %s\n",$3.type);
+//                                                             }   
+// ;
 
 list_of_lists: 
 
@@ -293,7 +333,7 @@ jump_statement:
 
 return: 
     RETURN 
-|   RETURN expression
+|   RETURN expression                               {strcpy(returnType,$2.type);}
 ;
 
 expression: 

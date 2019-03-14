@@ -70,3 +70,26 @@ extern void returnTypeMisMatchError(char *type1,char *type2, char * returnType, 
     dontPrint=1;
 }
 
+extern void tooLessArgumentsError(int lineno){
+
+    printf(RED "\n\nError in Line %d. ", lineno);
+    printf("Too few arguments!\n");
+    printf(RESET);
+    dontPrint=1;
+}
+
+extern void tooManyArgumentsError(int lineno){
+
+    printf(RED "\n\nError in Line %d. ", lineno);
+    printf("Too many arguments!\n");
+    printf(RESET);
+    dontPrint=1;
+}
+
+extern void argumentTypeMismatchError(char *type1,char *type2, int lineno){
+
+    printf(RED "\n\nError in Line %d. ", lineno);
+    printf("Argument mismatch: Argument in declaration of type : %s and in definition of type %s\n", type1,type2);
+    printf(RESET);
+    dontPrint=1;
+}

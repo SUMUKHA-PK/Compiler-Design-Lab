@@ -19,4 +19,10 @@ extern void redeclarationError(char *type1,char *type2, int lineno);
 
 extern void returnTypeMisMatchError(char *type1,char *type2, char * returnType, int lineno);
 
+extern void tooLessArgumentsError(int lineno);
+
+extern void tooManyArgumentsError(int lineno);
+
+extern void argumentTypeMismatchError(char *type1,char *type2, int lineno);
+
 #endif  // _ERRORS_H
