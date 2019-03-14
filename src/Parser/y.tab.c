@@ -1657,25 +1657,25 @@ yyreduce:
     {
         case 78:
 #line 267 "main.y" /* yacc.c:1646  */
-    {printf("Found int %s\n",(yyvsp[0].id));}
+    {printf("Found int %s\n");}
 #line 1662 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 79:
 #line 268 "main.y" /* yacc.c:1646  */
-    {printf("Found char %s\n",(yyvsp[0].id));}
+    {printf("Found char %s\n");}
 #line 1668 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 80:
 #line 269 "main.y" /* yacc.c:1646  */
-    {printf("Found float %s\n",(yyvsp[0].id));}
+    {printf("Found float %s\n");}
 #line 1674 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 81:
 #line 270 "main.y" /* yacc.c:1646  */
-    {printf("Found double %s\n",(yyvsp[0].id));}
+    {printf("Found double %s\n");}
 #line 1680 "y.tab.c" /* yacc.c:1646  */
     break;
 

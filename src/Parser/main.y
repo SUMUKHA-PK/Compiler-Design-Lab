@@ -34,11 +34,12 @@
     } symAttrib;
 }
 
-%token <id> VOID CHAR INT FLOAT DOUBLE SHORT UNSIGNED LONG
-%token <id> IF ELSE WHILE 
-%token <id> RETURN 
-%token <id> BREAK 
-%token <id> CONTINUE
+%token <id> VOID CHAR INT FLOAT DOUBLE 
+%token SHORT UNSIGNED LONG
+%token IF ELSE WHILE 
+%token RETURN 
+%token BREAK 
+%token CONTINUE
 
 %token <id> IDENTIFIER
 %token <num> NUM_INTEGER
@@ -264,10 +265,10 @@ constant_expression:
 declaration_specifiers: 
 
     VOID
-|   INT             {printf("Found int %s\n",$1);}                 
-|   CHAR            {printf("Found char %s\n",$1);}
-|   FLOAT           {printf("Found float %s\n",$1);}
-|   DOUBLE          {printf("Found double %s\n",$1);}
+|   INT             {printf("Found int %s\n");}                 
+|   CHAR            {printf("Found char %s\n");}
+|   FLOAT           {printf("Found float %s\n");}
+|   DOUBLE          {printf("Found double %s\n");}
 |   SHORT
 |   LONG
 |   UNSIGNED
