@@ -63,37 +63,25 @@ extern int yydebug;
     NUM_INTEGER = 273,
     NUM_FLOAT = 274,
     STRING_LITERAL = 275,
-    L_FLOWER_BRKT = 276,
-    R_FLOWER_BRKT = 277,
-    L_PAREN = 278,
-    R_PAREN = 279,
-    L_SQR_BRKT = 280,
-    R_SQR_BRKT = 281,
-    EXCLAMATION = 282,
-    TILDE = 283,
-    SEMICOLON = 284,
-    COLON = 285,
-    COMMA = 286,
-    DOT = 287,
-    INC_OP = 288,
-    DEC_OP = 289,
-    REL_LESSEQUAL = 290,
-    REL_GREATEQUAL = 291,
-    REL_EQUAL = 292,
-    REL_NOTEQUAL = 293,
-    REL_LESSTHAN = 294,
-    REL_GREATERTHAN = 295,
-    AR_PLUS = 296,
-    AR_MINUS = 297,
-    AR_MUL = 298,
-    AR_DIV = 299,
-    AR_MOD = 300,
-    BITWISE_XOR = 301,
-    BITWISE_AND = 302,
-    BITWISE_OR = 303,
-    LOG_AND = 304,
-    LOG_OR = 305,
-    LOG_COMPARE = 306
+    INC_OP = 276,
+    DEC_OP = 277,
+    REL_LESSEQUAL = 278,
+    REL_GREATEQUAL = 279,
+    REL_EQUAL = 280,
+    REL_NOTEQUAL = 281,
+    REL_LESSTHAN = 282,
+    REL_GREATERTHAN = 283,
+    AR_PLUS = 284,
+    AR_MINUS = 285,
+    AR_MUL = 286,
+    AR_DIV = 287,
+    AR_MOD = 288,
+    BITWISE_XOR = 289,
+    BITWISE_AND = 290,
+    BITWISE_OR = 291,
+    LOG_AND = 292,
+    LOG_OR = 293,
+    LOG_COMPARE = 294
   };
 #endif
 /* Tokens.  */
@@ -115,44 +103,32 @@ extern int yydebug;
 #define NUM_INTEGER 273
 #define NUM_FLOAT 274
 #define STRING_LITERAL 275
-#define L_FLOWER_BRKT 276
-#define R_FLOWER_BRKT 277
-#define L_PAREN 278
-#define R_PAREN 279
-#define L_SQR_BRKT 280
-#define R_SQR_BRKT 281
-#define EXCLAMATION 282
-#define TILDE 283
-#define SEMICOLON 284
-#define COLON 285
-#define COMMA 286
-#define DOT 287
-#define INC_OP 288
-#define DEC_OP 289
-#define REL_LESSEQUAL 290
-#define REL_GREATEQUAL 291
-#define REL_EQUAL 292
-#define REL_NOTEQUAL 293
-#define REL_LESSTHAN 294
-#define REL_GREATERTHAN 295
-#define AR_PLUS 296
-#define AR_MINUS 297
-#define AR_MUL 298
-#define AR_DIV 299
-#define AR_MOD 300
-#define BITWISE_XOR 301
-#define BITWISE_AND 302
-#define BITWISE_OR 303
-#define LOG_AND 304
-#define LOG_OR 305
-#define LOG_COMPARE 306
+#define INC_OP 276
+#define DEC_OP 277
+#define REL_LESSEQUAL 278
+#define REL_GREATEQUAL 279
+#define REL_EQUAL 280
+#define REL_NOTEQUAL 281
+#define REL_LESSTHAN 282
+#define REL_GREATERTHAN 283
+#define AR_PLUS 284
+#define AR_MINUS 285
+#define AR_MUL 286
+#define AR_DIV 287
+#define AR_MOD 288
+#define BITWISE_XOR 289
+#define BITWISE_AND 290
+#define BITWISE_OR 291
+#define LOG_AND 292
+#define LOG_OR 293
+#define LOG_COMPARE 294
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 
 union YYSTYPE
 {
-#line 26 "main.y" /* yacc.c:1909  */
+#line 30 "main.y" /* yacc.c:1909  */
 
 	char id[100];
     int num;
@@ -163,7 +139,7 @@ union YYSTYPE
             char val[100];
     } symAttrib;
 
-#line 167 "y.tab.h" /* yacc.c:1909  */
+#line 143 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

@@ -20,6 +20,7 @@
     int sl_flag = -1, mul_comment_flag = 0, start_multi = 0, invalid_mul_comment = 0;
 
     char type[100];
+    char functype[100];
 
 %}
 
@@ -27,17 +28,22 @@
 
 
 %union {
-    struct sym {
-            union {
-                char val[200];
-                int int_value;
-                float float_value;
-                double double_value;
-            };
+	char id[100];
+    int num;
+    float floatNum;
+    char charConst;
+    struct{
+            char type[100];
+            char val[100];
     } symAttrib;
 }
 
-%token <symAttrib> VOID CHAR INT FLOAT DOUBLE 
+%token <id> VOID 
+%token <id> CHAR
+%token <id> INT
+%token <id> FLOAT
+%token <id> DOUBLE 
+
 %token SHORT UNSIGNED LONG
 %token IF ELSE WHILE 
 %token RETURN 
@@ -47,20 +53,8 @@
 %token <id> IDENTIFIER
 %token <num> NUM_INTEGER
 %token <floatNum> NUM_FLOAT 
-%token <id> STRING_LITERAL
-// %token <id> L_FLOWER_BRKT    
-// %token <id> R_FLOWER_BRKT
-// %token <id> L_PAREN
-// %token <id> R_PAREN
-// %token <id> L_SQR_BRKT
-// %token <id> R_SQR_BRKT
-// %token <id> EXCLAMATION
-// %token <id> TILDE
+%token STRING_LITERAL
 
-// %token <id> SEMICOLON
-// %token <id> COLON
-// %token <id> COMMA 
-// %token <id> DOT
 %token INC_OP 
 %token DEC_OP
 
@@ -68,6 +62,8 @@
 %left AR_PLUS AR_MINUS AR_MUL AR_DIV AR_MOD BITWISE_XOR BITWISE_AND BITWISE_OR
 %left LOG_AND LOG_OR LOG_COMPARE
 
+
+%type <id> declaration_specifiers 
 
 %start start_unit
 
@@ -86,11 +82,9 @@ external_declaration:
 ;
 
 function_definition: 
-
-    declaration_specifiers direct_declarator declaration_list compound_statement 
+    declaration_specifiers direct_declarator declaration_list compound_statement
 |   declaration_specifiers direct_declarator compound_statement
 |   direct_declarator declaration_list compound_statement
-|   direct_declarator compound_statement
 ;
 
 declaration:
@@ -101,16 +95,16 @@ declaration:
 
 declaration_specifiers: 
 
-    VOID
-|   INT                              
-|   CHAR            
-|   FLOAT           
-|   DOUBLE          
+    VOID                    {strcpy(type,$1);strcpy($$,$1); printf("Declare %s\n",$1);} //Copies data to parent node
+|   INT                     {strcpy(type,$1);strcpy($$,$1); printf("Declare %s\n",$1);}                               
+|   CHAR                    {strcpy(type,$1);strcpy($$,$1); printf("Declare %s\n",$1);}           
+|   FLOAT                   {strcpy(type,$1);strcpy($$,$1); printf("Declare %s\n",$1);}           
+|   DOUBLE                  {strcpy(type,$1);strcpy($$,$1); printf("Declare %s\n",$1);}         
 ;
 
 direct_declarator: 
 
-    IDENTIFIER                  
+    IDENTIFIER                                      { insertsymbolToken(yytext,type, yylineno, 0); printf("Type: %s\n",type); }            
 |   '(' direct_declarator ')'
 |   direct_declarator '[' log_or_expression ']'
 |   direct_declarator '[' ']'
@@ -145,8 +139,8 @@ log_or_expression:
 
 parameter_list: 
 
-    parameter_declaration       { printf("Parameter dcl : %s\n");}
-|   parameter_list ',' parameter_declaration      { printf("Parameter list : %s\n");}      
+    parameter_declaration       
+|   parameter_list ',' parameter_declaration         
 ;
 
 identifier_list:
@@ -183,8 +177,8 @@ list_of_lists:
 
 init_declarator: 
 
-    direct_declarator
-|   direct_declarator '=' initializer
+    direct_declarator          
+|   direct_declarator '=' initializer  {}
 ;
 
 log_and_expression: 
@@ -200,7 +194,7 @@ list:
 ;
 
 initializer:
-     assignment_expression
+    assignment_expression
 |   '{' initializer_list '}'
 |   '{' initializer_list ',' '}'
 ;
@@ -259,7 +253,7 @@ assignment_expression:
 
 initializer_list: 
     initializer
-|   initializer_list '=' initializer
+|   initializer_list '=' initializer  
 ;
 
 unary_expression: 

@@ -5,7 +5,7 @@ int main()
     int e = 11;
     if(1==1){
         int x = 0;
-        int y=0;
+        x=1.1;
         int g=1;
     }
 }
