@@ -137,7 +137,13 @@ declaration_specifiers:
 
 direct_declarator: 
 
-    IDENTIFIER                                      { insertsymbolToken(yytext,Type, yylineno, 0);}            
+    IDENTIFIER                                      {   if(!findInHashTable($1.val,$1.type)){
+                                                            insertsymbolToken(yytext,$1.type, yylineno, 0);
+                                                        }
+                                                        else{
+                                                            redeclarationError($1.type,$1.val,yylineno);
+                                                        }
+                                                    }               
 // |   '(' direct_declarator ')'
 |   direct_declarator '[' log_or_expression ']'
 |   direct_declarator '[' ']'
@@ -217,7 +223,7 @@ init_declarator:
                                                             }
                                                         }
                                                         else{
-                                                            variableNotDeclaredError($3.type,yylineno);
+                                                            variableNotDeclaredError($3.type,$3.val,yylineno);
                                                         }
                                                     }
 ;
@@ -291,7 +297,7 @@ assignment_expression:
                                                             }
                                                         }
                                                         else{
-                                                            variableNotDeclaredError($3.type,yylineno);
+                                                            variableNotDeclaredError($3.type,$3.val,yylineno);
                                                         }
                                                     }
 ;

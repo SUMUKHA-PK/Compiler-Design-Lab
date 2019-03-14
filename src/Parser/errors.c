@@ -46,10 +46,18 @@ extern void typeMismatchError(char *type1, char *type2, int lineno){
     dontPrint=1;
 }
 
-extern void variableNotDeclaredError(char *type1, int lineno){
+extern void variableNotDeclaredError(char *type1,char *type2, int lineno){
 
     printf(RED "\n\nError in Line %d. ", lineno);
-    printf("Variable not declared of type : %s\n", type1);
+    printf("Variable not declared of type : %s and value %s\n", type1,type2);
+    printf(RESET);
+    dontPrint=1;
+}
+
+extern void redeclarationError(char *type1,char *type2, int lineno){
+
+    printf(RED "\n\nError in Line %d. ", lineno);
+    printf("Variable redeclared of type : %s and value %s\n", type1,type2);
     printf(RESET);
     dontPrint=1;
 }
