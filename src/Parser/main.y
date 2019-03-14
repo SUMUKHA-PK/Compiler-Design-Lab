@@ -19,22 +19,25 @@
 
     int sl_flag = -1, mul_comment_flag = 0, start_multi = 0, invalid_mul_comment = 0;
 
+    char type[100];
+
 %}
 
 %locations
 
+
 %union {
-	char id[100];
-    int num;
-    float floatNum;
-    char charConst;
-    struct{
-            char type[100];
-            char val[100];
+    struct sym {
+            union {
+                char val[200];
+                int int_value;
+                float float_value;
+                double double_value;
+            };
     } symAttrib;
 }
 
-%token <id> VOID CHAR INT FLOAT DOUBLE 
+%token <symAttrib> VOID CHAR INT FLOAT DOUBLE 
 %token SHORT UNSIGNED LONG
 %token IF ELSE WHILE 
 %token RETURN 
@@ -275,6 +278,7 @@ primary_expression:
 |   STRING_LITERAL
 |   '(' expression ')'
 ;
+
 
 unary_operator: 
 
