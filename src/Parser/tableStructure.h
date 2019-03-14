@@ -41,6 +41,8 @@ extern void initTable(Tables* table);
 // table = 1 => print constantTable
 extern void printTable(int table,Tables* tableP);
 
+extern void printTables();
+
 // The awesome hash function
 int hash(unsigned char * s);
 

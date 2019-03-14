@@ -56,7 +56,7 @@ NEWLINE "\\n"
                                             }
 "char"                                      {   if(yylineno!=sl_flag&&mul_comment_flag!=1) {
                                                     insertsymbolToken(yytext, "CHARACTER", yylineno, 0); 
-                                                    strcpy(yylval.id, yytext);
+                                                
                                                     return CHAR;
                                                 }
                                             }
@@ -67,7 +67,7 @@ NEWLINE "\\n"
                                             }
 "double"                                    {   if(yylineno!=sl_flag&&mul_comment_flag!=1) {
                                                     insertsymbolToken(yytext, "DOUBLE", yylineno, 0); 
-                                                    strcpy(yylval.id, yytext);
+                                                   
                                                     return DOUBLE;
                                                 }
                                             }
@@ -78,7 +78,7 @@ NEWLINE "\\n"
                                             }
 "float"                                     {   if(yylineno!=sl_flag&&mul_comment_flag!=1) {
                                                     insertsymbolToken(yytext, "FLOAT", yylineno, 0); 
-                                                    strcpy(yylval.id, yytext);
+                                                    
                                                     return FLOAT;
                                                 }
                                             }
@@ -89,7 +89,8 @@ NEWLINE "\\n"
                                             }
 "int"                                       {   if(yylineno!=sl_flag&&mul_comment_flag!=1) {
                                                     insertsymbolToken(yytext, "INT", yylineno, 0); 
-                                                    strcpy(yylval.id, yytext);
+                                                    
+                                                   
                                                     return INT;
                                                 }
                                             }
@@ -115,7 +116,7 @@ NEWLINE "\\n"
                                             }
 "void"                                      {   if(yylineno!=sl_flag&&mul_comment_flag!=1) {
                                                     insertsymbolToken(yytext, "VOID", yylineno, 0); 
-                                                    strcpy(yylval.id, yytext);
+                                                    strcpy(yylval.symAttrib.val, yytext);
                                                     return VOID;
                                                 }
                                             }
@@ -177,97 +178,98 @@ LETTER?\"(\\.|[^\\"])*\"	                {   if(yylineno!=sl_flag&&mul_comment_f
                                                 }
                                             }
 ";"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return SEMICOLON; 
+                                                 return ';'; 
                                                 }
                                             }
 "{"		                                    { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 incrementTableScope(); return L_FLOWER_BRKT;
+                                                 incrementTableScope(); return '{';
                                                 }
                                             }
 "}"		                                    { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 returnToParentScope(); return R_FLOWER_BRKT; 
+                                                 returnToParentScope(); return '}'; 
                                                 }
                                             }
 ","			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return COMMA; 
+                                                 return ','; 
                                                 }
                                             }
 ":"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return COLON; 
+                                                 return ':'; 
                                                 }
                                             }
 "="			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return REL_EQUAL; 
+                                                 return '='; 
                                                 }
                                             }
 "("			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return L_PAREN; 
+                                                 return('('); 
                                                 }
                                             }
 ")"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return R_PAREN; 
+                                                 return(')'); 
                                                 }
                                             }
 "["		                                    { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return L_SQR_BRKT; 
+                                                 return('['); 
                                                 }
                                             }
 "]"		                                    { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return R_SQR_BRKT; 
+                                                 return(']'); 
                                                 }
                                             }
 "."			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return DOT; 
+                                                 return('.'); 
                                                 }
                                             }
 "&"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return BITWISE_AND; 
+                                                 return('&'); 
                                                 }
                                             }
 "!"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return EXCLAMATION; 
+                                                 return('!'); 
                                                 }
                                             }
 "~"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return TILDE; 
+                                                 return('~'); 
                                                 }
                                             }
 "-"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return AR_MINUS; 
+                                                 return('-'); 
                                                 }
                                             }
 "+"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return AR_PLUS; 
+                                                 return('+'); 
                                                 }
                                             }
 "*"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return AR_MUL; 
+                                                 return('*'); 
                                                 }
                                             }
 "/"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return AR_DIV; 
+                                                 return('/'); 
                                                 }
                                             }
 "%"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return AR_MOD; 
+                                                 return('%'); 
                                                 }
                                             }
 "<"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return REL_LESSTHAN; 
+                                                 return('<'); 
                                                 }
                                             }
 ">"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return REL_GREATERTHAN; 
+                                                 return('>'); 
                                                 }
                                             }
 "^"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return BITWISE_XOR; 
+                                                 return('^'); 
                                                 }
                                             }
 "|"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return BITWISE_OR; 
+                                                 return('|'); 
                                                 }
                                             }   
+
                                             
 %%
 
