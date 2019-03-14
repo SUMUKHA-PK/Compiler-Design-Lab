@@ -19,58 +19,104 @@
 
     int sl_flag = -1, mul_comment_flag = 0, start_multi = 0, invalid_mul_comment = 0;
 
+    char type[100];
+
 %}
 
 %locations
 
+
 %union {
-	char id[100];
-    int num;
-    float floatNum;
-    char charConst;
-    struct{
-            char type[100];
-            char val[100];
+    struct sym {
+            union {
+                char val[200];
+                int int_value;
+                float float_value;
+                double double_value;
+            };
     } symAttrib;
 }
 
-%token <id> VOID CHAR INT FLOAT DOUBLE 
+%token <symAttrib> VOID CHAR INT FLOAT DOUBLE 
 %token SHORT UNSIGNED LONG
 %token IF ELSE WHILE 
 %token RETURN 
 %token BREAK 
 %token CONTINUE
 
-%token <id> IDENTIFIER
-%token <num> NUM_INTEGER
-%token <floatNum> NUM_FLOAT 
-%token <id> STRING_LITERAL
-%token <id> L_FLOWER_BRKT    
-%token <id> R_FLOWER_BRKT
-%token <id> L_PAREN
-%token <id> R_PAREN
-%token <id> L_SQR_BRKT
-%token <id> R_SQR_BRKT
-%token <id> EXCLAMATION
-%token <id> TILDE
+%token <symAttrib> IDENTIFIER
+%token <symAttrib> NUM_INTEGER
+%token <symAttrib> NUM_FLOAT 
+%token <symAttrib> STRING_LITERAL
+%token <symAttrib> L_FLOWER_BRKT    
+%token <symAttrib> R_FLOWER_BRKT
+%token <symAttrib> L_PAREN
+%token <symAttrib> R_PAREN
+%token <symAttrib> L_SQR_BRKT
+%token <symAttrib> R_SQR_BRKT
+%token <symAttrib> EXCLAMATION
+%token <symAttrib> TILDE
 
-%token <id> SEMICOLON
-%token <id> COLON
-%token <id> COMMA 
-%token <id> DOT
-%token INC_OP 
-%token DEC_OP
+%token <symAttrib> SEMICOLON
+%token <symAttrib> COLON
+%token <symAttrib> COMMA 
+%token <symAttrib> DOT
+%token <symAttrib> INC_OP 
+%token <symAttrib> DEC_OP
 
-%left REL_LESSEQUAL REL_GREATEQUAL REL_EQUAL REL_NOTEQUAL REL_LESSTHAN REL_GREATERTHAN
+%token <symAttrib> REL_EQUAL
+%token <symAttrib> REL_GREATEQUAL
+%token <symAttrib> REL_GREATERTHAN
+%token <symAttrib> REL_LESSEQUAL
+%token <symAttrib> REL_LESSTHAN
+%token <symAttrib> REL_NOTEQUAL
+
+%token <symAttrib> AR_PLUS
+%token <symAttrib> AR_MINUS
+%token <symAttrib> AR_MUL
+%token <symAttrib> AR_DIV
+%token <symAttrib> AR_MOD
+%token <symAttrib> BITWISE_AND
+%token <symAttrib> BITWISE_OR
+%token <symAttrib> BITWISE_XOR
+
+%token <symAttrib> LOG_AND
+%token <symAttrib> LOG_OR
+%token <symAttrib> LOG_COMPARE
+
+
+%left  REL_LESSEQUAL REL_GREATEQUAL REL_EQUAL REL_NOTEQUAL REL_LESSTHAN REL_GREATERTHAN
 %left AR_PLUS AR_MINUS AR_MUL AR_DIV AR_MOD BITWISE_XOR BITWISE_AND BITWISE_OR
 %left LOG_AND LOG_OR LOG_COMPARE
 
-%type <id> parameter_declaration
-%type <id> parameter_list
-%type <id> direct_declarator
-%type <id> direct_abstract_declarator
-%type <id> declaration_specifiers
-%type <id> primary_expression
+%type <symAttrib> parameter_declaration
+%type <symAttrib> parameter_list
+
+%type <symAttrib> direct_declarator
+%type <symAttrib> direct_abstract_declarator
+
+%type <symAttrib> declaration_specifiers
+
+%type <symAttrib> expression
+%type <symAttrib> assignment_expression
+%type <symAttrib> log_and_expression
+%type <symAttrib> log_or_expression
+%type <symAttrib> or_expression
+%type <symAttrib> and_expression
+%type <symAttrib> xor_expression
+%type <symAttrib> relational_expression
+%type <symAttrib> additive_expression
+%type <symAttrib> multiplicative_expression
+%type <symAttrib> primary_expression
+%type <symAttrib> unary_expression
+%type <symAttrib> equality_expression
+%type <symAttrib> unary_operator
+
+
+
+%type <symAttrib> init_declaration_list
+%type <symAttrib> init_declarator
+
 %start start_unit
 
 %% 
@@ -97,22 +143,32 @@ function_definition:
 
 declaration:
 
-    declaration_specifiers SEMICOLON
-|   declaration_specifiers init_declaration_list SEMICOLON
+|   declaration_specifiers init_declaration_list SEMICOLON {}
 ;
 
 declaration_specifiers: 
 
-    VOID
-|   INT             {printf("Found int %s\n");}                 
-|   CHAR            {printf("Found char %s\n");}
-|   FLOAT           {printf("Found float %s\n");}
-|   DOUBLE          {printf("Found double %s\n");}
+    VOID            {strcpy(type, $1.val); strcpy($$.val, $1.val);}
+|   INT             {strcpy(type, $1.val); strcpy($$.val, $1.val);}
+|   CHAR           {strcpy(type, $1.val); strcpy($$.val, $1.val);}
+|   FLOAT           {strcpy(type, $1.val); strcpy($$.val, $1.val);}
+|   DOUBLE          {strcpy(type, $1.val); strcpy($$.val, $1.val);}
+|   Modifiers INT   {strcpy(type, $2.val); strcpy($$.val, $2.val);}
+|   Modifiers FLOAT {strcpy(type, $2.val); strcpy($$.val, $2.val);}
+|   Modifiers CHAR      {strcpy(type, $2.val); strcpy($$.val, $2.val);}
+|   Modifiers DOUBLE    {strcpy(type, $2.val); strcpy($$.val, $2.val);}
+;
+
+Modifiers: 
+
+    SHORT
+|   UNSIGNED
+|   LONG
 ;
 
 direct_declarator: 
 
-    IDENTIFIER                  
+    IDENTIFIER      
 |   L_PAREN direct_declarator R_PAREN
 |   direct_declarator L_SQR_BRKT log_or_expression R_SQR_BRKT
 |   direct_declarator L_SQR_BRKT R_SQR_BRKT
@@ -202,7 +258,7 @@ list:
 ;
 
 initializer:
-     assignment_expression
+    assignment_expression
 |   L_FLOWER_BRKT initializer_list R_FLOWER_BRKT
 |   L_FLOWER_BRKT initializer_list COMMA R_FLOWER_BRKT
 ;
@@ -255,7 +311,6 @@ jump_statement:
 expression: 
 
     assignment_expression
-|   expression COMMA assignment_expression
 ;
 
 assignment_expression: 
@@ -280,11 +335,12 @@ unary_expression:
 primary_expression: 
 
     IDENTIFIER                      {printf("Assigned to : %s",$$);} // Assignment check
-|   NUM_FLOAT
-|   NUM_INTEGER
 |   STRING_LITERAL
 |   L_PAREN expression R_PAREN
+|   NUM_INTEGER
+|   NUM_FLOAT
 ;
+
 
 unary_operator: 
 
