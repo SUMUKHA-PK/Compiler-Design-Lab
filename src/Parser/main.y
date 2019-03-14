@@ -70,6 +70,7 @@
 %type <id> direct_declarator
 %type <id> direct_abstract_declarator
 %type <id> declaration_specifiers
+%type <id> primary_expression
 %start start_unit
 
 %% 
@@ -107,9 +108,6 @@ declaration_specifiers:
 |   CHAR            {printf("Found char %s\n");}
 |   FLOAT           {printf("Found float %s\n");}
 |   DOUBLE          {printf("Found double %s\n");}
-|   SHORT
-|   LONG
-|   UNSIGNED
 ;
 
 direct_declarator: 
@@ -281,7 +279,7 @@ unary_expression:
 
 primary_expression: 
 
-    IDENTIFIER
+    IDENTIFIER                      {printf("Assigned to : %s",$$);} // Assignment check
 |   NUM_FLOAT
 |   NUM_INTEGER
 |   STRING_LITERAL
