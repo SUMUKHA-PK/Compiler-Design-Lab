@@ -1,6 +1,4 @@
-int func_name(int x);
-
-int func_name(int x,float y,int z) {
-
+int func_name(int x) {
     
+    return 0;
 }

@@ -17,4 +17,6 @@ extern void variableNotDeclaredError(char *type1,char *type2, int lineno);
 
 extern void redeclarationError(char *type1,char *type2, int lineno);
 
+extern void returnTypeMisMatchError(char *type1,char *type2, char * returnType, int lineno);
+
 #endif  // _ERRORS_H

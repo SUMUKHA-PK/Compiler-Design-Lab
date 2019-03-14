@@ -61,3 +61,12 @@ extern void redeclarationError(char *type1,char *type2, int lineno){
     printf(RESET);
     dontPrint=1;
 }
+
+extern void returnTypeMisMatchError(char *type1,char *type2, char * returnType, int lineno){
+
+    printf(RED "\n\nError in Line %d. ", lineno);
+    printf("Invalid return type %s for function of type : %s and value %s\n",returnType, type1,type2);
+    printf(RESET);
+    dontPrint=1;
+}
+

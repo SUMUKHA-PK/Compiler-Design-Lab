@@ -10,4 +10,5 @@ int main()
         x = 3.4;
         int g=1;
     }
+    return ;
 }

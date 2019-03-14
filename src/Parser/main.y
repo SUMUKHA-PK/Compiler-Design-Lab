@@ -115,8 +115,16 @@ external_declaration:
 ;
 
 function_definition: 
-    declaration_specifiers direct_declarator declaration_list compound_statement
-|   declaration_specifiers direct_declarator compound_statement
+    declaration_specifiers direct_declarator declaration_list compound_statement  { if(returnType[0]=='\0') strcpy(returnType,"void");
+                                                                                    if(strcmp($1.type,returnType)){
+                                                                                        returnTypeMisMatchError($1.type,$1.val,returnType, yylineno);
+                                                                                    }
+                                                                                  }
+|   declaration_specifiers direct_declarator compound_statement                   { if(returnType[0]=='\0') strcpy(returnType,"void");
+                                                                                    if(strcmp($1.type,returnType)){
+                                                                                        returnTypeMisMatchError($1.type,$1.val,returnType, yylineno);
+                                                                                    }
+                                                                                  }
 |   direct_declarator declaration_list compound_statement
 ;
 
