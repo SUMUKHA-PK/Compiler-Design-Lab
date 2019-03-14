@@ -24,6 +24,7 @@ typedef struct symbol {
 typedef struct table {
 	symbolToken * symbolTable[1000];  
 	symbolToken * constantTable[1000];
+	char * funcData[100];
 	int ID; 
 	struct table * parent;
 	struct table * next;

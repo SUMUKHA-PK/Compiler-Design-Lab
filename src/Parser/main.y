@@ -23,23 +23,52 @@
 
 %locations
 
-%token VOID CHAR INT FLOAT DOUBLE SHORT UNSIGNED LONG
-%token IF ELSE WHILE 
-%token RETURN 
-%token BREAK 
-%token CONTINUE
+%union {
+	char id[100];
+    int num;
+    float floatNum;
+    char charConst;
+    struct{
+            char type[100];
+            char val[100];
+    } symAttrib;
+}
 
-%token IDENTIFIER
-%token NUM_INTEGER NUM_FLOAT 
-%token STRING_LITERAL
+%token <id> VOID CHAR INT FLOAT DOUBLE SHORT UNSIGNED LONG
+%token <id> IF ELSE WHILE 
+%token <id> RETURN 
+%token <id> BREAK 
+%token <id> CONTINUE
 
-%left REL_LESSEQUAL REL_GREATEQUAL REL_EQUAL REL_NOTEQUAL REL_LESSTHAN REL_GREATERTHAN
+%token <id> IDENTIFIER
+%token <num> NUM_INTEGER
+%token <floatNum> NUM_FLOAT 
+%token <id> STRING_LITERAL
+%token <id> L_FLOWER_BRKT    
+%token <id> R_FLOWER_BRKT
+%token <id> L_PAREN
+%token <id> R_PAREN
+%token <id> L_SQR_BRKT
+%token <id> R_SQR_BRKT
+%token <id> EXCLAMATION
+%token <id> TILDE
 
-%left LOG_AND LOG_OR LOG_COMPARE
-
+%token <id> SEMICOLON
+%token <id> COLON
+%token <id> COMMA 
+%token <id> DOT
 %token INC_OP 
 %token DEC_OP
 
+%left REL_LESSEQUAL REL_GREATEQUAL REL_EQUAL REL_NOTEQUAL REL_LESSTHAN REL_GREATERTHAN
+%left AR_PLUS AR_MINUS AR_MUL AR_DIV AR_MOD BITWISE_XOR BITWISE_AND BITWISE_OR
+%left LOG_AND LOG_OR LOG_COMPARE
+
+%type <id> parameter_declaration
+%type <id> parameter_list
+%type <id> direct_declarator
+%type <id> direct_abstract_declarator
+%type <id> declaration_specifiers
 %start start_unit
 
 %% 
@@ -58,10 +87,10 @@ external_declaration:
 
 function_definition: 
 
-    declaration_specifiers declarator declaration_list compound_statement
-|   declaration_specifiers declarator compound_statement
-|   declarator declaration_list compound_statement
-|   declarator compound_statement
+    declaration_specifiers direct_declarator declaration_list compound_statement //{  addData();}
+|   declaration_specifiers direct_declarator compound_statement
+|   direct_declarator declaration_list compound_statement
+|   direct_declarator compound_statement
 ;
 
 statement: 
@@ -74,8 +103,6 @@ statement:
 |   jump_statement
 ;
 
-
-
 labeled_statement: 
 
     IDENTIFIER ':' statement
@@ -83,14 +110,14 @@ labeled_statement:
 
 compound_statement: 
 
-    '{' '}'
-|   '{' list_of_lists '}'        {printf("Got a compound statement\n");}
+    L_FLOWER_BRKT R_FLOWER_BRKT
+|   L_FLOWER_BRKT list_of_lists R_FLOWER_BRKT        
 ;
 
 list: 
 
-    declaration_list  {printf("Got a declaration / declaration_list\n");}
-|   statement     {printf("Got a statement_list\n");}
+    declaration_list 
+|   statement     
 ;
 
 
@@ -100,32 +127,28 @@ list_of_lists:
 |   list_of_lists list
 ;
 
-
-
-
-
 expression_statement: 
 
-    ';'
-|   expression ';'
+    SEMICOLON
+|   expression SEMICOLON
 ;
 
 if_statement: 
 
-    IF '(' expression ')' statement
-|   IF '(' expression ')' statement ELSE statement
+    IF L_PAREN expression R_PAREN statement
+|   IF L_PAREN expression R_PAREN statement ELSE statement
 ;
 
 while_statement: 
 
-    WHILE '(' expression ')' statement
+    WHILE L_PAREN expression R_PAREN statement
 ;
 
 jump_statement: 
 
-    RETURN expression ';'
-|   BREAK ';'
-|   CONTINUE ';'
+    RETURN expression SEMICOLON
+|   BREAK SEMICOLON
+|   CONTINUE SEMICOLON
 ;
 
 primary_expression: 
@@ -134,7 +157,7 @@ primary_expression:
 |   NUM_FLOAT
 |   NUM_INTEGER
 |   STRING_LITERAL
-|   '(' expression ')'
+|   L_PAREN expression R_PAREN
 ;
 
 unary_expression: 
@@ -147,34 +170,34 @@ unary_expression:
 
 unary_operator: 
 
-    '&'
-|   '*'
-|   '+'
-|   '-'
-|   '~'
-|   '!'
+    BITWISE_AND
+|   AR_MUL
+|   AR_PLUS
+|   AR_MINUS
+|   TILDE
+|   EXCLAMATION
 ;
 
 multiplicative_expression:
 
     unary_expression
-|   multiplicative_expression '*' unary_expression
-|   multiplicative_expression '/' unary_expression
-|   multiplicative_expression '%' unary_expression
+|   multiplicative_expression AR_MUL unary_expression
+|   multiplicative_expression AR_DIV unary_expression
+|   multiplicative_expression AR_MOD unary_expression
 ;
 
 additive_expression:
 
     multiplicative_expression
-|   additive_expression '+' multiplicative_expression
-|   additive_expression '-' multiplicative_expression
+|   additive_expression AR_PLUS multiplicative_expression
+|   additive_expression AR_MINUS multiplicative_expression
 ;
 
 relational_expression: 
 
     additive_expression
-|   relational_expression '<' additive_expression
-|   relational_expression '>' additive_expression
+|   relational_expression REL_LESSTHAN additive_expression
+|   relational_expression REL_GREATERTHAN additive_expression
 |   relational_expression REL_LESSEQUAL additive_expression
 |   relational_expression REL_GREATEQUAL additive_expression
 ;
@@ -189,19 +212,19 @@ equality_expression:
 and_expression:
 
     equality_expression
-|   and_expression '&' equality_expression
+|   and_expression BITWISE_AND equality_expression
 ;
 
 xor_expression: 
 
     and_expression
-|   xor_expression '^' and_expression
+|   xor_expression BITWISE_XOR and_expression
 ;
 
 or_expression:
 
     xor_expression
-|   or_expression '|' xor_expression
+|   or_expression BITWISE_OR xor_expression
 ;
 
 log_and_expression: 
@@ -224,13 +247,13 @@ assignment_expression:
 
 assignment_operator: 
 
-    '='
+    REL_EQUAL
 ;
 
 expression: 
 
     assignment_expression
-|   expression ',' assignment_expression
+|   expression COMMA assignment_expression
 ;
 
 constant_expression: 
@@ -241,78 +264,69 @@ constant_expression:
 declaration_specifiers: 
 
     VOID
-|   INT             {printf("Found int\n");}                 
-|   CHAR            {{printf("Found char\n");}}
-|   FLOAT           {{printf("Found float\n");}}
-|   DOUBLE          {printf("Found double\n");}
+|   INT             {printf("Found int %s\n",$1);}                 
+|   CHAR            {printf("Found char %s\n",$1);}
+|   FLOAT           {printf("Found float %s\n",$1);}
+|   DOUBLE          {printf("Found double %s\n",$1);}
 |   SHORT
 |   LONG
 |   UNSIGNED
 ;
 
-declarator: 
-
-    direct_declarator           
-;
-
 direct_declarator: 
 
     IDENTIFIER                  
-|   '(' declarator ')'
-|   direct_declarator '[' constant_expression ']'
-|   direct_declarator '[' ']'
-|   direct_declarator '(' parameter_list ')'
-|   direct_declarator '(' identifier_list ')'
-|   direct_declarator '(' ')'
+|   L_PAREN direct_declarator R_PAREN
+|   direct_declarator L_SQR_BRKT constant_expression R_SQR_BRKT
+|   direct_declarator L_SQR_BRKT R_SQR_BRKT
+|   direct_declarator L_PAREN parameter_list R_PAREN
+|   direct_declarator L_PAREN identifier_list R_PAREN
+|   direct_declarator L_PAREN R_PAREN
 ;
 
 identifier_list:
 
     IDENTIFIER
-|   identifier_list ',' IDENTIFIER
+|   identifier_list COMMA IDENTIFIER
 ;
 
 parameter_list: 
 
-    parameter_declaration
-|   parameter_list ',' parameter_declaration
+    parameter_declaration       { printf("Parameter dcl : %s\n");}
+|   parameter_list COMMA parameter_declaration      { printf("Parameter list : %s\n");}      
 ;
 
 parameter_declaration: 
 
-    declaration_specifiers declarator
-|   declaration_specifiers abstract_declarator
+    declaration_specifiers direct_declarator 
+|   declaration_specifiers direct_abstract_declarator
 |   declaration_specifiers
 ;
 
-abstract_declarator: 
-
-    direct_abstract_declarator
-;
 
 direct_abstract_declarator:
 
-     '(' abstract_declarator ')'
-|    '[' ']'
-|    '[' constant_expression ']'
-|    direct_abstract_declarator '[' ']'
-|    direct_abstract_declarator '[' constant_expression ']'
-|    '(' ')'
-|    '(' parameter_list ')'
-|    direct_abstract_declarator '(' ')'
-|    direct_abstract_declarator '(' parameter_list ')'
+     L_PAREN direct_abstract_declarator R_PAREN
+|    L_SQR_BRKT R_SQR_BRKT
+|    L_SQR_BRKT constant_expression R_SQR_BRKT
+|    direct_abstract_declarator L_SQR_BRKT R_SQR_BRKT
+|    direct_abstract_declarator L_SQR_BRKT constant_expression R_SQR_BRKT
+|    L_PAREN R_PAREN
+|    L_PAREN parameter_list R_PAREN
+|    direct_abstract_declarator L_PAREN R_PAREN
+|    direct_abstract_declarator L_PAREN parameter_list R_PAREN
 ;
 
 declaration:
 
-    declaration_specifiers ';'
-|   declaration_specifiers init_declaration_list ';'
+    declaration_specifiers SEMICOLON
+|   declaration_specifiers init_declaration_list SEMICOLON
 ;
 
 declaration_list: 
 
     declaration
-|   declaration_list ',' declaration
+|   declaration_list COMMA declaration
 ;
 
 
@@ -320,24 +334,24 @@ declaration_list:
 init_declaration_list: 
 
     init_declarator
-|   init_declaration_list ',' init_declarator
+|   init_declaration_list COMMA init_declarator
 ;
 
 init_declarator: 
 
-    declarator
-|   declarator '=' initializer
+    direct_declarator
+|   direct_declarator REL_EQUAL initializer
 ;
 
 initializer:
      assignment_expression
-|   '{' initializer_list '}'
-|   '{' initializer_list ',' '}'
+|   L_FLOWER_BRKT initializer_list R_FLOWER_BRKT
+|   L_FLOWER_BRKT initializer_list COMMA R_FLOWER_BRKT
 ;
 
 initializer_list: 
     initializer
-|   initializer_list ',' initializer
+|   initializer_list COMMA initializer
 ;
 
 %%

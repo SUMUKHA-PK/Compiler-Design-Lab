@@ -42,7 +42,6 @@ void incrementTableScope(){
     }
     // Internal scope
     else{
-        printf("BATHN");
         newTable->ID = currTableID+1;
         currTableID = newTable->ID;
         newTable->parent = currTable;
@@ -160,4 +159,20 @@ void insertsymbolToken(char *value, char *type, int lineNumber, int tableno){
             temp->next = item;
     }
     
+}
+
+int findInHashTable(char * value,char *type){
+    
+    Tables * table = currTable;
+    int hashIndex = hash(value);
+    int f = 0;
+    symbolToken * temp = table->symbolTable[hashIndex];
+    while(temp!=NULL){
+        if(!strcmp(temp->value,value)&&!strcmp(temp->type,type)){
+            f=1;
+            break;
+        }
+        temp=temp->next;
+    }
+    return f;
 }

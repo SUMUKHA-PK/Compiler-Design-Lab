@@ -63,17 +63,37 @@ extern int yydebug;
     NUM_INTEGER = 273,
     NUM_FLOAT = 274,
     STRING_LITERAL = 275,
-    REL_LESSEQUAL = 276,
-    REL_GREATEQUAL = 277,
-    REL_EQUAL = 278,
-    REL_NOTEQUAL = 279,
-    REL_LESSTHAN = 280,
-    REL_GREATERTHAN = 281,
-    LOG_AND = 282,
-    LOG_OR = 283,
-    LOG_COMPARE = 284,
-    INC_OP = 285,
-    DEC_OP = 286
+    L_FLOWER_BRKT = 276,
+    R_FLOWER_BRKT = 277,
+    L_PAREN = 278,
+    R_PAREN = 279,
+    L_SQR_BRKT = 280,
+    R_SQR_BRKT = 281,
+    EXCLAMATION = 282,
+    TILDE = 283,
+    SEMICOLON = 284,
+    COLON = 285,
+    COMMA = 286,
+    DOT = 287,
+    INC_OP = 288,
+    DEC_OP = 289,
+    REL_LESSEQUAL = 290,
+    REL_GREATEQUAL = 291,
+    REL_EQUAL = 292,
+    REL_NOTEQUAL = 293,
+    REL_LESSTHAN = 294,
+    REL_GREATERTHAN = 295,
+    AR_PLUS = 296,
+    AR_MINUS = 297,
+    AR_MUL = 298,
+    AR_DIV = 299,
+    AR_MOD = 300,
+    BITWISE_XOR = 301,
+    BITWISE_AND = 302,
+    BITWISE_OR = 303,
+    LOG_AND = 304,
+    LOG_OR = 305,
+    LOG_COMPARE = 306
   };
 #endif
 /* Tokens.  */
@@ -95,21 +115,58 @@ extern int yydebug;
 #define NUM_INTEGER 273
 #define NUM_FLOAT 274
 #define STRING_LITERAL 275
-#define REL_LESSEQUAL 276
-#define REL_GREATEQUAL 277
-#define REL_EQUAL 278
-#define REL_NOTEQUAL 279
-#define REL_LESSTHAN 280
-#define REL_GREATERTHAN 281
-#define LOG_AND 282
-#define LOG_OR 283
-#define LOG_COMPARE 284
-#define INC_OP 285
-#define DEC_OP 286
+#define L_FLOWER_BRKT 276
+#define R_FLOWER_BRKT 277
+#define L_PAREN 278
+#define R_PAREN 279
+#define L_SQR_BRKT 280
+#define R_SQR_BRKT 281
+#define EXCLAMATION 282
+#define TILDE 283
+#define SEMICOLON 284
+#define COLON 285
+#define COMMA 286
+#define DOT 287
+#define INC_OP 288
+#define DEC_OP 289
+#define REL_LESSEQUAL 290
+#define REL_GREATEQUAL 291
+#define REL_EQUAL 292
+#define REL_NOTEQUAL 293
+#define REL_LESSTHAN 294
+#define REL_GREATERTHAN 295
+#define AR_PLUS 296
+#define AR_MINUS 297
+#define AR_MUL 298
+#define AR_DIV 299
+#define AR_MOD 300
+#define BITWISE_XOR 301
+#define BITWISE_AND 302
+#define BITWISE_OR 303
+#define LOG_AND 304
+#define LOG_OR 305
+#define LOG_COMPARE 306
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+
+union YYSTYPE
+{
+#line 26 "main.y" /* yacc.c:1909  */
+
+	char id[100];
+    int num;
+    float floatNum;
+    char charConst;
+    struct{
+            char type[100];
+            char val[100];
+    } symAttrib;
+
+#line 167 "y.tab.h" /* yacc.c:1909  */
+};
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif

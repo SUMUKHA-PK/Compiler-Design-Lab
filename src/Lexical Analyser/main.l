@@ -172,95 +172,95 @@ LETTER?\"(\\.|[^\\"])*\"	                {   if(yylineno!=sl_flag&&mul_comment_f
                                                 }
                                             }
 ";"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return(';'); 
+                                                 return SEMICOLON; 
                                                 }
                                             }
 "{"		                                    { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 incrementTableScope(); return('{');
+                                                 incrementTableScope(); return L_FLOWER_BRKT;
                                                 }
                                             }
 "}"		                                    { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 returnToParentScope(); return('}'); 
+                                                 returnToParentScope(); return R_FLOWER_BRKT; 
                                                 }
                                             }
 ","			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return(','); 
+                                                 return COMMA; 
                                                 }
                                             }
 ":"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return(':'); 
+                                                 return COLON; 
                                                 }
                                             }
 "="			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return('='); 
+                                                 return REL_EQUAL; 
                                                 }
                                             }
 "("			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return('('); 
+                                                 return L_PAREN; 
                                                 }
                                             }
 ")"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return(')'); 
+                                                 return R_PAREN; 
                                                 }
                                             }
 "["		                                    { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return('['); 
+                                                 return L_SQR_BRKT; 
                                                 }
                                             }
 "]"		                                    { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return(']'); 
+                                                 return R_SQR_BRKT; 
                                                 }
                                             }
 "."			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return('.'); 
+                                                 return DOT; 
                                                 }
                                             }
 "&"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return('&'); 
+                                                 return BITWISE_AND; 
                                                 }
                                             }
 "!"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return('!'); 
+                                                 return EXCLAMATION; 
                                                 }
                                             }
 "~"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return('~'); 
+                                                 return TILDE; 
                                                 }
                                             }
 "-"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return('-'); 
+                                                 return AR_MINUS; 
                                                 }
                                             }
 "+"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return('+'); 
+                                                 return AR_PLUS; 
                                                 }
                                             }
 "*"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return('*'); 
+                                                 return AR_MUL; 
                                                 }
                                             }
 "/"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return('/'); 
+                                                 return AR_DIV; 
                                                 }
                                             }
 "%"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return('%'); 
+                                                 return AR_MOD; 
                                                 }
                                             }
 "<"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return('<'); 
+                                                 return REL_LESSTHAN; 
                                                 }
                                             }
 ">"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return('>'); 
+                                                 return REL_GREATERTHAN; 
                                                 }
                                             }
 "^"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return('^'); 
+                                                 return BITWISE_XOR; 
                                                 }
                                             }
 "|"			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 return('|'); 
+                                                 return BITWISE_OR; 
                                                 }
                                             }   
                                             
