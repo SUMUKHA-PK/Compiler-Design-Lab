@@ -283,7 +283,14 @@ assignment_expression:
 
 unary_expression: 
 
-    primary_expression                          {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
+    primary_expression                          {   
+                                                     strcpy($$.type, $1.type); 
+                                                    if(!strcmp($1.type, "int"))
+                                                        $$.num = $1.num;
+                                                    else if(!strcmp($1.type, "float"))
+                                                        $$.floatNum = $1.floatNum;
+
+                                                }
 // |   INC_OP unary_expression             
 // |   DEC_OP unary_expression             
 // |   unary_operator unary_expression     
@@ -291,11 +298,22 @@ unary_expression:
 
 primary_expression: 
 
-    IDENTIFIER              { insertsymbolToken(yytext,Type, yylineno, 0);strcpy($1.type, Type); strcpy($$.type, $1.type); strcpy($$.val, $1.val); }                            
-|   NUM_FLOAT               {strcpy($$.type, $1.type); strcpy($$.val, $1.val); $$.floatNum = $1.floatNum;}
-|   NUM_INTEGER             {strcpy($$.type, $1.type); strcpy($$.val, $1.val); $$.num = $1.num;}
+    IDENTIFIER              { insertsymbolToken(yytext,Type, yylineno, 0); strcpy($1.type, Type); strcpy($$.type, $1.type); strcpy($$.val, $1.val); }    
+
+
+|   NUM_FLOAT               {strcpy($$.type, $1.type);  $$.floatNum = $1.floatNum;}
+
+|   NUM_INTEGER             {strcpy($$.type, $1.type); $$.num = $1.num;}
+
 |   STRING_LITERAL          {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
-|   '(' expression ')'      {strcpy($$.type, $2.type); strcpy($$.val, $2.val); $$.num = $2.num; $$.floatNum = $2.floatNum;}
+
+|   '(' expression ')'      {
+                                strcpy($$.type, $2.type); 
+                                if(!strcmp($2.type, "int"))
+                                    $$.num = $2.num;
+                                else if(!strcmp($2.type, "float"))
+                                    $$.floatNum = $2.floatNum;
+                            }
 ;
 
 
@@ -311,33 +329,206 @@ primary_expression:
 
 multiplicative_expression:
 
-    unary_expression    {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
-|   multiplicative_expression '*' unary_expression          {strcpy($$.type, $1.type); strcpy($$.val, $1.val); }
-|   multiplicative_expression '/' unary_expression          {strcpy($$.type, $1.type); strcpy($$.val, $1.val); }
-|   multiplicative_expression '%' unary_expression          {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
+    unary_expression                                        {
+                                                                strcpy($$.type, $1.type);
+                                                                if(!strcmp($1.type, "int"))
+                                                                    $$.num = $1.num;
+                                                                else if(!strcmp($1.type, "float"))
+                                                                    $$.floatNum, $1.floatNum;
+                                                            }
+|   multiplicative_expression '*' unary_expression          {
+                                                                if(!strcmp($1.type, "int") && !strcmp($3.type, "int")) {
+                                                                    strcpy($$.type, "int");
+                                                                    $$.num = $1.num * $3.num;
+                                                                }
+                                                                else if(!strcmp($1.type, "int") && !strcmp($3.type, "float")) {
+                                                                    strcpy($$.type, "float");
+                                                                    $$.floatNum = $1.num * $3.floatNum;
+                                                                }
+                                                                else if(!strcmp($1.type, "float") && !strcmp($3.type, "int")) {
+                                                                    strcpy($$.type, "float");
+                                                                    $$.floatNum = $1.floatNum * $3.num;
+                                                                }
+                                                                else if(!strcmp($1.type, "float") && !strcmp($3.type, "float")) {
+                                                                    strcpy($$.type, "float");
+                                                                    $$.floatNum = $1.floatNum * $3.floatNum;
+                                                                }
+                                                            }
+
+
+|   multiplicative_expression '/' unary_expression          { 
+                                                                if(!strcmp($1.type, "int") && !strcmp($3.type, "int")) {
+                                                                    strcpy($$.type, "int");
+                                                                    $$.num = $1.num / $3.num;
+                                                                }
+                                                                else if(!strcmp($1.type, "int") && !strcmp($3.type, "float")) {
+                                                                    strcpy($$.type, "float");
+                                                                    $$.floatNum = $1.num / $3.floatNum;
+                                                                }
+                                                                else if(!strcmp($1.type, "float") && !strcmp($3.type, "int")) {
+                                                                    strcpy($$.type, "float");
+                                                                    $$.floatNum = $1.floatNum / $3.num;
+                                                                }
+                                                                else if(!strcmp($1.type, "float") && !strcmp($3.type, "float")) {
+                                                                    strcpy($$.type, "float");
+                                                                    $$.floatNum = $1.floatNum / $3.floatNum;
+                                                                }
+                                                            }
+
+
+|   multiplicative_expression '%' unary_expression          {
+                                                                if(!strcmp($1.type, "float") || !strcmp($3.type, "float"))
+                                                                    modOperandsTypeError($1.type, $3.type, yylineno);
+                                                                else {
+                                                                    strcpy($$.type, "int");
+                                                                    $$.num = $1.num % $3.num;
+                                                                }
+                                                            
+                                                            }
 ;
 
 additive_expression:
 
-    multiplicative_expression                                {strcpy($$.type, $1.type); strcpy($$.val, $1.val); }
-|   additive_expression '+' multiplicative_expression       {strcpy($$.type, $1.type); strcpy($$.val, $1.val); }
-|   additive_expression '-' multiplicative_expression       {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
+    multiplicative_expression                               {strcpy($$.type, $1.type);
+                                                                if(!strcmp($1.type, "int"))
+                                                                    $$.num = $1.num;
+                                                                else if(!strcmp($1.type, "float"))
+                                                                    $$.floatNum = $1.floatNum;
+                                                            }
+
+
+|   additive_expression '+' multiplicative_expression       { if(!strcmp($1.type, "int") && !strcmp($3.type, "int")) {
+                                                                    strcpy($$.type, "int");
+                                                                    $$.num = $1.num + $3.num;
+                                                                }
+                                                                else if(!strcmp($1.type, "int") && !strcmp($3.type, "float")) {
+                                                                    strcpy($$.type, "float");
+                                                                    $$.floatNum = $1.num + $3.floatNum;                                                                    
+                                                                }
+                                                                else if(!strcmp($1.type, "float") && !strcmp($3.type, "int")) {
+                                                                    strcpy($$.type, "float");
+                                                                    $$.floatNum = $1.floatNum + $3.num;
+                                                                }
+                                                                else {
+                                                                    strcpy($$.type, "float");
+                                                                    $$.floatNum = $1.floatNum + $3.floatNum;
+                                                                } 
+                                                            }
+
+
+|   additive_expression '-' multiplicative_expression       {
+                                                                if(!strcmp($1.type, "int") && !strcmp($3.type, "int")) {
+                                                                    strcpy($$.type, "int");
+                                                                    $$.num = $1.num - $3.num;
+                                                                }
+                                                                else if(!strcmp($1.type, "int") && !strcmp($3.type, "float")) {
+                                                                    strcpy($$.type, "float");
+                                                                    $$.floatNum = $1.num - $3.floatNum;                                                                    
+                                                                }
+                                                                else if(!strcmp($1.type, "float") && !strcmp($3.type, "int")) {
+                                                                    strcpy($$.type, "float");
+                                                                    $$.floatNum = $1.floatNum - $3.num;
+                                                                }
+                                                                else {
+                                                                    strcpy($$.type, "float");
+                                                                    $$.floatNum = $1.floatNum - $3.floatNum;
+                                                                }
+                                                            }
 ;
 
 relational_expression: 
 
-    additive_expression                                         {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
-|   relational_expression '<' additive_expression               {strcpy($$.type, $1.type); strcpy($$.val, $1.val); }
-|   relational_expression '>' additive_expression               {strcpy($$.type, $1.type); strcpy($$.val, $1.val); }
-|   relational_expression REL_LESSEQUAL additive_expression     {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
-|   relational_expression REL_GREATEQUAL additive_expression    {strcpy($$.type, $1.type); strcpy($$.val, $1.val); }
+    additive_expression                                         {
+                                                                    strcpy($$.type, $1.type);
+                                                                    if(!strcmp($1.type, "int"))
+                                                                        $$.num = $1.num;
+                                                                    else if(!strcmp($1.type, "float"))
+                                                                        $$.floatNum = $1.floatNum;
+                                                                }
+
+|   relational_expression '<' additive_expression               { 
+                                                                    strcpy($$.type, "int");
+                                                                    if(!strcmp($1.type, "int") && !strcmp($3.type, "int"))
+                                                                        $$.num = $1.num < $3.num;
+                                                                    else if(!strcmp($1.type, "int") && !strcmp($3.type, "float"))
+                                                                        $$.num = $1.num < $3.floatNum;
+                                                                    else if(!strcmp($1.type, "float") && !strcmp($3.type, "int"))
+                                                                        $$.num = $1.floatNum < $3.num;
+                                                                    else if(!strcmp($1.type, "float") && !strcmp($3.type, "float"))
+                                                                        $$.num = $1.floatNum < $3.floatNum;
+                                                                }
+
+|   relational_expression '>' additive_expression               {
+                                                                    strcpy($$.type, "int");
+                                                                    if(!strcmp($1.type, "int") && !strcmp($3.type, "int"))
+                                                                        $$.num = $1.num > $3.num;
+                                                                    else if(!strcmp($1.type, "int") && !strcmp($3.type, "float"))
+                                                                        $$.num = $1.num > $3.floatNum;
+                                                                    else if(!strcmp($1.type, "float") && !strcmp($3.type, "int"))
+                                                                        $$.num = $1.floatNum > $3.num;
+                                                                    else if(!strcmp($1.type, "float") && !strcmp($3.type, "float"))
+                                                                        $$.num = $1.floatNum > $3.floatNum;
+                                                                } 
+                                                                
+
+|   relational_expression REL_LESSEQUAL additive_expression     {
+                                                                    strcpy($$.type, "int");
+                                                                    if(!strcmp($1.type, "int") && !strcmp($3.type, "int"))
+                                                                        $$.num = $1.num <= $3.num;
+                                                                    else if(!strcmp($1.type, "int") && !strcmp($3.type, "float"))
+                                                                        $$.num = $1.num <= $3.floatNum;
+                                                                    else if(!strcmp($1.type, "float") && !strcmp($3.type, "int"))
+                                                                        $$.num = $1.floatNum <= $3.num;
+                                                                    else if(!strcmp($1.type, "float") && !strcmp($3.type, "float"))
+                                                                        $$.num = $1.floatNum <= $3.floatNum;
+                                                                }
+
+|   relational_expression REL_GREATEQUAL additive_expression    {
+                                                                    strcpy($$.type, "int");
+                                                                    if(!strcmp($1.type, "int") && !strcmp($3.type, "int"))
+                                                                        $$.num = $1.num >= $3.num;
+                                                                    else if(!strcmp($1.type, "int") && !strcmp($3.type, "float"))
+                                                                        $$.num = $1.num >= $3.floatNum;
+                                                                    else if(!strcmp($1.type, "float") && !strcmp($3.type, "int"))
+                                                                        $$.num = $1.floatNum >= $3.num;
+                                                                    else if(!strcmp($1.type, "float") && !strcmp($3.type, "float"))
+                                                                        $$.num = $1.floatNum >= $3.floatNum;
+                                                                }
 ;
 
 equality_expression: 
 
-    relational_expression                                   {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
-|   equality_expression LOG_COMPARE relational_expression   {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
-|   equality_expression REL_NOTEQUAL relational_expression  {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
+    relational_expression                                   {
+                                                                strcpy($$.type, $1.type);
+                                                                if(!strcmp($1.type, "int"))
+                                                                    $$.num = $1.num;
+                                                                else if(!strcmp($1.type, "float"))
+                                                                    $$.floatNum = $1.floatNum;
+                                                            }
+
+|   equality_expression LOG_COMPARE relational_expression   {
+                                                                strcpy($$.type, "int");
+                                                                if(!strcmp($1.type, "int") && !strcmp($3.type, "int"))
+                                                                    $$.num = $1.num == $3.num;
+                                                                else if(!strcmp($1.type, "int") && !strcmp($3.type, "float"))
+                                                                    $$.num = $1.num == $3.floatNum;
+                                                                else if(!strcmp($1.type, "float") && !strcmp($3.type, "int"))
+                                                                    $$.num = $1.floatNum == $3.num;
+                                                                else if(!strcmp($1.type, "float") && !strcmp($3.type, "float"))
+                                                                    $$.num = $1.floatNum == $3.floatNum;
+                                                            }   
+
+|   equality_expression REL_NOTEQUAL relational_expression  {
+                                                                strcpy($$.type, "int");
+                                                                if(!strcmp($1.type, "int") && !strcmp($3.type, "int"))
+                                                                    $$.num = $1.num != $3.num;
+                                                                else if(!strcmp($1.type, "int") && !strcmp($3.type, "float"))
+                                                                    $$.num = $1.num != $3.floatNum;
+                                                                else if(!strcmp($1.type, "float") && !strcmp($3.type, "int"))
+                                                                    $$.num = $1.floatNum != $3.num;
+                                                                else if(!strcmp($1.type, "float") && !strcmp($3.type, "float"))
+                                                                    $$.num = $1.floatNum != $3.floatNum;
+                                                            }
 ;
 
 and_expression:
@@ -348,6 +539,7 @@ and_expression:
                                                     else
                                                         $$.floatNum = $1.floatNum;
                                                 }
+
 |   and_expression '&' equality_expression      {{ if((!strcmp($1.type, "int") && !strcmp($3.type, "int")) || (!strcmp($1.type, "char") && !strcmp($3.type, "char"))){
                                                         strcpy($$.type, $1.type);
                                                         $$.num = $1.num & $3.num;                                                
