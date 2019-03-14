@@ -11,4 +11,8 @@ extern void logAndOperandsTypeError(char *type1, char *type2, int lineno) ;
 
 extern void modOperandsTypeError(char *type1, char *type2, int lineno) ;
 
+extern void typeMismatchError(char *type1, char *type2, int lineno);
+
+extern void variableNotDeclaredError(char *type1, int lineno);
+
 #endif  // _ERRORS_H

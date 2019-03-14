@@ -19,10 +19,11 @@
     extern char *yytext;
     extern int yylineno;	
 
-    int sl_flag = -1, mul_comment_flag = 0, start_multi = 0, invalid_mul_comment = 0;
+    int sl_flag = -1, mul_comment_flag = 0, start_multi = 0, invalid_mul_comment = 0,dontPrint=0;
 
     char Type[100];
     char functype[100];
+    char returnType[100];
 
 %}
 
@@ -88,6 +89,9 @@
 %type <symAttrib> unary_expression
 %type <symAttrib> primary_expression
 %type <symAttrib> expression 
+%type <symAttrib> init_declarator
+%type <symAttrib> direct_declarator
+
 // %type <symAttrib> unary_operator
 
 
@@ -124,17 +128,17 @@ declaration:
 
 declaration_specifiers: 
 
-    VOID            {strcpy(Type, $1.type); strcpy($$.type, $1.type); printf("Type = %s\n", $1.type);}        
-|   INT             {strcpy(Type, $1.type); strcpy($$.type, $1.type); printf("Type = %s\n", $1.type);}                                           
-|   CHAR            {strcpy(Type, $1.type); strcpy($$.type, $1.type); printf("Type = %s\n", $1.type);}
-|   FLOAT           {strcpy(Type, $1.type); strcpy($$.type, $1.type); printf("Type = %s\n", $1.type);}                   
-|   DOUBLE          {strcpy(Type, $1.type); strcpy($$.type, $1.type); printf("Type = %s\n", $1.type);}
+    VOID            {strcpy(Type, $1.type); strcpy($$.type, $1.type);}        
+|   INT             {strcpy(Type, $1.type); strcpy($$.type, $1.type);}                                           
+|   CHAR            {strcpy(Type, $1.type); strcpy($$.type, $1.type);}
+|   FLOAT           {strcpy(Type, $1.type); strcpy($$.type, $1.type);}                   
+|   DOUBLE          {strcpy(Type, $1.type); strcpy($$.type, $1.type);}
 ;
 
 direct_declarator: 
 
-    IDENTIFIER                                      { insertsymbolToken(yytext,Type, yylineno, 0); printf("Type: %s\n",Type); }            
-|   '(' direct_declarator ')'
+    IDENTIFIER                                      { insertsymbolToken(yytext,Type, yylineno, 0);}            
+// |   '(' direct_declarator ')'
 |   direct_declarator '[' log_or_expression ']'
 |   direct_declarator '[' ']'
 |   direct_declarator '(' parameter_list ')'
@@ -207,7 +211,15 @@ list_of_lists:
 init_declarator: 
 
     direct_declarator          
-|   direct_declarator '=' initializer  {}
+|   direct_declarator '=' assignment_expression     {   if(findInHashTable($1.val,$1.type)){
+                                                            if(strcmp($1.type,$3.type)){
+                                                                typeMismatchError($1.type,$3.type,yylineno);
+                                                            }
+                                                        }
+                                                        else{
+                                                            variableNotDeclaredError($3.type,yylineno);
+                                                        }
+                                                    }
 ;
 
 
@@ -218,11 +230,11 @@ list:
 |   statement     
 ;
 
-initializer:
-    assignment_expression
-// |   '{' initializer_list '}'
-// |   '{' initializer_list ',' '}'
-;
+// initializer:
+//     assignment_expression
+// // |   '{' initializer_list '}'
+// // |   '{' initializer_list ',' '}'
+// ;
 
 
 statement: 
@@ -259,7 +271,7 @@ while_statement:
 
 jump_statement: 
 
-    RETURN expression ';'
+    RETURN expression ';'                           {strcpy(returnType,$2.type);}
 |   BREAK ';'
 |   CONTINUE ';'
 ;
@@ -267,13 +279,21 @@ jump_statement:
 expression: 
 
     assignment_expression                           {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}        
-|   expression ',' assignment_expression
+|   expression ',' assignment_expression    
 ;
 
 assignment_expression: 
 
     log_or_expression                               {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
-|   unary_expression '=' log_or_expression          {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
+|   unary_expression '=' log_or_expression          {   if(findInHashTable($1.val,$1.type)){
+                                                            if(strcmp($1.type,$3.type)){
+                                                                typeMismatchError($1.type,$3.type,yylineno);
+                                                            }
+                                                        }
+                                                        else{
+                                                            variableNotDeclaredError($3.type,yylineno);
+                                                        }
+                                                    }
 ;
 
 // initializer_list: 
@@ -625,8 +645,13 @@ int main()
 			printf(RED "ERROR : No multi line comment ender, starts at line %d\n",yylineno);
 			printf(RESET);
 		}
-        printf("\nParsing complete\n");
-        printTables();
+        if(!dontPrint) {
+            printf("\nParsing complete\n");
+            printTables();
+        }
+        else{
+            printf("\nParsing error!\n");
+        }
     }
         
     else

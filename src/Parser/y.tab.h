@@ -128,18 +128,19 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 30 "main.y" /* yacc.c:1909  */
+#line 33 "main.y" /* yacc.c:1909  */
 
-	char id[100];
-    int num;
-    float floatNum;
+    
     char charConst;
     struct{
             char type[100];
             char val[100];
+            int num;
+    float floatNum;
+
     } symAttrib;
 
-#line 143 "y.tab.h" /* yacc.c:1909  */
+#line 144 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

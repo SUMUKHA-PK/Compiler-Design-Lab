@@ -2,30 +2,54 @@
 #include<stdlib.h>
 #include<string.h>
 
+#include "comments.h"
 #include "errors.h"
+
+#define RED   "\x1B[31m"
+#define RESET "\x1B[0m"
 
 // This C file has definitions of all functions declared in errors.h
 
 extern void logOrOperandsTypeError(char *type1, char *type2, int lineno) {
 
-    printf("Error in Line %d.", lineno);
+    printf("\n\nError in Line %d. ", lineno);
     printf("There cannot be bitwise-or operation between operands of types %s and %s\n", type1, type2);
+    dontPrint=1;
 }
 
 extern void logXorOperandsTypeError(char *type1, char *type2, int lineno) {
 
-    printf("Error in Line %d.", lineno);
+    printf("\n\nError in Line %d. ", lineno);
     printf("There cannot be bitwise-xor operation between operands of types %s and %s\n", type1, type2);
+    dontPrint=1;
 }
 
 extern void logAndOperandsTypeError(char *type1, char *type2, int lineno) {
 
-    printf("Error in Line %d.\n", lineno);
+    printf("\n\nError in Line %d. ", lineno);
     printf("There cannot be bitwise-and operation between operands of types %s and %s\n", type1, type2);
+    dontPrint=1;
 }
 
 extern void modOperandsTypeError(char *type1, char *type2, int lineno) {
 
-    printf("Error in Line %d.\n", lineno);
+    printf("\n\nError in Line %d. ", lineno);
     printf("Mod doesn't work if any of the operands is float. Types of operands are %s and %s\n", type1, type2);
+    dontPrint=1;
 }   
+
+extern void typeMismatchError(char *type1, char *type2, int lineno){
+
+    printf( RED "\n\nError in Line %d. ", lineno);
+    printf("Type mismatch LHS: %s and RHS: %s\n", type1, type2);
+    printf(RESET);
+    dontPrint=1;
+}
+
+extern void variableNotDeclaredError(char *type1, int lineno){
+
+    printf(RED "\n\nError in Line %d. ", lineno);
+    printf("Variable not declared of type : %s\n", type1);
+    printf(RESET);
+    dontPrint=1;
+}
