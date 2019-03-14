@@ -88,10 +88,131 @@ external_declaration:
 
 function_definition: 
 
-    declaration_specifiers direct_declarator declaration_list compound_statement //{  addData();}
+    declaration_specifiers direct_declarator declaration_list compound_statement 
 |   declaration_specifiers direct_declarator compound_statement
 |   direct_declarator declaration_list compound_statement
 |   direct_declarator compound_statement
+;
+
+declaration:
+
+    declaration_specifiers SEMICOLON
+|   declaration_specifiers init_declaration_list SEMICOLON
+;
+
+declaration_specifiers: 
+
+    VOID
+|   INT             {printf("Found int %s\n");}                 
+|   CHAR            {printf("Found char %s\n");}
+|   FLOAT           {printf("Found float %s\n");}
+|   DOUBLE          {printf("Found double %s\n");}
+|   SHORT
+|   LONG
+|   UNSIGNED
+;
+
+direct_declarator: 
+
+    IDENTIFIER                  
+|   L_PAREN direct_declarator R_PAREN
+|   direct_declarator L_SQR_BRKT log_or_expression R_SQR_BRKT
+|   direct_declarator L_SQR_BRKT R_SQR_BRKT
+|   direct_declarator L_PAREN parameter_list R_PAREN
+|   direct_declarator L_PAREN identifier_list R_PAREN
+|   direct_declarator L_PAREN R_PAREN
+;
+
+declaration_list: 
+
+    declaration
+|   declaration_list COMMA declaration
+;
+
+compound_statement: 
+
+    L_FLOWER_BRKT R_FLOWER_BRKT
+|   L_FLOWER_BRKT list_of_lists R_FLOWER_BRKT        
+;
+
+init_declaration_list: 
+
+    init_declarator
+|   init_declaration_list COMMA init_declarator
+;
+
+log_or_expression: 
+
+    log_and_expression
+|   log_or_expression LOG_OR log_and_expression
+;
+
+parameter_list: 
+
+    parameter_declaration       { printf("Parameter dcl : %s\n");}
+|   parameter_list COMMA parameter_declaration      { printf("Parameter list : %s\n");}      
+;
+
+identifier_list:
+
+    IDENTIFIER
+|   identifier_list COMMA IDENTIFIER
+;
+
+parameter_declaration: 
+
+    declaration_specifiers direct_declarator 
+|   declaration_specifiers direct_abstract_declarator
+|   declaration_specifiers
+;
+
+direct_abstract_declarator:
+
+     L_PAREN direct_abstract_declarator R_PAREN
+|    L_SQR_BRKT R_SQR_BRKT
+|    L_SQR_BRKT log_or_expression R_SQR_BRKT
+|    direct_abstract_declarator L_SQR_BRKT R_SQR_BRKT
+|    direct_abstract_declarator L_SQR_BRKT log_or_expression R_SQR_BRKT
+|    L_PAREN R_PAREN
+|    L_PAREN parameter_list R_PAREN
+|    direct_abstract_declarator L_PAREN R_PAREN
+|    direct_abstract_declarator L_PAREN parameter_list R_PAREN
+;
+
+list_of_lists: 
+
+    list
+|   list_of_lists list
+;
+
+init_declarator: 
+
+    direct_declarator
+|   direct_declarator REL_EQUAL initializer
+;
+
+log_and_expression: 
+
+    or_expression
+|   log_and_expression LOG_AND or_expression
+;
+
+list: 
+
+    declaration_list 
+|   statement     
+;
+
+initializer:
+     assignment_expression
+|   L_FLOWER_BRKT initializer_list R_FLOWER_BRKT
+|   L_FLOWER_BRKT initializer_list COMMA R_FLOWER_BRKT
+;
+
+or_expression:
+
+    xor_expression
+|   or_expression BITWISE_OR xor_expression
 ;
 
 statement: 
@@ -107,25 +228,6 @@ statement:
 labeled_statement: 
 
     IDENTIFIER ':' statement
-;
-
-compound_statement: 
-
-    L_FLOWER_BRKT R_FLOWER_BRKT
-|   L_FLOWER_BRKT list_of_lists R_FLOWER_BRKT        
-;
-
-list: 
-
-    declaration_list 
-|   statement     
-;
-
-
-list_of_lists: 
-
-    list
-|   list_of_lists list
 ;
 
 expression_statement: 
@@ -152,13 +254,21 @@ jump_statement:
 |   CONTINUE SEMICOLON
 ;
 
-primary_expression: 
+expression: 
 
-    IDENTIFIER
-|   NUM_FLOAT
-|   NUM_INTEGER
-|   STRING_LITERAL
-|   L_PAREN expression R_PAREN
+    assignment_expression
+|   expression COMMA assignment_expression
+;
+
+assignment_expression: 
+
+    log_or_expression
+|   unary_expression REL_EQUAL log_or_expression
+;
+
+initializer_list: 
+    initializer
+|   initializer_list COMMA initializer
 ;
 
 unary_expression: 
@@ -167,6 +277,15 @@ unary_expression:
 |   INC_OP unary_expression             
 |   DEC_OP unary_expression             
 |   unary_operator unary_expression     
+;
+
+primary_expression: 
+
+    IDENTIFIER
+|   NUM_FLOAT
+|   NUM_INTEGER
+|   STRING_LITERAL
+|   L_PAREN expression R_PAREN
 ;
 
 unary_operator: 
@@ -220,139 +339,6 @@ xor_expression:
 
     and_expression
 |   xor_expression BITWISE_XOR and_expression
-;
-
-or_expression:
-
-    xor_expression
-|   or_expression BITWISE_OR xor_expression
-;
-
-log_and_expression: 
-
-    or_expression
-|   log_and_expression LOG_AND or_expression
-;
-
-log_or_expression: 
-
-    log_and_expression
-|   log_or_expression LOG_OR log_and_expression
-;
-
-assignment_expression: 
-
-    log_or_expression
-|   unary_expression assignment_operator log_or_expression
-;
-
-assignment_operator: 
-
-    REL_EQUAL
-;
-
-expression: 
-
-    assignment_expression
-|   expression COMMA assignment_expression
-;
-
-constant_expression: 
-
-    log_or_expression
-;
-
-declaration_specifiers: 
-
-    VOID
-|   INT             {printf("Found int %s\n");}                 
-|   CHAR            {printf("Found char %s\n");}
-|   FLOAT           {printf("Found float %s\n");}
-|   DOUBLE          {printf("Found double %s\n");}
-|   SHORT
-|   LONG
-|   UNSIGNED
-;
-
-direct_declarator: 
-
-    IDENTIFIER                  
-|   L_PAREN direct_declarator R_PAREN
-|   direct_declarator L_SQR_BRKT constant_expression R_SQR_BRKT
-|   direct_declarator L_SQR_BRKT R_SQR_BRKT
-|   direct_declarator L_PAREN parameter_list R_PAREN
-|   direct_declarator L_PAREN identifier_list R_PAREN
-|   direct_declarator L_PAREN R_PAREN
-;
-
-identifier_list:
-
-    IDENTIFIER
-|   identifier_list COMMA IDENTIFIER
-;
-
-parameter_list: 
-
-    parameter_declaration       { printf("Parameter dcl : %s\n");}
-|   parameter_list COMMA parameter_declaration      { printf("Parameter list : %s\n");}      
-;
-
-parameter_declaration: 
-
-    declaration_specifiers direct_declarator 
-|   declaration_specifiers direct_abstract_declarator
-|   declaration_specifiers
-;
-
-
-direct_abstract_declarator:
-
-     L_PAREN direct_abstract_declarator R_PAREN
-|    L_SQR_BRKT R_SQR_BRKT
-|    L_SQR_BRKT constant_expression R_SQR_BRKT
-|    direct_abstract_declarator L_SQR_BRKT R_SQR_BRKT
-|    direct_abstract_declarator L_SQR_BRKT constant_expression R_SQR_BRKT
-|    L_PAREN R_PAREN
-|    L_PAREN parameter_list R_PAREN
-|    direct_abstract_declarator L_PAREN R_PAREN
-|    direct_abstract_declarator L_PAREN parameter_list R_PAREN
-;
-
-declaration:
-
-    declaration_specifiers SEMICOLON
-|   declaration_specifiers init_declaration_list SEMICOLON
-;
-
-declaration_list: 
-
-    declaration
-|   declaration_list COMMA declaration
-;
-
-
-
-init_declaration_list: 
-
-    init_declarator
-|   init_declaration_list COMMA init_declarator
-;
-
-init_declarator: 
-
-    direct_declarator
-|   direct_declarator REL_EQUAL initializer
-;
-
-initializer:
-     assignment_expression
-|   L_FLOWER_BRKT initializer_list R_FLOWER_BRKT
-|   L_FLOWER_BRKT initializer_list COMMA R_FLOWER_BRKT
-;
-
-initializer_list: 
-    initializer
-|   initializer_list COMMA initializer
 ;
 
 %%
