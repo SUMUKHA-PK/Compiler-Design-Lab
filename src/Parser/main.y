@@ -265,13 +265,10 @@ constant_expression:
 declaration_specifiers: 
 
     VOID
-|   INT             {printf("Found int %s\n");}                 
-|   CHAR            {printf("Found char %s\n");}
-|   FLOAT           {printf("Found float %s\n");}
-|   DOUBLE          {printf("Found double %s\n");}
-|   SHORT
-|   LONG
-|   UNSIGNED
+|   INT             {printf("Found int %s\n", $$);}                 
+|   CHAR            {printf("Found char %s\n", $$);}
+|   FLOAT           {printf("Found float %s\n", $$);}
+|   DOUBLE          {printf("Found double %s\n", $$);}
 ;
 
 direct_declarator: 
