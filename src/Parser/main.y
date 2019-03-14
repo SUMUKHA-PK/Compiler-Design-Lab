@@ -88,9 +88,15 @@
 %type <symAttrib> multiplicative_expression
 %type <symAttrib> unary_expression
 %type <symAttrib> primary_expression
+%type <symAttrib> array_funccall
+%type <symAttrib> argument_list
 %type <symAttrib> expression 
 %type <symAttrib> init_declarator
 %type <symAttrib> direct_declarator
+
+
+%type <symAttrib> return
+%type <symAttrib> RETURN
 
 // %type <symAttrib> unary_operator
 
@@ -178,11 +184,6 @@ init_declaration_list:
 |   init_declaration_list ',' init_declarator
 ;
 
-log_or_expression: 
-
-    log_and_expression
-|   log_or_expression LOG_OR log_and_expression
-;
 
 parameter_list: 
 
@@ -285,15 +286,48 @@ while_statement:
 
 jump_statement: 
 
-    RETURN expression ';'                           {strcpy(returnType,$2.type);}
+    return ';'                          
 |   BREAK ';'
 |   CONTINUE ';'
+;
+
+return: 
+    RETURN 
+|   RETURN expression
 ;
 
 expression: 
 
     assignment_expression                           {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}        
 |   expression ',' assignment_expression    
+;
+
+array_funccall: 
+
+    primary_expression                          {
+                                                    strcpy($$.type, $1.type);
+                                                    if(!strcmp($1.type, "int"))
+                                                        $$.num = $1.num;
+                                                    else if(!strcmp($1.type, "float"))
+                                                        $$.floatNum = $1.floatNum;
+                                                }         
+
+|   array_funccall '[' expression ']'           {
+                                                    
+
+                                                }
+
+|   array_funccall '(' ')'                      {
+                                                    
+
+                                                }
+
+|   array_funccall '(' argument_list ')'
+;
+
+argument_list: 
+    assignment_expression
+|   argument_list ',' assignment_expression
 ;
 
 assignment_expression: 
@@ -317,7 +351,7 @@ assignment_expression:
 
 unary_expression: 
 
-    primary_expression                          {   
+    array_funccall                          {   
                                                      strcpy($$.type, $1.type); 
                                                     if(!strcmp($1.type, "int"))
                                                         $$.num = $1.num;
@@ -638,6 +672,32 @@ log_and_expression:
                                                     
                                                 }
 ;
+
+log_or_expression: 
+
+    log_and_expression                          {
+                                                    strcpy($$.type, $1.type);
+                                                    if(!strcmp($1.type, "int"))
+                                                        $$.num = $1.num;
+                                                    else if(!strcmp($1.type, "float"))
+                                                        $$.floatNum = $1.floatNum;
+                                                }
+
+|   log_or_expression LOG_OR log_and_expression {
+                                                    strcpy($$.type, "int");
+                                                    if(!strcmp($1.type, "int") && !strcmp($3.type, "int"))
+                                                        $$.num = $1.num || $3.num;
+                                                    else if(!strcmp($1.type, "int") && !strcmp($3.type, "float"))
+                                                        $$.num = $1.num || $3.floatNum;
+                                                    else if(!strcmp($1.type, "float") && !strcmp($3.type, "int"))
+                                                        $$.num = $1.floatNum || $3.num;
+                                                    else if(!strcmp($1.type, "float") && !strcmp($3.type, "float"))
+                                                        $$.num = $1.floatNum || $3.floatNum;
+
+                                                }
+;
+
+
 
 %%
 
