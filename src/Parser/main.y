@@ -25,6 +25,8 @@
     char functype[100];
     char returnType[100];
     char argTypes[100][100];
+    char argValues[100][100];
+    int argLLs[100];
     int numArgs1 = 0;
     int numArgs2 = 0;
     int decORdef = 0; //0OR1
@@ -155,11 +157,12 @@ declaration_specifiers:
 
 direct_declarator: 
 
-    IDENTIFIER                                      {   if(!findInHashTable($1.val,$1.type)){
+    IDENTIFIER                                      {   strcpy($1.type, Type); strcpy($$.type, $1.type); strcpy($$.val, $1.val);
+                                                        if(!findInHashTable($1.val,$1.type)){
                                                             insertsymbolToken(yytext,$1.type, yylineno, 0);
                                                         }
                                                         else{
-                                                            redeclarationError($1.type,$1.val,yylineno);
+                                                            if(!decORdef) redeclarationError($1.type,$1.val,yylineno);
                                                         }
                                                     }               
 // |   '(' direct_declarator ')'
@@ -175,6 +178,15 @@ direct_declarator:
                                                         }
                                                         else if(numArgs2<numArgs1){
                                                             tooLessArgumentsError(yylineno);   
+                                                        }
+                                                        decORdef=0;
+                                                        for(int i=0;i<numArgs1;i++){
+                                                            argLLs[i] = deleteFromHashTable(argValues[i],argTypes[i]);
+                                                        }
+                                                        incrementTableScope();
+                                                        for(int i=0;i<numArgs1;i++){
+                                                            printf("Args: %s %s %d\n",argValues[i],argTypes[i],argLLs[i]);
+                                                            insertsymbolToken(argValues[i],argTypes[i],argLLs[i],0);
                                                         }
                                                     }
                                                  }           
@@ -205,7 +217,9 @@ parameter_list:
 
     parameter_declaration                       {
                                                     if(decORdef==0) {
-                                                        strcpy(argTypes[numArgs1],$1.type); numArgs1++; //printf("Argtype: %s\n",$1.type);
+                                                        strcpy(argTypes[numArgs1],$1.type); 
+                                                        strcpy(argValues[numArgs1],$1.val); 
+                                                        numArgs1++; //printf("Argtype: %s\n",$1.type);
                                                     }
                                                     else{
                                                         // printf("SOMETHING:1 %s1 %s",argTypes[numArgs2],$1.type);
@@ -217,7 +231,11 @@ parameter_list:
                                                 }   
 |   parameter_list ',' parameter_declaration    {
                                                     if(decORdef==0) {
-                                                        strcpy(argTypes[numArgs1],$3.type); numArgs1++; //printf("Argtype: %s\n",$3.type);
+                                                        strcpy(argTypes[numArgs1],$3.type);
+                                                        strcpy(argValues[numArgs1],$3.val);
+                                                        printf("Argtype: %s\n",$3.type);
+                                                        printf("Argtype: %s\n",$3.val);
+                                                        numArgs1++; 
                                                     }
                                                     else{
                                                         // printf("SOMETHING:j %sj %s",argTypes[numArgs2],$3.type);

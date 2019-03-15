@@ -198,7 +198,7 @@ LETTER?\"(\\.|[^\\"])*\"	                {   if(yylineno!=sl_flag&&mul_comment_f
                                                 }
                                             }
 "{"		                                    { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 incrementTableScope(); return '{';
+                                                    return '{';
                                                 }
                                             }
 "}"		                                    { if(yylineno!=sl_flag&&mul_comment_flag!=1) {

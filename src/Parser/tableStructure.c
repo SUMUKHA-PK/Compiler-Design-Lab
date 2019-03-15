@@ -177,7 +177,7 @@ int findInHashTable(char * value,char *type){
     return f;
 }
 
-void deleteFromHashTable(char * value,char *type){
+int deleteFromHashTable(char * value,char *type){
 
     Tables * table = currTable;
     int hashIndex = hash(value);
@@ -185,8 +185,10 @@ void deleteFromHashTable(char * value,char *type){
     symbolToken * temp1 = temp;
     while(temp!=NULL){
         if(!strcmp(temp->value,value)&&!strcmp(temp->type,type)){
-            
-            return;
+            temp1->next = temp->next;
+            int l = temp->line;
+            free(temp);
+            return l;
         }
         temp1=temp;
         temp=temp->next;

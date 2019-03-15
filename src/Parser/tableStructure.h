@@ -56,4 +56,7 @@ extern void incrementTableScope();
 
 extern void returnToParentScope();
 
+int deleteFromHashTable(char * value,char *type);
+int findInHashTable(char * value,char *type);
+
 #endif // _TABLE_STRUCTURE_H
