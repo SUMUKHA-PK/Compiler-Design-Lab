@@ -561,16 +561,16 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   119,   119,   120,   125,   126,   130,   135,   140,   145,
-     146,   151,   152,   153,   154,   155,   160,   169,   170,   171,
-     193,   194,   199,   200,   205,   206,   211,   212,   218,   232,
-     252,   253,   258,   260,   280,   281,   286,   287,   302,   303,
-     315,   316,   317,   318,   319,   320,   325,   330,   331,   336,
-     337,   342,   347,   348,   349,   353,   354,   359,   360,   365,
-     373,   378,   383,   387,   388,   393,   394,   412,   427,   430,
-     432,   434,   436,   458,   465,   485,   505,   518,   526,   545,
-     567,   575,   587,   600,   612,   627,   635,   647,   662,   669,
-     680,   687,   699,   706,   718,   727,   736,   744
+       0,   119,   119,   120,   125,   126,   130,   136,   141,   146,
+     147,   152,   153,   154,   155,   156,   161,   171,   172,   173,
+     198,   199,   204,   205,   210,   211,   216,   217,   223,   238,
+     258,   259,   264,   266,   286,   287,   292,   293,   308,   309,
+     321,   322,   323,   324,   325,   326,   331,   336,   337,   342,
+     343,   348,   353,   354,   355,   359,   360,   365,   366,   371,
+     380,   385,   390,   394,   395,   400,   401,   420,   435,   438,
+     440,   442,   444,   466,   473,   493,   513,   526,   534,   553,
+     575,   583,   595,   608,   620,   635,   643,   655,   670,   677,
+     688,   695,   707,   714,   726,   735,   744,   752
 };
 #endif
 
@@ -1569,57 +1569,59 @@ yyreduce:
     {
         case 6:
 #line 130 "main.y" /* yacc.c:1646  */
-    { if(returnType[0]=='\0') strcpy(returnType,"void");
+    { printf(" hyguyg%s %s \n",(yyvsp[-2].symAttrib).val,(yyvsp[-2].symAttrib).type);
+                                                                                    if(returnType[0]=='\0') strcpy(returnType,"void");
                                                                                         if(strcmp((yyvsp[-3].symAttrib).type,returnType)){
                                                                                         returnTypeMisMatchError((yyvsp[-3].symAttrib).type,(yyvsp[-3].symAttrib).val,returnType, yylineno);
                                                                                     }
                                                                                   }
-#line 1578 "y.tab.c" /* yacc.c:1646  */
+#line 1579 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 135 "main.y" /* yacc.c:1646  */
+#line 136 "main.y" /* yacc.c:1646  */
     { if(returnType[0]=='\0') strcpy(returnType,"void");
                                                                                         if(strcmp((yyvsp[-2].symAttrib).type,returnType)){
                                                                                         returnTypeMisMatchError((yyvsp[-2].symAttrib).type,(yyvsp[-2].symAttrib).val,returnType, yylineno);
                                                                                     }
                                                                                   }
-#line 1588 "y.tab.c" /* yacc.c:1646  */
+#line 1589 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 151 "main.y" /* yacc.c:1646  */
+#line 152 "main.y" /* yacc.c:1646  */
     {strcpy(Type, (yyvsp[0].symAttrib).type); strcpy((yyval.symAttrib).type, (yyvsp[0].symAttrib).type);}
-#line 1594 "y.tab.c" /* yacc.c:1646  */
+#line 1595 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 152 "main.y" /* yacc.c:1646  */
+#line 153 "main.y" /* yacc.c:1646  */
     {strcpy(Type, (yyvsp[0].symAttrib).type); strcpy((yyval.symAttrib).type, (yyvsp[0].symAttrib).type);}
-#line 1600 "y.tab.c" /* yacc.c:1646  */
+#line 1601 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 153 "main.y" /* yacc.c:1646  */
+#line 154 "main.y" /* yacc.c:1646  */
     {strcpy(Type, (yyvsp[0].symAttrib).type); strcpy((yyval.symAttrib).type, (yyvsp[0].symAttrib).type);}
-#line 1606 "y.tab.c" /* yacc.c:1646  */
+#line 1607 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 154 "main.y" /* yacc.c:1646  */
+#line 155 "main.y" /* yacc.c:1646  */
     {strcpy(Type, (yyvsp[0].symAttrib).type); strcpy((yyval.symAttrib).type, (yyvsp[0].symAttrib).type);}
-#line 1612 "y.tab.c" /* yacc.c:1646  */
+#line 1613 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 155 "main.y" /* yacc.c:1646  */
+#line 156 "main.y" /* yacc.c:1646  */
     {strcpy(Type, (yyvsp[0].symAttrib).type); strcpy((yyval.symAttrib).type, (yyvsp[0].symAttrib).type);}
-#line 1618 "y.tab.c" /* yacc.c:1646  */
+#line 1619 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 160 "main.y" /* yacc.c:1646  */
+#line 161 "main.y" /* yacc.c:1646  */
     {   strcpy((yyvsp[0].symAttrib).type, Type); strcpy((yyval.symAttrib).type, (yyvsp[0].symAttrib).type); strcpy((yyval.symAttrib).val, (yyvsp[0].symAttrib).val);
+                                                        printf("%s %s ",(yyvsp[0].symAttrib).type,(yyvsp[0].symAttrib).val);
                                                         if(!findInHashTable((yyvsp[0].symAttrib).val,(yyvsp[0].symAttrib).type)){
                                                             insertsymbolToken(yytext,(yyvsp[0].symAttrib).type, yylineno, 0);
                                                         }
@@ -1627,12 +1629,12 @@ yyreduce:
                                                             if(!decORdef) redeclarationError((yyvsp[0].symAttrib).type,(yyvsp[0].symAttrib).val,yylineno);
                                                         }
                                                     }
-#line 1631 "y.tab.c" /* yacc.c:1646  */
+#line 1633 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 171 "main.y" /* yacc.c:1646  */
-    {
+#line 173 "main.y" /* yacc.c:1646  */
+    {  {strcpy((yyval.symAttrib).type, (yyvsp[-3].symAttrib).type); strcpy((yyval.symAttrib).val, (yyvsp[-3].symAttrib).val);}
                                                     if(decORdef==0){
                                                         decORdef=1;
                                                     }
@@ -1643,26 +1645,30 @@ yyreduce:
                                                         else if(numArgs2<numArgs1){
                                                             tooLessArgumentsError(yylineno);   
                                                         }
-                                                        decORdef=0;
+                                                        decORdef=2;
+                                                    }
+                                                    if(decORdef==2){
                                                         for(int i=0;i<numArgs1;i++){
                                                             argLLs[i] = deleteFromHashTable(argValues[i],argTypes[i]);
+                                                            // printf("Args: %s %s %d\n",argValues[i],argTypes[i],argLLs[i]);
                                                         }
                                                         incrementTableScope();
                                                         for(int i=0;i<numArgs1;i++){
-                                                            printf("Args: %s %s %d\n",argValues[i],argTypes[i],argLLs[i]);
                                                             insertsymbolToken(argValues[i],argTypes[i],argLLs[i],0);
                                                         }
+                                                        decORdef = 0;
                                                     }
                                                  }
-#line 1658 "y.tab.c" /* yacc.c:1646  */
+#line 1663 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 218 "main.y" /* yacc.c:1646  */
-    {
+#line 223 "main.y" /* yacc.c:1646  */
+    {   //{strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
                                                     if(decORdef==0) {
                                                         strcpy(argTypes[numArgs1],(yyvsp[0].symAttrib).type); 
                                                         strcpy(argValues[numArgs1],(yyvsp[0].symAttrib).val); 
+                                                        printf("Args: %s %s \n",(yyvsp[0].symAttrib).type,(yyvsp[0].symAttrib).val);
                                                         numArgs1++; //printf("Argtype: %s\n",$1.type);
                                                     }
                                                     else{
@@ -1673,12 +1679,12 @@ yyreduce:
                                                         numArgs2++;
                                                     }
                                                 }
-#line 1677 "y.tab.c" /* yacc.c:1646  */
+#line 1683 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 232 "main.y" /* yacc.c:1646  */
-    {
+#line 238 "main.y" /* yacc.c:1646  */
+    {   
                                                     if(decORdef==0) {
                                                         strcpy(argTypes[numArgs1],(yyvsp[0].symAttrib).type);
                                                         strcpy(argValues[numArgs1],(yyvsp[0].symAttrib).val);
@@ -1694,11 +1700,17 @@ yyreduce:
                                                         numArgs2++;
                                                     }
                                                 }
-#line 1698 "y.tab.c" /* yacc.c:1646  */
+#line 1704 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 32:
+#line 264 "main.y" /* yacc.c:1646  */
+    {strcpy((yyvsp[-1].symAttrib).type, Type); strcpy((yyval.symAttrib).type, (yyvsp[-1].symAttrib).type); strcpy((yyval.symAttrib).val, (yyvsp[-1].symAttrib).val);}
+#line 1710 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 287 "main.y" /* yacc.c:1646  */
+#line 293 "main.y" /* yacc.c:1646  */
     {   if(findInHashTable((yyvsp[-2].symAttrib).val,(yyvsp[-2].symAttrib).type)){
                                                             if(strcmp((yyvsp[-2].symAttrib).type,(yyvsp[0].symAttrib).type)){
                                                                 typeMismatchError((yyvsp[-2].symAttrib).type,(yyvsp[0].symAttrib).type,yylineno);
@@ -1708,60 +1720,74 @@ yyreduce:
                                                             variableNotDeclaredError((yyvsp[0].symAttrib).type,(yyvsp[0].symAttrib).val,yylineno);
                                                         }
                                                     }
-#line 1712 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 56:
-#line 354 "main.y" /* yacc.c:1646  */
-    {strcpy(returnType,(yyvsp[0].symAttrib).type);}
-#line 1718 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 57:
-#line 359 "main.y" /* yacc.c:1646  */
-    {strcpy((yyval.symAttrib).type, (yyvsp[0].symAttrib).type); strcpy((yyval.symAttrib).val, (yyvsp[0].symAttrib).val);}
 #line 1724 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 59:
+  case 56:
+#line 360 "main.y" /* yacc.c:1646  */
+    {strcpy(returnType,(yyvsp[0].symAttrib).type);}
+#line 1730 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 57:
 #line 365 "main.y" /* yacc.c:1646  */
+    {strcpy((yyval.symAttrib).type, (yyvsp[0].symAttrib).type); strcpy((yyval.symAttrib).val, (yyvsp[0].symAttrib).val);}
+#line 1736 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 59:
+#line 371 "main.y" /* yacc.c:1646  */
     {
                                                     strcpy((yyval.symAttrib).type, (yyvsp[0].symAttrib).type);
+                                                    strcpy((yyval.symAttrib).val, (yyvsp[0].symAttrib).val);
                                                     if(!strcmp((yyvsp[0].symAttrib).type, "int"))
                                                         (yyval.symAttrib).num = (yyvsp[0].symAttrib).num;
                                                     else if(!strcmp((yyvsp[0].symAttrib).type, "float"))
                                                         (yyval.symAttrib).floatNum = (yyvsp[0].symAttrib).floatNum;
                                                 }
-#line 1736 "y.tab.c" /* yacc.c:1646  */
+#line 1749 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 60:
-#line 373 "main.y" /* yacc.c:1646  */
+#line 380 "main.y" /* yacc.c:1646  */
     {
                                                     
 
                                                 }
-#line 1745 "y.tab.c" /* yacc.c:1646  */
+#line 1758 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 61:
-#line 378 "main.y" /* yacc.c:1646  */
+#line 385 "main.y" /* yacc.c:1646  */
     {
                                                     
 
                                                 }
-#line 1754 "y.tab.c" /* yacc.c:1646  */
+#line 1767 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 63:
+#line 394 "main.y" /* yacc.c:1646  */
+    {strcpy((yyval.symAttrib).type, (yyvsp[0].symAttrib).type); strcpy((yyval.symAttrib).val, (yyvsp[0].symAttrib).val);}
+#line 1773 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 64:
+#line 395 "main.y" /* yacc.c:1646  */
+    {strcpy((yyval.symAttrib).type, (yyvsp[-2].symAttrib).type); strcpy((yyval.symAttrib).val, (yyvsp[-2].symAttrib).val);}
+#line 1779 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 65:
-#line 393 "main.y" /* yacc.c:1646  */
+#line 400 "main.y" /* yacc.c:1646  */
     {strcpy((yyval.symAttrib).type, (yyvsp[0].symAttrib).type); strcpy((yyval.symAttrib).val, (yyvsp[0].symAttrib).val);}
-#line 1760 "y.tab.c" /* yacc.c:1646  */
+#line 1785 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 66:
-#line 394 "main.y" /* yacc.c:1646  */
-    {   if(findInHashTable((yyvsp[-2].symAttrib).val,(yyvsp[-2].symAttrib).type)){
+#line 401 "main.y" /* yacc.c:1646  */
+    {   strcpy((yyval.symAttrib).type, (yyvsp[-2].symAttrib).type); strcpy((yyval.symAttrib).val, (yyvsp[-2].symAttrib).val);
+                                                        if(findInHashTable((yyvsp[-2].symAttrib).val,(yyvsp[-2].symAttrib).type)){
                                                             if(strcmp((yyvsp[-2].symAttrib).type,(yyvsp[0].symAttrib).type)){
                                                                 typeMismatchError((yyvsp[-2].symAttrib).type,(yyvsp[0].symAttrib).type,yylineno);
                                                             }
@@ -1770,12 +1796,12 @@ yyreduce:
                                                             variableNotDeclaredError((yyvsp[0].symAttrib).type,(yyvsp[0].symAttrib).val,yylineno);
                                                         }
                                                     }
-#line 1774 "y.tab.c" /* yacc.c:1646  */
+#line 1800 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 67:
-#line 412 "main.y" /* yacc.c:1646  */
-    {   
+#line 420 "main.y" /* yacc.c:1646  */
+    {   strcpy((yyval.symAttrib).val, (yyvsp[0].symAttrib).val); 
                                                      strcpy((yyval.symAttrib).type, (yyvsp[0].symAttrib).type); 
                                                     if(!strcmp((yyvsp[0].symAttrib).type, "int"))
                                                         (yyval.symAttrib).num = (yyvsp[0].symAttrib).num;
@@ -1783,35 +1809,35 @@ yyreduce:
                                                         (yyval.symAttrib).floatNum = (yyvsp[0].symAttrib).floatNum;
 
                                                 }
-#line 1787 "y.tab.c" /* yacc.c:1646  */
+#line 1813 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 68:
-#line 427 "main.y" /* yacc.c:1646  */
-    { insertsymbolToken(yytext,Type, yylineno, 0); strcpy((yyvsp[0].symAttrib).type, Type); strcpy((yyval.symAttrib).type, (yyvsp[0].symAttrib).type); strcpy((yyval.symAttrib).val, (yyvsp[0].symAttrib).val); }
-#line 1793 "y.tab.c" /* yacc.c:1646  */
+#line 435 "main.y" /* yacc.c:1646  */
+    { insertsymbolToken(yytext,Type, yylineno, 0); strcpy((yyvsp[0].symAttrib).type, Type); strcpy((yyval.symAttrib).type, (yyvsp[0].symAttrib).type); strcpy((yyval.symAttrib).val, (yyvsp[0].symAttrib).val);printf("%s %s\n",(yyvsp[0].symAttrib).val,(yyvsp[0].symAttrib).type); }
+#line 1819 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 69:
-#line 430 "main.y" /* yacc.c:1646  */
+#line 438 "main.y" /* yacc.c:1646  */
     {strcpy((yyval.symAttrib).type, (yyvsp[0].symAttrib).type);  (yyval.symAttrib).floatNum = (yyvsp[0].symAttrib).floatNum;}
-#line 1799 "y.tab.c" /* yacc.c:1646  */
+#line 1825 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 70:
-#line 432 "main.y" /* yacc.c:1646  */
+#line 440 "main.y" /* yacc.c:1646  */
     {strcpy((yyval.symAttrib).type, (yyvsp[0].symAttrib).type); (yyval.symAttrib).num = (yyvsp[0].symAttrib).num;}
-#line 1805 "y.tab.c" /* yacc.c:1646  */
+#line 1831 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 71:
-#line 434 "main.y" /* yacc.c:1646  */
+#line 442 "main.y" /* yacc.c:1646  */
     {strcpy((yyval.symAttrib).type, (yyvsp[0].symAttrib).type); strcpy((yyval.symAttrib).val, (yyvsp[0].symAttrib).val);}
-#line 1811 "y.tab.c" /* yacc.c:1646  */
+#line 1837 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 72:
-#line 436 "main.y" /* yacc.c:1646  */
+#line 444 "main.y" /* yacc.c:1646  */
     {
                                 strcpy((yyval.symAttrib).type, (yyvsp[-1].symAttrib).type); 
                                 if(!strcmp((yyvsp[-1].symAttrib).type, "int"))
@@ -1819,11 +1845,11 @@ yyreduce:
                                 else if(!strcmp((yyvsp[-1].symAttrib).type, "float"))
                                     (yyval.symAttrib).floatNum = (yyvsp[-1].symAttrib).floatNum;
                             }
-#line 1823 "y.tab.c" /* yacc.c:1646  */
+#line 1849 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 73:
-#line 458 "main.y" /* yacc.c:1646  */
+#line 466 "main.y" /* yacc.c:1646  */
     {
                                                                 strcpy((yyval.symAttrib).type, (yyvsp[0].symAttrib).type);
                                                                 if(!strcmp((yyvsp[0].symAttrib).type, "int"))
@@ -1831,11 +1857,11 @@ yyreduce:
                                                                 else if(!strcmp((yyvsp[0].symAttrib).type, "float"))
                                                                     (yyval.symAttrib).floatNum, (yyvsp[0].symAttrib).floatNum;
                                                             }
-#line 1835 "y.tab.c" /* yacc.c:1646  */
+#line 1861 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 74:
-#line 465 "main.y" /* yacc.c:1646  */
+#line 473 "main.y" /* yacc.c:1646  */
     {
                                                                 if(!strcmp((yyvsp[-2].symAttrib).type, "int") && !strcmp((yyvsp[0].symAttrib).type, "int")) {
                                                                     strcpy((yyval.symAttrib).type, "int");
@@ -1854,11 +1880,11 @@ yyreduce:
                                                                     (yyval.symAttrib).floatNum = (yyvsp[-2].symAttrib).floatNum * (yyvsp[0].symAttrib).floatNum;
                                                                 }
                                                             }
-#line 1858 "y.tab.c" /* yacc.c:1646  */
+#line 1884 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 75:
-#line 485 "main.y" /* yacc.c:1646  */
+#line 493 "main.y" /* yacc.c:1646  */
     { 
                                                                 if(!strcmp((yyvsp[-2].symAttrib).type, "int") && !strcmp((yyvsp[0].symAttrib).type, "int")) {
                                                                     strcpy((yyval.symAttrib).type, "int");
@@ -1877,11 +1903,11 @@ yyreduce:
                                                                     (yyval.symAttrib).floatNum = (yyvsp[-2].symAttrib).floatNum / (yyvsp[0].symAttrib).floatNum;
                                                                 }
                                                             }
-#line 1881 "y.tab.c" /* yacc.c:1646  */
+#line 1907 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 76:
-#line 505 "main.y" /* yacc.c:1646  */
+#line 513 "main.y" /* yacc.c:1646  */
     {
                                                                 if(!strcmp((yyvsp[-2].symAttrib).type, "float") || !strcmp((yyvsp[0].symAttrib).type, "float"))
                                                                     modOperandsTypeError((yyvsp[-2].symAttrib).type, (yyvsp[0].symAttrib).type, yylineno);
@@ -1891,22 +1917,22 @@ yyreduce:
                                                                 }
                                                             
                                                             }
-#line 1895 "y.tab.c" /* yacc.c:1646  */
+#line 1921 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 77:
-#line 518 "main.y" /* yacc.c:1646  */
+#line 526 "main.y" /* yacc.c:1646  */
     {strcpy((yyval.symAttrib).type, (yyvsp[0].symAttrib).type);
                                                                 if(!strcmp((yyvsp[0].symAttrib).type, "int"))
                                                                     (yyval.symAttrib).num = (yyvsp[0].symAttrib).num;
                                                                 else if(!strcmp((yyvsp[0].symAttrib).type, "float"))
                                                                     (yyval.symAttrib).floatNum = (yyvsp[0].symAttrib).floatNum;
                                                             }
-#line 1906 "y.tab.c" /* yacc.c:1646  */
+#line 1932 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 78:
-#line 526 "main.y" /* yacc.c:1646  */
+#line 534 "main.y" /* yacc.c:1646  */
     { if(!strcmp((yyvsp[-2].symAttrib).type, "int") && !strcmp((yyvsp[0].symAttrib).type, "int")) {
                                                                     strcpy((yyval.symAttrib).type, "int");
                                                                     (yyval.symAttrib).num = (yyvsp[-2].symAttrib).num + (yyvsp[0].symAttrib).num;
@@ -1924,11 +1950,11 @@ yyreduce:
                                                                     (yyval.symAttrib).floatNum = (yyvsp[-2].symAttrib).floatNum + (yyvsp[0].symAttrib).floatNum;
                                                                 } 
                                                             }
-#line 1928 "y.tab.c" /* yacc.c:1646  */
+#line 1954 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 79:
-#line 545 "main.y" /* yacc.c:1646  */
+#line 553 "main.y" /* yacc.c:1646  */
     {
                                                                 if(!strcmp((yyvsp[-2].symAttrib).type, "int") && !strcmp((yyvsp[0].symAttrib).type, "int")) {
                                                                     strcpy((yyval.symAttrib).type, "int");
@@ -1947,11 +1973,11 @@ yyreduce:
                                                                     (yyval.symAttrib).floatNum = (yyvsp[-2].symAttrib).floatNum - (yyvsp[0].symAttrib).floatNum;
                                                                 }
                                                             }
-#line 1951 "y.tab.c" /* yacc.c:1646  */
+#line 1977 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 80:
-#line 567 "main.y" /* yacc.c:1646  */
+#line 575 "main.y" /* yacc.c:1646  */
     {
                                                                     strcpy((yyval.symAttrib).type, (yyvsp[0].symAttrib).type);
                                                                     if(!strcmp((yyvsp[0].symAttrib).type, "int"))
@@ -1959,11 +1985,11 @@ yyreduce:
                                                                     else if(!strcmp((yyvsp[0].symAttrib).type, "float"))
                                                                         (yyval.symAttrib).floatNum = (yyvsp[0].symAttrib).floatNum;
                                                                 }
-#line 1963 "y.tab.c" /* yacc.c:1646  */
+#line 1989 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 81:
-#line 575 "main.y" /* yacc.c:1646  */
+#line 583 "main.y" /* yacc.c:1646  */
     { 
                                                                     strcpy((yyval.symAttrib).type, "int");
                                                                     if(!strcmp((yyvsp[-2].symAttrib).type, "int") && !strcmp((yyvsp[0].symAttrib).type, "int"))
@@ -1975,11 +2001,11 @@ yyreduce:
                                                                     else if(!strcmp((yyvsp[-2].symAttrib).type, "float") && !strcmp((yyvsp[0].symAttrib).type, "float"))
                                                                         (yyval.symAttrib).num = (yyvsp[-2].symAttrib).floatNum < (yyvsp[0].symAttrib).floatNum;
                                                                 }
-#line 1979 "y.tab.c" /* yacc.c:1646  */
+#line 2005 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 82:
-#line 587 "main.y" /* yacc.c:1646  */
+#line 595 "main.y" /* yacc.c:1646  */
     {
                                                                     strcpy((yyval.symAttrib).type, "int");
                                                                     if(!strcmp((yyvsp[-2].symAttrib).type, "int") && !strcmp((yyvsp[0].symAttrib).type, "int"))
@@ -1991,11 +2017,11 @@ yyreduce:
                                                                     else if(!strcmp((yyvsp[-2].symAttrib).type, "float") && !strcmp((yyvsp[0].symAttrib).type, "float"))
                                                                         (yyval.symAttrib).num = (yyvsp[-2].symAttrib).floatNum > (yyvsp[0].symAttrib).floatNum;
                                                                 }
-#line 1995 "y.tab.c" /* yacc.c:1646  */
+#line 2021 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 83:
-#line 600 "main.y" /* yacc.c:1646  */
+#line 608 "main.y" /* yacc.c:1646  */
     {
                                                                     strcpy((yyval.symAttrib).type, "int");
                                                                     if(!strcmp((yyvsp[-2].symAttrib).type, "int") && !strcmp((yyvsp[0].symAttrib).type, "int"))
@@ -2007,11 +2033,11 @@ yyreduce:
                                                                     else if(!strcmp((yyvsp[-2].symAttrib).type, "float") && !strcmp((yyvsp[0].symAttrib).type, "float"))
                                                                         (yyval.symAttrib).num = (yyvsp[-2].symAttrib).floatNum <= (yyvsp[0].symAttrib).floatNum;
                                                                 }
-#line 2011 "y.tab.c" /* yacc.c:1646  */
+#line 2037 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 84:
-#line 612 "main.y" /* yacc.c:1646  */
+#line 620 "main.y" /* yacc.c:1646  */
     {
                                                                     strcpy((yyval.symAttrib).type, "int");
                                                                     if(!strcmp((yyvsp[-2].symAttrib).type, "int") && !strcmp((yyvsp[0].symAttrib).type, "int"))
@@ -2023,11 +2049,11 @@ yyreduce:
                                                                     else if(!strcmp((yyvsp[-2].symAttrib).type, "float") && !strcmp((yyvsp[0].symAttrib).type, "float"))
                                                                         (yyval.symAttrib).num = (yyvsp[-2].symAttrib).floatNum >= (yyvsp[0].symAttrib).floatNum;
                                                                 }
-#line 2027 "y.tab.c" /* yacc.c:1646  */
+#line 2053 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 85:
-#line 627 "main.y" /* yacc.c:1646  */
+#line 635 "main.y" /* yacc.c:1646  */
     {
                                                                 strcpy((yyval.symAttrib).type, (yyvsp[0].symAttrib).type);
                                                                 if(!strcmp((yyvsp[0].symAttrib).type, "int"))
@@ -2035,11 +2061,11 @@ yyreduce:
                                                                 else if(!strcmp((yyvsp[0].symAttrib).type, "float"))
                                                                     (yyval.symAttrib).floatNum = (yyvsp[0].symAttrib).floatNum;
                                                             }
-#line 2039 "y.tab.c" /* yacc.c:1646  */
+#line 2065 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 86:
-#line 635 "main.y" /* yacc.c:1646  */
+#line 643 "main.y" /* yacc.c:1646  */
     {
                                                                 strcpy((yyval.symAttrib).type, "int");
                                                                 if(!strcmp((yyvsp[-2].symAttrib).type, "int") && !strcmp((yyvsp[0].symAttrib).type, "int"))
@@ -2051,11 +2077,11 @@ yyreduce:
                                                                 else if(!strcmp((yyvsp[-2].symAttrib).type, "float") && !strcmp((yyvsp[0].symAttrib).type, "float"))
                                                                     (yyval.symAttrib).num = (yyvsp[-2].symAttrib).floatNum == (yyvsp[0].symAttrib).floatNum;
                                                             }
-#line 2055 "y.tab.c" /* yacc.c:1646  */
+#line 2081 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 87:
-#line 647 "main.y" /* yacc.c:1646  */
+#line 655 "main.y" /* yacc.c:1646  */
     {
                                                                 strcpy((yyval.symAttrib).type, "int");
                                                                 if(!strcmp((yyvsp[-2].symAttrib).type, "int") && !strcmp((yyvsp[0].symAttrib).type, "int"))
@@ -2067,22 +2093,22 @@ yyreduce:
                                                                 else if(!strcmp((yyvsp[-2].symAttrib).type, "float") && !strcmp((yyvsp[0].symAttrib).type, "float"))
                                                                     (yyval.symAttrib).num = (yyvsp[-2].symAttrib).floatNum != (yyvsp[0].symAttrib).floatNum;
                                                             }
-#line 2071 "y.tab.c" /* yacc.c:1646  */
+#line 2097 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 88:
-#line 662 "main.y" /* yacc.c:1646  */
+#line 670 "main.y" /* yacc.c:1646  */
     {strcpy((yyval.symAttrib).type, (yyvsp[0].symAttrib).type);
                                                     if(!strcmp((yyvsp[0].symAttrib).type, "int"))
                                                         (yyval.symAttrib).num = (yyvsp[0].symAttrib).num;
                                                     else
                                                         (yyval.symAttrib).floatNum = (yyvsp[0].symAttrib).floatNum;
                                                 }
-#line 2082 "y.tab.c" /* yacc.c:1646  */
+#line 2108 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 89:
-#line 669 "main.y" /* yacc.c:1646  */
+#line 677 "main.y" /* yacc.c:1646  */
     {{ if((!strcmp((yyvsp[-2].symAttrib).type, "int") && !strcmp((yyvsp[0].symAttrib).type, "int")) || (!strcmp((yyvsp[-2].symAttrib).type, "char") && !strcmp((yyvsp[0].symAttrib).type, "char"))){
                                                         strcpy((yyval.symAttrib).type, (yyvsp[-2].symAttrib).type);
                                                         (yyval.symAttrib).num = (yyvsp[-2].symAttrib).num & (yyvsp[0].symAttrib).num;                                                
@@ -2090,22 +2116,22 @@ yyreduce:
                                                   else 
                                                       logAndOperandsTypeError((yyvsp[-2].symAttrib).type, (yyvsp[0].symAttrib).type, yylineno);
                                                 }}
-#line 2094 "y.tab.c" /* yacc.c:1646  */
+#line 2120 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 90:
-#line 680 "main.y" /* yacc.c:1646  */
+#line 688 "main.y" /* yacc.c:1646  */
     {strcpy((yyval.symAttrib).type, (yyvsp[0].symAttrib).type); 
                                                     if(!strcmp((yyvsp[0].symAttrib).type, "int"))
                                                         (yyval.symAttrib).num = (yyvsp[0].symAttrib).num;
                                                     else
                                                         (yyval.symAttrib).floatNum = (yyvsp[0].symAttrib).floatNum;                                               
                                                 }
-#line 2105 "y.tab.c" /* yacc.c:1646  */
+#line 2131 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 91:
-#line 687 "main.y" /* yacc.c:1646  */
+#line 695 "main.y" /* yacc.c:1646  */
     {{ if((!strcmp((yyvsp[-2].symAttrib).type, "int") && !strcmp((yyvsp[0].symAttrib).type, "int")) || (!strcmp((yyvsp[-2].symAttrib).type, "char") && !strcmp((yyvsp[0].symAttrib).type, "char"))){
                                                         strcpy((yyval.symAttrib).type, (yyvsp[-2].symAttrib).type);
                                                         (yyval.symAttrib).num = (yyvsp[-2].symAttrib).num ^ (yyvsp[0].symAttrib).num;                                                
@@ -2114,22 +2140,22 @@ yyreduce:
                                                       logXorOperandsTypeError((yyvsp[-2].symAttrib).type, (yyvsp[0].symAttrib).type, yylineno);
                                                 }
                                                 }
-#line 2118 "y.tab.c" /* yacc.c:1646  */
+#line 2144 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 92:
-#line 699 "main.y" /* yacc.c:1646  */
+#line 707 "main.y" /* yacc.c:1646  */
     {strcpy((yyval.symAttrib).type, (yyvsp[0].symAttrib).type); 
                                                     if(!strcmp((yyvsp[0].symAttrib).type, "int"))
                                                         (yyval.symAttrib).num = (yyvsp[0].symAttrib).num;
                                                     else
                                                         (yyval.symAttrib).floatNum = (yyvsp[0].symAttrib).floatNum;
                                                 }
-#line 2129 "y.tab.c" /* yacc.c:1646  */
+#line 2155 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 93:
-#line 706 "main.y" /* yacc.c:1646  */
+#line 714 "main.y" /* yacc.c:1646  */
     { if((!strcmp((yyvsp[-2].symAttrib).type, "int") && !strcmp((yyvsp[0].symAttrib).type, "int")) || (!strcmp((yyvsp[-2].symAttrib).type, "char") && !strcmp((yyvsp[0].symAttrib).type, "char"))){
                                                         strcpy((yyval.symAttrib).type, (yyvsp[-2].symAttrib).type);
                                                         (yyval.symAttrib).num = (yyvsp[-2].symAttrib).num | (yyvsp[0].symAttrib).num;                                                
@@ -2137,11 +2163,11 @@ yyreduce:
                                                   else 
                                                       logOrOperandsTypeError((yyvsp[-2].symAttrib).type, (yyvsp[0].symAttrib).type, yylineno);
                                                 }
-#line 2141 "y.tab.c" /* yacc.c:1646  */
+#line 2167 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 94:
-#line 718 "main.y" /* yacc.c:1646  */
+#line 726 "main.y" /* yacc.c:1646  */
     {strcpy((yyval.symAttrib).type, (yyvsp[0].symAttrib).type);  
                                                     if(!strcmp((yyvsp[0].symAttrib).type, "int"))
                                                         (yyval.symAttrib).num = (yyvsp[0].symAttrib).num;
@@ -2150,21 +2176,21 @@ yyreduce:
                                                         (yyval.symAttrib).floatNum = (yyvsp[0].symAttrib).floatNum;
                                                     
                                                 }
-#line 2154 "y.tab.c" /* yacc.c:1646  */
+#line 2180 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 95:
-#line 727 "main.y" /* yacc.c:1646  */
+#line 735 "main.y" /* yacc.c:1646  */
     { strcpy((yyval.symAttrib).type, "int");
                                                     int i1, i2; float f1, f2;
                                                     // if(!strcmp())
                                                     
                                                 }
-#line 2164 "y.tab.c" /* yacc.c:1646  */
+#line 2190 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 96:
-#line 736 "main.y" /* yacc.c:1646  */
+#line 744 "main.y" /* yacc.c:1646  */
     {
                                                     strcpy((yyval.symAttrib).type, (yyvsp[0].symAttrib).type);
                                                     if(!strcmp((yyvsp[0].symAttrib).type, "int"))
@@ -2172,11 +2198,11 @@ yyreduce:
                                                     else if(!strcmp((yyvsp[0].symAttrib).type, "float"))
                                                         (yyval.symAttrib).floatNum = (yyvsp[0].symAttrib).floatNum;
                                                 }
-#line 2176 "y.tab.c" /* yacc.c:1646  */
+#line 2202 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 97:
-#line 744 "main.y" /* yacc.c:1646  */
+#line 752 "main.y" /* yacc.c:1646  */
     {
                                                     strcpy((yyval.symAttrib).type, "int");
                                                     if(!strcmp((yyvsp[-2].symAttrib).type, "int") && !strcmp((yyvsp[0].symAttrib).type, "int"))
@@ -2189,11 +2215,11 @@ yyreduce:
                                                         (yyval.symAttrib).num = (yyvsp[-2].symAttrib).floatNum || (yyvsp[0].symAttrib).floatNum;
 
                                                 }
-#line 2193 "y.tab.c" /* yacc.c:1646  */
+#line 2219 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 2197 "y.tab.c" /* yacc.c:1646  */
+#line 2223 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2428,7 +2454,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 760 "main.y" /* yacc.c:1906  */
+#line 768 "main.y" /* yacc.c:1906  */
 
 
 

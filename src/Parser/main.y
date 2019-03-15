@@ -127,7 +127,8 @@ external_declaration:
 ;
 
 function_definition: 
-    declaration_specifiers direct_declarator declaration_list compound_statement  { if(returnType[0]=='\0') strcpy(returnType,"void");
+    declaration_specifiers direct_declarator declaration_list compound_statement  { printf(" hyguyg%s %s \n",$2.val,$2.type);
+                                                                                    if(returnType[0]=='\0') strcpy(returnType,"void");
                                                                                         if(strcmp($1.type,returnType)){
                                                                                         returnTypeMisMatchError($1.type,$1.val,returnType, yylineno);
                                                                                     }
@@ -158,6 +159,7 @@ declaration_specifiers:
 direct_declarator: 
 
     IDENTIFIER                                      {   strcpy($1.type, Type); strcpy($$.type, $1.type); strcpy($$.val, $1.val);
+                                                        printf("%s %s ",$1.type,$1.val);
                                                         if(!findInHashTable($1.val,$1.type)){
                                                             insertsymbolToken(yytext,$1.type, yylineno, 0);
                                                         }
@@ -168,7 +170,7 @@ direct_declarator:
 // |   '(' direct_declarator ')'
 |   direct_declarator '[' log_or_expression ']'
 |   direct_declarator '[' ']'
-|   direct_declarator '(' parameter_list ')'     {
+|   direct_declarator '(' parameter_list ')'     {  {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
                                                     if(decORdef==0){
                                                         decORdef=1;
                                                     }
@@ -179,15 +181,18 @@ direct_declarator:
                                                         else if(numArgs2<numArgs1){
                                                             tooLessArgumentsError(yylineno);   
                                                         }
-                                                        decORdef=0;
+                                                        decORdef=2;
+                                                    }
+                                                    if(decORdef==2){
                                                         for(int i=0;i<numArgs1;i++){
                                                             argLLs[i] = deleteFromHashTable(argValues[i],argTypes[i]);
+                                                            // printf("Args: %s %s %d\n",argValues[i],argTypes[i],argLLs[i]);
                                                         }
                                                         incrementTableScope();
                                                         for(int i=0;i<numArgs1;i++){
-                                                            printf("Args: %s %s %d\n",argValues[i],argTypes[i],argLLs[i]);
                                                             insertsymbolToken(argValues[i],argTypes[i],argLLs[i],0);
                                                         }
+                                                        decORdef = 0;
                                                     }
                                                  }           
 |   direct_declarator '(' identifier_list ')'
@@ -215,10 +220,11 @@ init_declaration_list:
 
 parameter_list: 
 
-    parameter_declaration                       {
+    parameter_declaration                       {   //{strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
                                                     if(decORdef==0) {
                                                         strcpy(argTypes[numArgs1],$1.type); 
                                                         strcpy(argValues[numArgs1],$1.val); 
+                                                        printf("Args: %s %s \n",$1.type,$1.val);
                                                         numArgs1++; //printf("Argtype: %s\n",$1.type);
                                                     }
                                                     else{
@@ -229,7 +235,7 @@ parameter_list:
                                                         numArgs2++;
                                                     }
                                                 }   
-|   parameter_list ',' parameter_declaration    {
+|   parameter_list ',' parameter_declaration    {   
                                                     if(decORdef==0) {
                                                         strcpy(argTypes[numArgs1],$3.type);
                                                         strcpy(argValues[numArgs1],$3.val);
@@ -249,13 +255,13 @@ parameter_list:
 
 identifier_list:
 
-    IDENTIFIER
-|   identifier_list ',' IDENTIFIER
+    IDENTIFIER                                  //    {strcpy($1.type, Type); strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
+|   identifier_list ',' IDENTIFIER              //    {strcpy($3.type, Type); strcpy($$.type, $3.type); strcpy($$.val, $3.val);}
 ;
 
 parameter_declaration: 
 
-    declaration_specifiers direct_declarator 
+    declaration_specifiers direct_declarator        {strcpy($1.type, Type); strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
 // |   declaration_specifiers direct_abstract_declarator
 |   declaration_specifiers
 ;
@@ -364,6 +370,7 @@ array_funccall:
 
     primary_expression                          {
                                                     strcpy($$.type, $1.type);
+                                                    strcpy($$.val, $1.val);
                                                     if(!strcmp($1.type, "int"))
                                                         $$.num = $1.num;
                                                     else if(!strcmp($1.type, "float"))
@@ -384,14 +391,15 @@ array_funccall:
 ;
 
 argument_list: 
-    assignment_expression
-|   argument_list ',' assignment_expression
+    assignment_expression                                   {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
+|   argument_list ',' assignment_expression            {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
 ;
 
 assignment_expression: 
 
     log_or_expression                               {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
-|   unary_expression '=' log_or_expression          {   if(findInHashTable($1.val,$1.type)){
+|   unary_expression '=' log_or_expression          {   strcpy($$.type, $1.type); strcpy($$.val, $1.val);
+                                                        if(findInHashTable($1.val,$1.type)){
                                                             if(strcmp($1.type,$3.type)){
                                                                 typeMismatchError($1.type,$3.type,yylineno);
                                                             }
@@ -409,7 +417,7 @@ assignment_expression:
 
 unary_expression: 
 
-    array_funccall                          {   
+    array_funccall                          {   strcpy($$.val, $1.val); 
                                                      strcpy($$.type, $1.type); 
                                                     if(!strcmp($1.type, "int"))
                                                         $$.num = $1.num;
@@ -424,7 +432,7 @@ unary_expression:
 
 primary_expression: 
 
-    IDENTIFIER              { insertsymbolToken(yytext,Type, yylineno, 0); strcpy($1.type, Type); strcpy($$.type, $1.type); strcpy($$.val, $1.val); }    
+    IDENTIFIER              { insertsymbolToken(yytext,Type, yylineno, 0); strcpy($1.type, Type); strcpy($$.type, $1.type); strcpy($$.val, $1.val);printf("%s %s\n",$1.val,$1.type); }    
 
 
 |   NUM_FLOAT               {strcpy($$.type, $1.type);  $$.floatNum = $1.floatNum;}
