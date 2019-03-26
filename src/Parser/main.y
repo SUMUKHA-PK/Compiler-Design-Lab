@@ -71,6 +71,7 @@
 %token <symAttrib> NUM_INTEGER
 %token <symAttrib> NUM_FLOAT 
 %token <symAttrib> STRING_LITERAL
+%token <symAttrib> CHAR_LITERAL
 
 
 %token INC_OP 
@@ -101,8 +102,8 @@
 %type <symAttrib> direct_declarator
 %type <symAttrib> parameter_list
 %type <symAttrib> parameter_declaration
-%type <symAttrib> return
-%type <symAttrib> RETURN
+// %type <symAttrib> return
+// %type <symAttrib> RETURN
 
 // %type <symAttrib> unary_operator
 
@@ -127,17 +128,17 @@ external_declaration:
 ;
 
 function_definition: 
-    declaration_specifiers direct_declarator declaration_list compound_statement  { printf(" hyguyg%s %s \n",$2.val,$2.type);
-                                                                                    if(returnType[0]=='\0') strcpy(returnType,"void");
-                                                                                        if(strcmp($1.type,returnType)){
-                                                                                        returnTypeMisMatchError($1.type,$1.val,returnType, yylineno);
-                                                                                    }
-                                                                                  }
-|   declaration_specifiers direct_declarator compound_statement                   { if(returnType[0]=='\0') strcpy(returnType,"void");
-                                                                                        if(strcmp($1.type,returnType)){
-                                                                                        returnTypeMisMatchError($1.type,$1.val,returnType, yylineno);
-                                                                                    }
-                                                                                  }
+     declaration_specifiers direct_declarator declaration_list compound_statement  //{
+    //                                                                                 if(returnType[0]=='\0') strcpy(returnType,"void");
+    //                                                                                     if(strcmp($1.type,returnType)){
+    //                                                                                     returnTypeMisMatchError($1.type,$1.val,returnType, yylineno);
+    //                                                                                 }
+    //                                                                               }
+ |   declaration_specifiers direct_declarator compound_statement     //              { if(returnType[0]=='\0') strcpy(returnType,"void");
+//                                                                                         if(strcmp($1.type,returnType)){
+//                                                                                         returnTypeMisMatchError($1.type,$1.val,returnType, yylineno);
+//                                                                                     }
+//                                                                                   }
 |   direct_declarator declaration_list compound_statement
 ;
 
@@ -159,7 +160,6 @@ declaration_specifiers:
 direct_declarator: 
 
     IDENTIFIER                                      {   strcpy($1.type, Type); strcpy($$.type, $1.type); strcpy($$.val, $1.val);
-                                                        printf("%s %s ",$1.type,$1.val);
                                                         if(!findInHashTable($1.val,$1.type)){
                                                             insertsymbolToken(yytext,$1.type, yylineno, 0);
                                                         }
@@ -170,31 +170,32 @@ direct_declarator:
 // |   '(' direct_declarator ')'
 |   direct_declarator '[' log_or_expression ']'
 |   direct_declarator '[' ']'
-|   direct_declarator '(' parameter_list ')'     {  {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
-                                                    if(decORdef==0){
-                                                        decORdef=1;
-                                                    }
-                                                    else{
-                                                        if(numArgs2>numArgs1){
-                                                            tooManyArgumentsError(yylineno);
-                                                        }
-                                                        else if(numArgs2<numArgs1){
-                                                            tooLessArgumentsError(yylineno);   
-                                                        }
-                                                        decORdef=2;
-                                                    }
-                                                    if(decORdef==2){
-                                                        for(int i=0;i<numArgs1;i++){
-                                                            argLLs[i] = deleteFromHashTable(argValues[i],argTypes[i]);
-                                                            // printf("Args: %s %s %d\n",argValues[i],argTypes[i],argLLs[i]);
-                                                        }
-                                                        incrementTableScope();
-                                                        for(int i=0;i<numArgs1;i++){
-                                                            insertsymbolToken(argValues[i],argTypes[i],argLLs[i],0);
-                                                        }
-                                                        decORdef = 0;
-                                                    }
-                                                 }           
+ |   direct_declarator '(' parameter_list ')'     
+                //                                      {  {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
+//                                                     if(decORdef==0){
+//                                                         decORdef=1;
+//                                                     }
+//                                                     else{
+//                                                         if(numArgs2>numArgs1){
+//                                                             tooManyArgumentsError(yylineno);
+//                                                         }
+//                                                         else if(numArgs2<numArgs1){
+//                                                             tooLessArgumentsError(yylineno);   
+//                                                         }
+//                                                         decORdef=2;
+//                                                     }
+//                                                     if(decORdef==2){
+//                                                         for(int i=0;i<numArgs1;i++){
+//                                                             argLLs[i] = deleteFromHashTable(argValues[i],argTypes[i]);
+//                                                             // printf("Args: %s %s %d\n",argValues[i],argTypes[i],argLLs[i]);
+//                                                         }
+//                                                         incrementTableScope();
+//                                                         for(int i=0;i<numArgs1;i++){
+//                                                             insertsymbolToken(argValues[i],argTypes[i],argLLs[i],0);
+//                                                         }
+//                                                         decORdef = 0;
+//                                                     }
+//                                                  }           
 |   direct_declarator '(' identifier_list ')'
 |   direct_declarator '(' ')'
 ;
@@ -220,37 +221,36 @@ init_declaration_list:
 
 parameter_list: 
 
-    parameter_declaration                       {   //{strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
-                                                    if(decORdef==0) {
-                                                        strcpy(argTypes[numArgs1],$1.type); 
-                                                        strcpy(argValues[numArgs1],$1.val); 
-                                                        printf("Args: %s %s \n",$1.type,$1.val);
-                                                        numArgs1++; //printf("Argtype: %s\n",$1.type);
-                                                    }
-                                                    else{
-                                                        // printf("SOMETHING:1 %s1 %s",argTypes[numArgs2],$1.type);
-                                                        if(strcmp(argTypes[numArgs2],$1.type)){
-                                                            argumentTypeMismatchError(argTypes[numArgs2],$1.type,yylineno);          
-                                                        }
-                                                        numArgs2++;
-                                                    }
-                                                }   
-|   parameter_list ',' parameter_declaration    {   
-                                                    if(decORdef==0) {
-                                                        strcpy(argTypes[numArgs1],$3.type);
-                                                        strcpy(argValues[numArgs1],$3.val);
-                                                        printf("Argtype: %s\n",$3.type);
-                                                        printf("Argtype: %s\n",$3.val);
-                                                        numArgs1++; 
-                                                    }
-                                                    else{
-                                                        // printf("SOMETHING:j %sj %s",argTypes[numArgs2],$3.type);
-                                                        if(strcmp(argTypes[numArgs2],$3.type)){
-                                                            argumentTypeMismatchError(argTypes[numArgs2],$3.type,yylineno);        
-                                                        }
-                                                        numArgs2++;
-                                                    }
-                                                }       
+     parameter_declaration              //         {   //{strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
+    //                                                 if(decORdef==0) {
+    //                                                     strcpy(argTypes[numArgs1],$1.type); 
+    //                                                     strcpy(argValues[numArgs1],$1.val); 
+    //                                                     // printf("Args: %s %s \n",$1.type,$1.val);
+    //                                                     numArgs1++; //printf("Argtype: %s\n",$1.type);
+    //                                                 }
+    //                                                 else{
+    //                                                     // printf("SOMETHING:1 %s1 %s",argTypes[numArgs2],$1.type);
+    //                                                     if(strcmp(argTypes[numArgs2],$1.type)){
+    //                                                         argumentTypeMismatchError(argTypes[numArgs2],$1.type,yylineno);          
+    //                                                     }
+    //                                                     numArgs2++;
+    //                                                 }
+                                                //}   
+|   parameter_list ',' parameter_declaration  //{   
+                                                    // if(decORdef==0) {
+                                                    //     strcpy(argTypes[numArgs1],$3.type);
+                                                    //     strcpy(argValues[numArgs1],$3.val);
+
+                                                    //     numArgs1++; 
+                                                    // }
+                                                    // else{
+                                                    //     // printf("SOMETHING:j %sj %s",argTypes[numArgs2],$3.type);
+                                                    //     if(strcmp(argTypes[numArgs2],$3.type)){
+                                                    //         argumentTypeMismatchError(argTypes[numArgs2],$3.type,yylineno);        
+                                                    //     }
+                                                    //     numArgs2++;
+                                                    // }
+                                                //}       
 ;
 
 identifier_list:
@@ -350,14 +350,10 @@ while_statement:
 
 jump_statement: 
 
-    return ';'                          
+    RETURN ';'
+|   RETURN expression ';'                 
 |   BREAK ';'
 |   CONTINUE ';'
-;
-
-return: 
-    RETURN 
-|   RETURN expression                               {strcpy(returnType,$2.type);}
 ;
 
 expression: 
@@ -733,8 +729,15 @@ log_and_expression:
                                                 }
 
 |   log_and_expression LOG_AND or_expression    { strcpy($$.type, "int");
-                                                    int i1, i2; float f1, f2;
-                                                    // if(!strcmp())
+                                                    if(!strcmp($1.type, "int") && !strcmp($3.type, "int"))
+                                                        $$.num = $1.num && $3.num;
+                                                    else if(!strcmp($1.type, "int") && !strcmp($3.type, "float"))
+                                                        $$.num = $1.num && $3.floatNum;
+                                                    else if(!strcmp($1.type, "float") && !strcmp($3.type, "int"))
+                                                        $$.num = $1.floatNum && $3.num;
+                                                    else if(!strcmp($1.type, "float") && !strcmp($3.type, "float"))
+                                                        $$.num = $1.floatNum && $3.floatNum;
+
                                                     
                                                 }
 ;
