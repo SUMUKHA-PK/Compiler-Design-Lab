@@ -1,8 +1,15 @@
-int g=0;
-int main() {
+int x = 89, y = 20;
 
-	int x = 10;
+int main(int x, int y, char z) {
+	
+	float w = 10.1;
+	func(w);
 
-	float y = 121;
+}
 
+
+int func(float x) {
+
+	while(x < 10) {
+	}
 }
