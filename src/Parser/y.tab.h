@@ -63,25 +63,26 @@ extern int yydebug;
     NUM_INTEGER = 273,
     NUM_FLOAT = 274,
     STRING_LITERAL = 275,
-    INC_OP = 276,
-    DEC_OP = 277,
-    REL_LESSEQUAL = 278,
-    REL_GREATEQUAL = 279,
-    REL_EQUAL = 280,
-    REL_NOTEQUAL = 281,
-    REL_LESSTHAN = 282,
-    REL_GREATERTHAN = 283,
-    AR_PLUS = 284,
-    AR_MINUS = 285,
-    AR_MUL = 286,
-    AR_DIV = 287,
-    AR_MOD = 288,
-    BITWISE_XOR = 289,
-    BITWISE_AND = 290,
-    BITWISE_OR = 291,
-    LOG_AND = 292,
-    LOG_OR = 293,
-    LOG_COMPARE = 294
+    CHAR_LITERAL = 276,
+    INC_OP = 277,
+    DEC_OP = 278,
+    REL_LESSEQUAL = 279,
+    REL_GREATEQUAL = 280,
+    REL_EQUAL = 281,
+    REL_NOTEQUAL = 282,
+    REL_LESSTHAN = 283,
+    REL_GREATERTHAN = 284,
+    AR_PLUS = 285,
+    AR_MINUS = 286,
+    AR_MUL = 287,
+    AR_DIV = 288,
+    AR_MOD = 289,
+    BITWISE_XOR = 290,
+    BITWISE_AND = 291,
+    BITWISE_OR = 292,
+    LOG_AND = 293,
+    LOG_OR = 294,
+    LOG_COMPARE = 295
   };
 #endif
 /* Tokens.  */
@@ -103,25 +104,26 @@ extern int yydebug;
 #define NUM_INTEGER 273
 #define NUM_FLOAT 274
 #define STRING_LITERAL 275
-#define INC_OP 276
-#define DEC_OP 277
-#define REL_LESSEQUAL 278
-#define REL_GREATEQUAL 279
-#define REL_EQUAL 280
-#define REL_NOTEQUAL 281
-#define REL_LESSTHAN 282
-#define REL_GREATERTHAN 283
-#define AR_PLUS 284
-#define AR_MINUS 285
-#define AR_MUL 286
-#define AR_DIV 287
-#define AR_MOD 288
-#define BITWISE_XOR 289
-#define BITWISE_AND 290
-#define BITWISE_OR 291
-#define LOG_AND 292
-#define LOG_OR 293
-#define LOG_COMPARE 294
+#define CHAR_LITERAL 276
+#define INC_OP 277
+#define DEC_OP 278
+#define REL_LESSEQUAL 279
+#define REL_GREATEQUAL 280
+#define REL_EQUAL 281
+#define REL_NOTEQUAL 282
+#define REL_LESSTHAN 283
+#define REL_GREATERTHAN 284
+#define AR_PLUS 285
+#define AR_MINUS 286
+#define AR_MUL 287
+#define AR_DIV 288
+#define AR_MOD 289
+#define BITWISE_XOR 290
+#define BITWISE_AND 291
+#define BITWISE_OR 292
+#define LOG_AND 293
+#define LOG_OR 294
+#define LOG_COMPARE 295
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -140,7 +142,7 @@ union YYSTYPE
 
     } symAttrib;
 
-#line 144 "y.tab.h" /* yacc.c:1909  */
+#line 146 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

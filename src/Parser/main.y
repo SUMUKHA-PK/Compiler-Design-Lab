@@ -102,8 +102,9 @@
 %type <symAttrib> direct_declarator
 %type <symAttrib> parameter_list
 %type <symAttrib> parameter_declaration
-// %type <symAttrib> return
-// %type <symAttrib> RETURN
+
+%type <symAttrib> return
+%type <symAttrib> RETURN
 
 // %type <symAttrib> unary_operator
 
@@ -128,17 +129,17 @@ external_declaration:
 ;
 
 function_definition: 
-     declaration_specifiers direct_declarator declaration_list compound_statement  //{
-    //                                                                                 if(returnType[0]=='\0') strcpy(returnType,"void");
-    //                                                                                     if(strcmp($1.type,returnType)){
-    //                                                                                     returnTypeMisMatchError($1.type,$1.val,returnType, yylineno);
-    //                                                                                 }
-    //                                                                               }
- |   declaration_specifiers direct_declarator compound_statement     //              { if(returnType[0]=='\0') strcpy(returnType,"void");
-//                                                                                         if(strcmp($1.type,returnType)){
-//                                                                                         returnTypeMisMatchError($1.type,$1.val,returnType, yylineno);
-//                                                                                     }
-//                                                                                   }
+     declaration_specifiers direct_declarator declaration_list compound_statement  {
+                                                                                    if(returnType[0]=='\0') strcpy(returnType,"void");
+                                                                                        if(strcmp($1.type,returnType)){
+                                                                                        returnTypeMisMatchError($1.type,$1.val,returnType, yylineno);
+                                                                                    }
+                                                                                  }
+ |   declaration_specifiers direct_declarator compound_statement                  { if(returnType[0]=='\0') strcpy(returnType,"void");
+                                                                                        if(strcmp($1.type,returnType)){
+                                                                                        returnTypeMisMatchError($1.type,$1.val,returnType, yylineno);
+                                                                                    }
+                                                                                  }
 |   direct_declarator declaration_list compound_statement
 ;
 
@@ -170,32 +171,33 @@ direct_declarator:
 // |   '(' direct_declarator ')'
 |   direct_declarator '[' log_or_expression ']'
 |   direct_declarator '[' ']'
- |   direct_declarator '(' parameter_list ')'     
-                //                                      {  {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
-//                                                     if(decORdef==0){
-//                                                         decORdef=1;
-//                                                     }
-//                                                     else{
-//                                                         if(numArgs2>numArgs1){
-//                                                             tooManyArgumentsError(yylineno);
-//                                                         }
-//                                                         else if(numArgs2<numArgs1){
-//                                                             tooLessArgumentsError(yylineno);   
-//                                                         }
-//                                                         decORdef=2;
-//                                                     }
-//                                                     if(decORdef==2){
-//                                                         for(int i=0;i<numArgs1;i++){
-//                                                             argLLs[i] = deleteFromHashTable(argValues[i],argTypes[i]);
-//                                                             // printf("Args: %s %s %d\n",argValues[i],argTypes[i],argLLs[i]);
-//                                                         }
-//                                                         incrementTableScope();
-//                                                         for(int i=0;i<numArgs1;i++){
-//                                                             insertsymbolToken(argValues[i],argTypes[i],argLLs[i],0);
-//                                                         }
-//                                                         decORdef = 0;
-//                                                     }
-//                                                  }           
+|   direct_declarator '(' parameter_list ')'     
+                                                {  
+                                                    strcpy($$.type, $1.type); strcpy($$.val, $1.val);
+                                                    if(decORdef==0){
+                                                        decORdef=1;
+                                                    }
+                                                    else{
+                                                        if(numArgs2>numArgs1){
+                                                            tooManyArgumentsError(yylineno);
+                                                        }
+                                                        else if(numArgs2<numArgs1){
+                                                            tooLessArgumentsError(yylineno);   
+                                                        }
+                                                        decORdef=2;
+                                                    }
+                                                    if(decORdef==2){
+                                                        for(int i=0;i<numArgs1;i++){
+                                                            argLLs[i] = deleteFromHashTable(argValues[i],argTypes[i]);
+                                                            // printf("Args: %s %s %d\n",argValues[i],argTypes[i],argLLs[i]);
+                                                        }
+                                                        incrementTableScope();
+                                                        for(int i=0;i<numArgs1;i++){
+                                                            insertsymbolToken(argValues[i],argTypes[i],argLLs[i],0);
+                                                        }
+                                                        decORdef = 0;
+                                                    }
+                                                }           
 |   direct_declarator '(' identifier_list ')'
 |   direct_declarator '(' ')'
 ;
@@ -221,36 +223,36 @@ init_declaration_list:
 
 parameter_list: 
 
-     parameter_declaration              //         {   //{strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
-    //                                                 if(decORdef==0) {
-    //                                                     strcpy(argTypes[numArgs1],$1.type); 
-    //                                                     strcpy(argValues[numArgs1],$1.val); 
-    //                                                     // printf("Args: %s %s \n",$1.type,$1.val);
-    //                                                     numArgs1++; //printf("Argtype: %s\n",$1.type);
-    //                                                 }
-    //                                                 else{
-    //                                                     // printf("SOMETHING:1 %s1 %s",argTypes[numArgs2],$1.type);
-    //                                                     if(strcmp(argTypes[numArgs2],$1.type)){
-    //                                                         argumentTypeMismatchError(argTypes[numArgs2],$1.type,yylineno);          
-    //                                                     }
-    //                                                     numArgs2++;
-    //                                                 }
-                                                //}   
-|   parameter_list ',' parameter_declaration  //{   
-                                                    // if(decORdef==0) {
-                                                    //     strcpy(argTypes[numArgs1],$3.type);
-                                                    //     strcpy(argValues[numArgs1],$3.val);
+     parameter_declaration                       {   //{strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
+                                                    if(decORdef==0) {
+                                                        strcpy(argTypes[numArgs1],$1.type); 
+                                                        strcpy(argValues[numArgs1],$1.val); 
+                                                        // printf("Args: %s %s \n",$1.type,$1.val);
+                                                        numArgs1++; //printf("Argtype: %s\n",$1.type);
+                                                    }
+                                                    else{
+                                                        // printf("SOMETHING:1 %s1 %s",argTypes[numArgs2],$1.type);
+                                                        if(strcmp(argTypes[numArgs2],$1.type)){
+                                                            argumentTypeMismatchError(argTypes[numArgs2],$1.type,yylineno);          
+                                                        }
+                                                        numArgs2++;
+                                                    }
+                                                }   
+|   parameter_list ',' parameter_declaration    {   
+                                                    if(decORdef==0) {
+                                                        strcpy(argTypes[numArgs1],$3.type);
+                                                        strcpy(argValues[numArgs1],$3.val);
 
-                                                    //     numArgs1++; 
-                                                    // }
-                                                    // else{
-                                                    //     // printf("SOMETHING:j %sj %s",argTypes[numArgs2],$3.type);
-                                                    //     if(strcmp(argTypes[numArgs2],$3.type)){
-                                                    //         argumentTypeMismatchError(argTypes[numArgs2],$3.type,yylineno);        
-                                                    //     }
-                                                    //     numArgs2++;
-                                                    // }
-                                                //}       
+                                                        numArgs1++; 
+                                                    }
+                                                    else{
+                                                        // printf("SOMETHING:j %sj %s",argTypes[numArgs2],$3.type);
+                                                        if(strcmp(argTypes[numArgs2],$3.type)){
+                                                            argumentTypeMismatchError(argTypes[numArgs2],$3.type,yylineno);        
+                                                        }
+                                                        numArgs2++;
+                                                    }
+                                                }       
 ;
 
 identifier_list:
@@ -350,10 +352,14 @@ while_statement:
 
 jump_statement: 
 
-    RETURN ';'
-|   RETURN expression ';'                 
+    return  ';'
 |   BREAK ';'
 |   CONTINUE ';'
+;
+
+return: 
+    RETURN 
+|   RETURN expression                               {strcpy(returnType,$2.type);}
 ;
 
 expression: 
@@ -675,7 +681,7 @@ and_expression:
                                                         $$.num = $1.num & $3.num;                                                
                                                     } 
                                                   else 
-                                                      logAndOperandsTypeError($1.type, $3.type, yylineno);
+                                                      logOperandsTypeError($1.type, $3.type, yylineno);
                                                 }}
 ;
 
@@ -693,7 +699,7 @@ xor_expression:
                                                         $$.num = $1.num ^ $3.num;                                                
                                                     } 
                                                   else 
-                                                      logXorOperandsTypeError($1.type, $3.type, yylineno);
+                                                      logOperandsTypeError($1.type, $3.type, yylineno);
                                                 }
                                                 }
 ;
@@ -712,7 +718,7 @@ or_expression:
                                                         $$.num = $1.num | $3.num;                                                
                                                     } 
                                                   else 
-                                                      logOrOperandsTypeError($1.type, $3.type, yylineno);
+                                                      logOperandsTypeError($1.type, $3.type, yylineno);
                                                 }
 ;
 
