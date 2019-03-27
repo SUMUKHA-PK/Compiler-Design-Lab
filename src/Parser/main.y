@@ -30,6 +30,7 @@
     int numArgs1 = 0;
     int numArgs2 = 0;
     int decORdef = 0; //0OR1
+    Tables* currTable;
 
 %}
 
@@ -40,11 +41,11 @@
     
     char charConst;
     struct{
-            char type[100];
-            char val[100];
-            int num;
-    float floatNum;
-
+        char type[100];
+        char val[100];
+        int num;
+        float floatNum;
+        char charlit;
     } symAttrib;
 }
 
@@ -171,9 +172,12 @@ direct_declarator:
 // |   '(' direct_declarator ')'
 |   direct_declarator '[' log_or_expression ']'
 |   direct_declarator '[' ']'
-|   direct_declarator '(' parameter_list ')'     
+|   direct_declarator '('                       {
+                                                    if(decORdef==1)incrementTableScope();
+                                                }
+    parameter_list ')'     
                                                 {  
-                                                    strcpy($$.type, $1.type); strcpy($$.val, $1.val);
+                                                    // strcpy($$.type, $1.type); strcpy($$.val, $1.val);
                                                     if(decORdef==0){
                                                         decORdef=1;
                                                     }
@@ -187,14 +191,14 @@ direct_declarator:
                                                         decORdef=2;
                                                     }
                                                     if(decORdef==2){
-                                                        for(int i=0;i<numArgs1;i++){
-                                                            argLLs[i] = deleteFromHashTable(argValues[i],argTypes[i]);
-                                                            // printf("Args: %s %s %d\n",argValues[i],argTypes[i],argLLs[i]);
-                                                        }
-                                                        incrementTableScope();
-                                                        for(int i=0;i<numArgs1;i++){
-                                                            insertsymbolToken(argValues[i],argTypes[i],argLLs[i],0);
-                                                        }
+                                                        // for(int i=0;i<numArgs1;i++){
+                                                        //     argLLs[i] = deleteFromHashTable(argValues[i],argTypes[i]);
+                                                        //     printf("Args: %s %s %d\n",argValues[i],argTypes[i],argLLs[i]);
+                                                        // }
+                                                        // incrementTableScope();
+                                                        // for(int i=0;i<numArgs1;i++){
+                                                        //     insertsymbolToken(argValues[i],argTypes[i],argLLs[i],0);
+                                                        // }
                                                         decORdef = 0;
                                                     }
                                                 }           
@@ -227,8 +231,7 @@ parameter_list:
                                                     if(decORdef==0) {
                                                         strcpy(argTypes[numArgs1],$1.type); 
                                                         strcpy(argValues[numArgs1],$1.val); 
-                                                        // printf("Args: %s %s \n",$1.type,$1.val);
-                                                        numArgs1++; //printf("Argtype: %s\n",$1.type);
+                                                        numArgs1++;
                                                     }
                                                     else{
                                                         // printf("SOMETHING:1 %s1 %s",argTypes[numArgs2],$1.type);
@@ -242,7 +245,6 @@ parameter_list:
                                                     if(decORdef==0) {
                                                         strcpy(argTypes[numArgs1],$3.type);
                                                         strcpy(argValues[numArgs1],$3.val);
-
                                                         numArgs1++; 
                                                     }
                                                     else{
@@ -292,7 +294,9 @@ list_of_lists:
 init_declarator: 
 
     direct_declarator          
-|   direct_declarator '=' assignment_expression     {   if(findInHashTable($1.val,$1.type)){
+|   direct_declarator '=' assignment_expression     {   char typeStr[100];    
+                                                        if(findInHashTable($1.val,typeStr)){
+                                                            strcpy($1.type,typeStr);
                                                             if(strcmp($1.type,$3.type)){
                                                                 typeMismatchError($1.type,$3.type,yylineno);
                                                             }
@@ -400,7 +404,7 @@ argument_list:
 assignment_expression: 
 
     log_or_expression                               {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
-|   unary_expression '=' log_or_expression          {   strcpy($$.type, $1.type); strcpy($$.val, $1.val);
+|   unary_expression '=' log_or_expression          {  strcpy($$.type, $1.type); strcpy($$.val, $1.val);
                                                         if(findInHashTable($1.val,$1.type)){
                                                             if(strcmp($1.type,$3.type)){
                                                                 typeMismatchError($1.type,$3.type,yylineno);
@@ -434,7 +438,7 @@ unary_expression:
 
 primary_expression: 
 
-    IDENTIFIER              { insertsymbolToken(yytext,Type, yylineno, 0); strcpy($1.type, Type); strcpy($$.type, $1.type); strcpy($$.val, $1.val);printf("%s %s\n",$1.val,$1.type); }    
+    IDENTIFIER              { insertsymbolToken(yytext,Type, yylineno, 0); strcpy($1.type, Type); strcpy($$.type, $1.type); strcpy($$.val, $1.val);}    
 
 
 |   NUM_FLOAT               {strcpy($$.type, $1.type);  $$.floatNum = $1.floatNum;}
@@ -442,6 +446,8 @@ primary_expression:
 |   NUM_INTEGER             {strcpy($$.type, $1.type); $$.num = $1.num;}
 
 |   STRING_LITERAL          {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
+
+|   CHAR_LITERAL            {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
 
 |   '(' expression ')'      {
                                 strcpy($$.type, $2.type); 
@@ -472,22 +478,44 @@ multiplicative_expression:
                                                                 else if(!strcmp($1.type, "float"))
                                                                     $$.floatNum, $1.floatNum;
                                                             }
-|   multiplicative_expression '*' unary_expression          {
-                                                                if(!strcmp($1.type, "int") && !strcmp($3.type, "int")) {
-                                                                    strcpy($$.type, "int");
-                                                                    $$.num = $1.num * $3.num;
+|   multiplicative_expression '*' unary_expression          {   if(!strcmp($1.type, "string_literal") || !strcmp($3.type, "string_literal"))
+                                                                    divOperandsTypeError($1.type, $3.type, yylineno) ;
+                                                                if(!strcmp($1.type, "int")) {
+                                                                    if(!strcmp($3.type, "int")) {
+                                                                        strcpy($$.type, "int");
+                                                                        $$.num = $1.num / $3.num;
+                                                                    }
+                                                                    else if(!strcmp($3.type, "float")) {
+                                                                        strcpy($3.type, "float");
+                                                                        $$.floatNum = $1.num / $3.floatNum;
+                                                                    }
+                                                                    else  if(!strcmp($3.type, "char")) {
+                                                                        strcpy($3.type, "int");
+                                                                        $$.num = $1.num / $3.charlit;
+                                                                    }
                                                                 }
-                                                                else if(!strcmp($1.type, "int") && !strcmp($3.type, "float")) {
+                                                                else if(!strcmp($1.type, "float")) {
                                                                     strcpy($$.type, "float");
-                                                                    $$.floatNum = $1.num * $3.floatNum;
+                                                                    if(!strcmp($3.type, "int")) 
+                                                                        $$.floatNum = $1.floatNum / $3.num;
+                                                                    else if(!strcmp($3.type, "float"))
+                                                                        $$.floatNum = $1.floatNum / $3.floatNum;
+                                                                    else if(!strcmp($3.type, "char"))
+                                                                        $$.floatNum = $1.floatNum / $3.charlit;
                                                                 }
-                                                                else if(!strcmp($1.type, "float") && !strcmp($3.type, "int")) {
-                                                                    strcpy($$.type, "float");
-                                                                    $$.floatNum = $1.floatNum * $3.num;
-                                                                }
-                                                                else if(!strcmp($1.type, "float") && !strcmp($3.type, "float")) {
-                                                                    strcpy($$.type, "float");
-                                                                    $$.floatNum = $1.floatNum * $3.floatNum;
+                                                                else if(!strcmp($1.type, "char")) {
+                                                                    if(!strcmp($3.type, "int")) {
+                                                                        strcpy($$.type, "int");
+                                                                        $$.num = $1.charlit / $3.num;
+                                                                    }
+                                                                    else if(!strcmp($3.type, "float")) {
+                                                                        strcpy($$.type, "float");
+                                                                        $$.floatNum = $1.charlit / $3.floatNum;
+                                                                    }
+                                                                    else if(!strcmp($3.type, "char")) {
+                                                                        strcpy($$.type, "char");
+                                                                        $$.charlit = $1.charlit / $3.charlit;
+                                                                    }
                                                                 }
                                                             }
 

@@ -130,16 +130,16 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 39 "main.y" /* yacc.c:1909  */
+#line 40 "main.y" /* yacc.c:1909  */
 
     
     char charConst;
     struct{
-            char type[100];
-            char val[100];
-            int num;
-    float floatNum;
-
+        char type[100];
+        char val[100];
+        int num;
+        float floatNum;
+        char charlit;
     } symAttrib;
 
 #line 146 "y.tab.h" /* yacc.c:1909  */

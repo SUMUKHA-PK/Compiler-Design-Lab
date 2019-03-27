@@ -161,6 +161,7 @@ void insertsymbolToken(char *value, char *type, int lineNumber, int tableno){
     
 }
 
+//f=0 -> not found  ;  f=1--> found
 int findInHashTable(char * value,char *type){
     
     Tables * table = currTable;
@@ -168,8 +169,9 @@ int findInHashTable(char * value,char *type){
     int f = 0;
     symbolToken * temp = table->symbolTable[hashIndex];
     while(temp!=NULL){
-        if(!strcmp(temp->value,value)&&!strcmp(temp->type,type)){
+        if(!strcmp(temp->value,value)){
             f=1;
+            strcpy(type,temp->type);
             break;
         }
         temp=temp->next;

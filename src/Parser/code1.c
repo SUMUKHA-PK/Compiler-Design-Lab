@@ -4,13 +4,15 @@ int func(int x,int y,char z);
 
 int func(int x, int y, char z) {
 	
-	// float w = 10.1;
+	float w = 10.1;
 	// func(w);
+	x=5;
+	z = 'g';
 	return 0;
 }
 
-// int func(float x) {
+// int main();
 
-// 	while(x < 10) {
-// 	}
+// int main(){
+// 	return 0;
 // }
