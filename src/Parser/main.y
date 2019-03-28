@@ -336,8 +336,8 @@ if_statement:
 while_statement: 
 
     WHILE '(' expression ')' statement              {
-                                                        incrementTableScope();
-                                                        
+                                                        ifIf=1;
+                                                        incrementTableScope();    
                                                     }
 ;
 

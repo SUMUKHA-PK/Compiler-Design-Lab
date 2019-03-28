@@ -1760,8 +1760,8 @@ yyreduce:
   case 49:
 #line 338 "main.y" /* yacc.c:1646  */
     {
-                                                        incrementTableScope();
-                                                        
+                                                        ifIf=1;
+                                                        incrementTableScope();    
                                                     }
 #line 1767 "y.tab.c" /* yacc.c:1646  */
     break;
