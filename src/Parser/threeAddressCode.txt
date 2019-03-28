@@ -1,0 +1,6 @@
+
+function begin func:
+w = 10.1
+x = 5
+z = 'g'
+func end

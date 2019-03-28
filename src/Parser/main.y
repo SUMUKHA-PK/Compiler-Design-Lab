@@ -32,6 +32,25 @@
     int decORdef = 0; //0OR1
     Tables* currTable;
 
+    FILE * threeAddressFile = NULL;
+    char threeAddrCode[100][1000];
+    char threeAddrCodeLineNo = 0;
+    char code[100];
+    int tempVarCount=0;
+
+    void addthreeAddrCode(char * str){
+        strcpy(threeAddrCode[threeAddrCodeLineNo],str);
+        threeAddrCodeLineNo++;
+    }
+
+    char * newTempVar(){
+        char * buf = (char*)malloc(10);
+        sprintf(buf,"T%d",tempVarCount);
+        tempVarCount++;
+    }
+
+
+
 %}
 
 %locations
@@ -135,11 +154,13 @@ function_definition:
                                                                                         if(strcmp($1.type,returnType)){
                                                                                         returnTypeMisMatchError($1.type,$1.val,returnType, yylineno);
                                                                                     }
+                                                                                    sprintf(code,"func end\n"); addthreeAddrCode(code);
                                                                                   }
  |   declaration_specifiers direct_declarator compound_statement                  { if(returnType[0]=='\0') strcpy(returnType,"void");
                                                                                         if(strcmp($1.type,returnType)){
                                                                                         returnTypeMisMatchError($1.type,$1.val,returnType, yylineno);
                                                                                     }
+                                                                                    sprintf(code,"func end\n"); addthreeAddrCode(code);
                                                                                   }
 |   direct_declarator declaration_list compound_statement
 ;
@@ -169,11 +190,13 @@ direct_declarator:
                                                             if(!decORdef) redeclarationError($1.type,$1.val,yylineno);
                                                         }
                                                     }               
-// |   '(' direct_declarator ')'
 |   direct_declarator '[' log_or_expression ']'
 |   direct_declarator '[' ']'
 |   direct_declarator '('                       {
-                                                    if(decORdef==1)incrementTableScope();
+                                                    if(decORdef==1){
+                                                        incrementTableScope();
+                                                        sprintf(code,"\nfunction begin %s:\n",$1.val);addthreeAddrCode(code);
+                                                    }
                                                 }
     parameter_list ')'     
                                                 {   if(decORdef==0){
@@ -203,8 +226,8 @@ declaration_list:
 
 compound_statement: 
 
-    '{' '}'
-|   '{' list_of_lists '}'        
+    '{' '}'                                         
+|   '{' list_of_lists '}'                                       
 ;
 
 init_declaration_list: 
@@ -216,7 +239,7 @@ init_declaration_list:
 
 parameter_list: 
 
-     parameter_declaration                       {  if(decORdef==0) {
+    parameter_declaration                       {  if(decORdef==0) {
                                                         strcpy(argTypes[numArgs1],$1.type); 
                                                         strcpy(argValues[numArgs1],$1.val); 
                                                         numArgs1++;
@@ -264,14 +287,15 @@ init_declarator:
                                                             if(strcmp($1.type,$3.type)){
                                                                 typeMismatchError($1.type,$3.type,yylineno);
                                                             }
+                                                            else{
+                                                                sprintf(code,"%s = %s\n",$1.val,$3.val);addthreeAddrCode(code);
+                                                            }
                                                         }
                                                         else{
                                                             variableNotDeclaredError($3.type,$3.val,yylineno);
                                                         }
                                                     }
 ;
-
-
 
 list: 
 
@@ -302,13 +326,22 @@ expression_statement:
 
 if_statement: 
 
-    IF '(' expression ')' statement
+    IF '('                                                 {
+                                                                incrementTableScope();
+
+                                                           }
+    expression ')' statement                               {
+
+                                                           }
 |   IF '(' expression ')' statement ELSE statement
 ;
 
 while_statement: 
 
-    WHILE '(' expression ')' statement
+    WHILE '(' expression ')' statement              {
+                                                        incrementTableScope();
+                                                        
+                                                    }
 ;
 
 jump_statement: 
@@ -365,6 +398,9 @@ assignment_expression:
                                                         if(findInHashTable($1.val,$1.type)){
                                                             if(strcmp($1.type,$3.type)){
                                                                 typeMismatchError($1.type,$3.type,yylineno);
+                                                            }
+                                                            else{
+                                                                sprintf(code,"%s = %s\n",$1.val,$3.val);addthreeAddrCode(code);
                                                             }
                                                         }
                                                         else{
@@ -1016,38 +1052,37 @@ log_or_expression:
                                                         exprInvalidError($1.type, yylineno);
                                                 }
 
-|   log_or_expression LOG_OR log_and_expression {
-                                                    if(!strcmp($1.type, "string_literal") || !strcmp($3.type, "string_literal"))
-                                                                        logOperandsTypeError($1.type, $3.type, yylineno);
-
-                                                                    strcpy($$.type, "int");
-                                                                    if(!strcmp($1.type, "int")) {
-                                                                        if(!strcmp($3.type, "int")) 
-                                                                            $$.num = $1.num || $3.num;
-                                                                        else if(!strcmp($3.type, "char"))
-                                                                            $$.num = $1.num || $3.charlit;
-                                                                        else if(!strcmp($3.type, "float"))
-                                                                            $$.num = $1.num || $3.floatNum;
-                                                                    }
-                                                                    else if(!strcmp($1.type, "float")) {
-                                                                        if(!strcmp($3.type, "int"))
-                                                                            $$.num = $1.floatNum || $3.num;
-                                                                        else if(!strcmp($3.type, "float"))
-                                                                            $$.num = $1.floatNum || $3.floatNum;
-                                                                        else if(!strcmp($3.type, "char")) 
-                                                                            $$.num = $1.floatNum || $3.charlit;
-                                                                    }
-                                                                    else if(!strcmp($1.type, "char")) {
-                                                                        if(!strcmp($3.type, "int")) 
-                                                                            $$.num = $1.charlit || $3.num;
-                                                                        else if(!strcmp($3.type, "float"))
-                                                                            $$.num = $1.charlit || $3.floatNum;
-                                                                        else if(!strcmp($3.type, "char")) 
-                                                                            $$.num = $1.charlit || $3.charlit;
-                                                                    }
-                                                        
-
-                                                }
+|   log_or_expression LOG_OR log_and_expression     {
+                                                        if(!strcmp($1.type, "string_literal") || !strcmp($3.type, "string_literal"))
+                                                        logOperandsTypeError($1.type, $3.type, yylineno);
+                                                        strcpy($$.type, "int");
+                                                        strcpy($$.val,newTempVar());
+                                                        sprintf(code,"%s = %s || %s\n",$$.val,$1.val,$3.val);
+                                                        if(!strcmp($1.type, "int")) {
+                                                            if(!strcmp($3.type, "int")) 
+                                                                $$.num = $1.num || $3.num;
+                                                            else if(!strcmp($3.type, "char"))
+                                                                $$.num = $1.num || $3.charlit;
+                                                            else if(!strcmp($3.type, "float"))
+                                                                $$.num = $1.num || $3.floatNum;
+                                                        }
+                                                        else if(!strcmp($1.type, "float")) {
+                                                            if(!strcmp($3.type, "int"))
+                                                                $$.num = $1.floatNum || $3.num;
+                                                            else if(!strcmp($3.type, "float"))
+                                                                $$.num = $1.floatNum || $3.floatNum;
+                                                            else if(!strcmp($3.type, "char")) 
+                                                                $$.num = $1.floatNum || $3.charlit;
+                                                        }
+                                                        else if(!strcmp($1.type, "char")) {
+                                                            if(!strcmp($3.type, "int")) 
+                                                                $$.num = $1.charlit || $3.num;
+                                                            else if(!strcmp($3.type, "float"))
+                                                                $$.num = $1.charlit || $3.floatNum;
+                                                            else if(!strcmp($3.type, "char")) 
+                                                                $$.num = $1.charlit || $3.charlit;
+                                                        }
+                                                    }
 ;
 
 
@@ -1060,6 +1095,14 @@ void yyerror(const char *s){
 }
 
 extern int yylex();
+
+void writeTACToFile(){
+    threeAddressFile = fopen("threeAddressCode.txt","w");
+    for(int i=0;i<threeAddrCodeLineNo;i++){
+                fprintf(threeAddressFile, "%s", threeAddrCode[i]);
+        }
+    fclose(threeAddressFile);
+}
 
 int main()
 {
@@ -1075,6 +1118,7 @@ int main()
         if(!dontPrint) {
             printf("\nParsing complete\n");
             printTables();
+            writeTACToFile();
         }
         else{
             printf("\nParsing error!\n");
