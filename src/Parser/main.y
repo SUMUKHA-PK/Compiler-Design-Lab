@@ -326,13 +326,9 @@ expression_statement:
 
 if_statement: 
 
-    IF '('                                                 {
-                                                                incrementTableScope();
-
-                                                           }
-    expression ')' statement                               {
-
-                                                           }
+    IF '(' expression ')' statement                 {
+        incrementTableScope();
+    }                 
 |   IF '(' expression ')' statement ELSE statement
 ;
 

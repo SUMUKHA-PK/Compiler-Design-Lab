@@ -9,8 +9,11 @@ int func(int x, int y, char z) {
 	x=5;
 	z = 'g';
 
-	if(x==1){
-		x=1;
+	while(1){
+		x=10;
+	}
+	if(x==5){
+		x=10;
 	}
 	return 0;
 }
