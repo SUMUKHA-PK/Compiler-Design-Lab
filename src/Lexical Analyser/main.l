@@ -209,7 +209,8 @@ NEWLINE "\\n"
                                                 }
                                             }
 "}"		                                    { if(yylineno!=sl_flag&&mul_comment_flag!=1) {
-                                                 returnToParentScope(); return '}'; 
+                                                if(ifIf==1) ifIf=0;
+                                                returnToParentScope(); return '}'; 
                                                 }
                                             }
 ","			                                { if(yylineno!=sl_flag&&mul_comment_flag!=1) {

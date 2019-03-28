@@ -167,16 +167,35 @@ int findInHashTable(char * value,char *type){
     Tables * table = currTable;
     int hashIndex = hash(value);
     int f = 0;
-    symbolToken * temp = table->symbolTable[hashIndex];
-    while(temp!=NULL){
-        if(!strcmp(temp->value,value)){
-            f=1;
-            strcpy(type,temp->type);
-            break;
+    if(ifIf==0){
+        symbolToken * temp = table->symbolTable[hashIndex];
+        while(temp!=NULL){
+            if(!strcmp(temp->value,value)){
+                f=1;
+                strcpy(type,temp->type);
+                break;
+            }
+            temp=temp->next;
         }
-        temp=temp->next;
+        return f;
     }
-    return f;
+    else{
+        printTable(0,table);
+        while(table!=NULL){
+            printTable(0,table);
+            symbolToken * temp = table->symbolTable[hashIndex];
+            while(temp!=NULL){
+                if(!strcmp(temp->value,value)){
+                    f=1;
+                    strcpy(type,temp->type);
+                    break;
+                }
+                temp=temp->next;
+            }
+            table=table->parent;
+        }
+        return f;
+    }
 }
 
 int deleteFromHashTable(char * value,char *type){

@@ -8,8 +8,8 @@ int func(int x, int y, char z) {
 	// func(x,y,z);
 	x=5;
 	z = 'g';
-
-	while(1){
+	
+	if(x==3){
 		x=10;
 	}
 	if(x==5){

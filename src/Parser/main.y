@@ -19,7 +19,7 @@
     extern char *yytext;
     extern int yylineno;	
 
-    int sl_flag = -1, mul_comment_flag = 0, start_multi = 0, invalid_mul_comment = 0,dontPrint=0;
+    int sl_flag = -1, mul_comment_flag = 0, start_multi = 0, invalid_mul_comment = 0,dontPrint=0,ifIf=0;
 
     char Type[100];
     char functype[100];
@@ -326,9 +326,10 @@ expression_statement:
 
 if_statement: 
 
-    IF '(' expression ')' statement                 {
-        incrementTableScope();
-    }                 
+    IF '(' expression ')' statement                 {   
+                                                        ifIf=1;
+                                                        incrementTableScope();
+                                                    }                 
 |   IF '(' expression ')' statement ELSE statement
 ;
 
@@ -391,7 +392,9 @@ assignment_expression:
 
     log_or_expression                               {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
 |   unary_expression '=' log_or_expression          {  strcpy($$.type, $1.type); strcpy($$.val, $1.val);
-                                                        if(findInHashTable($1.val,$1.type)){
+                                                        char typeStr[100];    
+                                                        if(findInHashTable($1.val,typeStr)){
+                                                            strcpy($1.type,typeStr);
                                                             if(strcmp($1.type,$3.type)){
                                                                 typeMismatchError($1.type,$3.type,yylineno);
                                                             }
@@ -419,7 +422,7 @@ unary_expression:
 
 primary_expression: 
 
-    IDENTIFIER              { insertsymbolToken(yytext,Type, yylineno, 0); strcpy($1.type, Type); strcpy($$.type, $1.type); strcpy($$.val, $1.val);}    
+    IDENTIFIER              {strcpy($1.type, Type); strcpy($$.type, $1.type); strcpy($$.val, $1.val);}    
 
 
 |   NUM_FLOAT               {strcpy($$.type, $1.type);  $$.floatNum = $1.floatNum;}
@@ -823,64 +826,66 @@ equality_expression:
 
 |   equality_expression LOG_COMPARE relational_expression   {
                                                                 if(!strcmp($1.type, "string_literal") || !strcmp($3.type, "string_literal"))
-                                                                        relOperandsTypeError($1.type, $3.type, yylineno);
-
-                                                                    strcpy($$.type, "int");
-                                                                    if(!strcmp($1.type, "int")) {
-                                                                        if(!strcmp($3.type, "int")) 
+                                                                    relOperandsTypeError($1.type, $3.type, yylineno);
+                                                                
+                                                                strcpy($$.type, "int");
+                                                                if(!strcmp($1.type, "int")) {
+                                                                    if(!strcmp($3.type, "int")) 
+                                                                        {
                                                                             $$.num = $1.num == $3.num;
-                                                                        else if(!strcmp($3.type, "char"))
-                                                                            $$.num = $1.num == $3.charlit;
-                                                                        else if(!strcmp($3.type, "float"))
-                                                                            $$.num = $1.num == $3.floatNum;
-                                                                    }
-                                                                    else if(!strcmp($1.type, "float")) {
-                                                                        if(!strcmp($3.type, "int"))
-                                                                            $$.num = $1.floatNum == $3.num;
-                                                                        else if(!strcmp($3.type, "float"))
-                                                                            $$.num = $1.floatNum == $3.floatNum;
-                                                                        else if(!strcmp($3.type, "char")) 
-                                                                            $$.num = $1.floatNum == $3.charlit;
-                                                                    }
-                                                                    else if(!strcmp($1.type, "char")) {
-                                                                        if(!strcmp($3.type, "int")) 
-                                                                            $$.num = $1.charlit == $3.num;
-                                                                        else if(!strcmp($3.type, "float"))
-                                                                            $$.num = $1.charlit == $3.floatNum;
-                                                                        else if(!strcmp($3.type, "char")) 
-                                                                            $$.num = $1.charlit == $3.charlit;
-                                                                    }
+                                                                        }
+                                                                    else if(!strcmp($3.type, "char"))
+                                                                        $$.num = $1.num == $3.charlit;
+                                                                    else if(!strcmp($3.type, "float"))
+                                                                        $$.num = $1.num == $3.floatNum;
+                                                                }
+                                                                else if(!strcmp($1.type, "float")) {
+                                                                    if(!strcmp($3.type, "int"))
+                                                                        $$.num = $1.floatNum == $3.num;
+                                                                    else if(!strcmp($3.type, "float"))
+                                                                        $$.num = $1.floatNum == $3.floatNum;
+                                                                    else if(!strcmp($3.type, "char")) 
+                                                                        $$.num = $1.floatNum == $3.charlit;
+                                                                }
+                                                                else if(!strcmp($1.type, "char")) {
+                                                                    if(!strcmp($3.type, "int")) 
+                                                                        $$.num = $1.charlit == $3.num;
+                                                                    else if(!strcmp($3.type, "float"))
+                                                                        $$.num = $1.charlit == $3.floatNum;
+                                                                    else if(!strcmp($3.type, "char")) 
+                                                                        $$.num = $1.charlit == $3.charlit;
+                                                                }
                                                             }  
 
 |   equality_expression REL_NOTEQUAL relational_expression  {
                                                                 if(!strcmp($1.type, "string_literal") || !strcmp($3.type, "string_literal"))
-                                                                        relOperandsTypeError($1.type, $3.type, yylineno);
-
-                                                                    strcpy($$.type, "int");
-                                                                    if(!strcmp($1.type, "int")) {
-                                                                        if(!strcmp($3.type, "int")) 
-                                                                            $$.num = $1.num != $3.num;
-                                                                        else if(!strcmp($3.type, "char"))
-                                                                            $$.num = $1.num != $3.charlit;
-                                                                        else if(!strcmp($3.type, "float"))
-                                                                            $$.num = $1.num != $3.floatNum;
-                                                                    }
-                                                                    else if(!strcmp($1.type, "float")) {
-                                                                        if(!strcmp($3.type, "int"))
-                                                                            $$.num = $1.floatNum != $3.num;
-                                                                        else if(!strcmp($3.type, "float"))
-                                                                            $$.num = $1.floatNum != $3.floatNum;
-                                                                        else if(!strcmp($3.type, "char")) 
-                                                                            $$.num = $1.floatNum != $3.charlit;
-                                                                    }
-                                                                    else if(!strcmp($1.type, "char")) {
-                                                                        if(!strcmp($3.type, "int")) 
-                                                                            $$.num = $1.charlit != $3.num;
-                                                                        else if(!strcmp($3.type, "float"))
-                                                                            $$.num = $1.charlit != $3.floatNum;
-                                                                        else if(!strcmp($3.type, "char")) 
-                                                                            $$.num = $1.charlit != $3.charlit;
-                                                                    }
+                                                                    relOperandsTypeError($1.type, $3.type, yylineno);
+                                                                
+                                                                strcpy($$.type, "int");
+                                                                if(!strcmp($1.type, "int")) {
+                                                                    if(!strcmp($3.type, "int")) 
+                                                                        $$.num = $1.num != $3.num;
+                                                                    else if(!strcmp($3.type, "char"))
+                                                                        $$.num = $1.num != $3.charlit;
+                                                                    else if(!strcmp($3.type, "float"))
+                                                                        $$.num = $1.num != $3.floatNum;
+                                                                }
+                                                                else if(!strcmp($1.type, "float")) {
+                                                                    if(!strcmp($3.type, "int"))
+                                                                        $$.num = $1.floatNum != $3.num;
+                                                                    else if(!strcmp($3.type, "float"))
+                                                                        $$.num = $1.floatNum != $3.floatNum;
+                                                                    else if(!strcmp($3.type, "char")) 
+                                                                        $$.num = $1.floatNum != $3.charlit;
+                                                                }
+                                                                else if(!strcmp($1.type, "char")) {
+                                                                    if(!strcmp($3.type, "int")) 
+                                                                        $$.num = $1.charlit != $3.num;
+                                                                    else if(!strcmp($3.type, "float"))
+                                                                        $$.num = $1.charlit != $3.floatNum;
+                                                                    else if(!strcmp($3.type, "char")) 
+                                                                        $$.num = $1.charlit != $3.charlit;
+                                                                }
                                                             }
 ;
 
