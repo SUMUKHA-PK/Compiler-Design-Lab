@@ -19,7 +19,7 @@
     extern char *yytext;
     extern int yylineno;	
 
-    int sl_flag = -1, mul_comment_flag = 0, start_multi = 0, invalid_mul_comment = 0,dontPrint=0,ifIf=0;
+    int sl_flag = -1, mul_comment_flag = 0, start_multi = 0, invalid_mul_comment = 0,dontPrint=0,ifIf=0,ifIfDec=0;
 
     char Type[100];
     char functype[100];
@@ -168,22 +168,24 @@ function_definition:
 declaration:
 
     declaration_specifiers ';'
-|   declaration_specifiers init_declaration_list ';'
+|   declaration_specifiers init_declaration_list ';'   {ifIfDec=0;}
 ;
 
 declaration_specifiers: 
 
     VOID            {strcpy(Type, $1.type); strcpy($$.type, $1.type);}        
-|   INT             {strcpy(Type, $1.type); strcpy($$.type, $1.type);}                                           
-|   CHAR            {strcpy(Type, $1.type); strcpy($$.type, $1.type);}
-|   FLOAT           {strcpy(Type, $1.type); strcpy($$.type, $1.type);}                   
-|   DOUBLE          {strcpy(Type, $1.type); strcpy($$.type, $1.type);}
+|   INT             {ifIfDec=1;strcpy(Type, $1.type); strcpy($$.type, $1.type);}                                           
+|   CHAR            {ifIfDec=1;strcpy(Type, $1.type); strcpy($$.type, $1.type);}
+|   FLOAT           {ifIfDec=1;strcpy(Type, $1.type); strcpy($$.type, $1.type);}                   
+|   DOUBLE          {ifIfDec=1;strcpy(Type, $1.type); strcpy($$.type, $1.type);}
 ;
 
 direct_declarator: 
 
     IDENTIFIER                                      {   strcpy($1.type, Type); strcpy($$.type, $1.type); strcpy($$.val, $1.val);
+    printf("HEREwas");
                                                         if(!findInHashTable($1.val,$1.type)){
+                                                            printf("HERE");
                                                             insertsymbolToken(yytext,$1.type, yylineno, 0);
                                                         }
                                                         else{
@@ -326,19 +328,31 @@ expression_statement:
 
 if_statement: 
 
-    IF '(' expression ')' statement                 {   
+    IF '(' 
+                                                    {
                                                         ifIf=1;
                                                         incrementTableScope();
-                                                    }                 
-|   IF '(' expression ')' statement ELSE statement
+                                                    } 
+    expression ')' statement else_statement 
+;
+
+else_statement:
+    ELSE 
+                                                    {
+                                                        ifIf=1;
+                                                        incrementTableScope();
+                                                    }
+    statement
+|
 ;
 
 while_statement: 
 
-    WHILE '(' expression ')' statement              {
+    WHILE '('                                       {
                                                         ifIf=1;
-                                                        incrementTableScope();    
+                                                        incrementTableScope(); 
                                                     }
+    expression ')' statement              
 ;
 
 jump_statement: 

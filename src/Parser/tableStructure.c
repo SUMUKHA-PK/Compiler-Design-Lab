@@ -167,7 +167,7 @@ int findInHashTable(char * value,char *type){
     Tables * table = currTable;
     int hashIndex = hash(value);
     int f = 0;
-    if(ifIf==0){
+    if(ifIf==0||ifIfDec==1){
         symbolToken * temp = table->symbolTable[hashIndex];
         while(temp!=NULL){
             if(!strcmp(temp->value,value)){
@@ -180,9 +180,7 @@ int findInHashTable(char * value,char *type){
         return f;
     }
     else{
-        printTable(0,table);
         while(table!=NULL){
-            printTable(0,table);
             symbolToken * temp = table->symbolTable[hashIndex];
             while(temp!=NULL){
                 if(!strcmp(temp->value,value)){
