@@ -4,16 +4,28 @@
 
 int func(int x, int y, char z) {
 	
-	float w = 10.1;
-	// func(x,y,z);
-	x=5;
-	z = 'g';
-	int g = x*y;
+	// float w = 10.1;
+	// // func(x,y,z);
+	// x=5;
+	// z = 'g';
+	
+// 	while(x==0){
+// 		int y=0;
+// 		float w=0.1;
+// 		x=1;
+// 	}
+// while(y){
+// 		y=1;
+// 	}
+	
+	// int g = x*y;
 	if (x==5){
-		x++;
+		char z = 'g';
+		x=10;
 	}
     else{
         x=11;
+		char z = '1';
     }
 	return 0;
 }

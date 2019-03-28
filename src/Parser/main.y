@@ -31,12 +31,17 @@
     int numArgs2 = 0;
     int decORdef = 0; //0OR1
     Tables* currTable;
+    int backPatchStack[100];
+    int backPatchStackTop=-1;
+    char threeAddrLabelStack[100][100];
+    int threeAddrLabelStackTop=-1;
 
     FILE * threeAddressFile = NULL;
     char threeAddrCode[1000][1000];
     char threeAddrCodeLineNo = 0;
     char code[1000];
     int tempVarCount=0;
+    int labelCount=0;
 
     void addthreeAddrCode(char * str){
         strcpy(threeAddrCode[threeAddrCodeLineNo],str);
@@ -45,13 +50,41 @@
 
     char * newTempVar(){
         char * buf = (char*)malloc(10);
-        sprintf(buf,"T%d",tempVarCount);
+        sprintf(buf,"T_%d",tempVarCount);
         tempVarCount++;
         return buf;
     }
 
+    char * newLabel(){
+        char * buf = (char*)malloc(15);
+        sprintf(buf,"Label_%d",labelCount);
+        labelCount++;
+        return buf;
+    }
 
+    char* curLabel(){
+        char * buf = (char*)malloc(15);
+        sprintf(buf,"Label_%d",labelCount);
+        return buf;
+    }
+    
+    void pushBackthreeAddrLabelStack(char * str){
+        strcpy(threeAddrLabelStack[++threeAddrLabelStackTop],str);
+    }
 
+    void popthreeAddrLabelStack(){
+        --threeAddrLabelStackTop;
+    }
+
+    void pushBackPatchStack(int n){
+        backPatchStack[++backPatchStackTop] = n ;
+    }
+
+    int popBackPatchStack(){
+        int var = backPatchStack[backPatchStackTop];
+        backPatchStackTop--;
+        return var;
+    }
 %}
 
 %locations
@@ -327,12 +360,28 @@ expression_statement:
 
 if_statement: 
 
-    IF '(' 
-                                                    {
-                                                        ifIf=1;
+    IF                                              {   ifIf=1;
                                                         incrementTableScope();
-                                                    } 
-    expression ')' statement else_statement 
+                                                    }
+
+    '(' expression ')'                              {
+                                                        pushBackPatchStack(threeAddrCodeLineNo);
+                                                        sprintf(code,"IF (%s) GOTO %s\nGOTO ",$4.val,curLabel());
+                                                        addthreeAddrCode(code);
+                                                        sprintf(code,"\n%s : \n",newLabel());
+                                                        addthreeAddrCode(code);
+                                                    }
+
+    statement                                       {
+                                                        char * nextlabel = newLabel();
+                                                        sprintf(code,"\n%s: \n",nextlabel);
+                                                        addthreeAddrCode(code);
+
+                                                        char tempCode[100];
+                                                        sprintf(tempCode,"%s\n",nextlabel);
+                                                        strcat(threeAddrCode[popBackPatchStack()],tempCode);
+                                                    }
+    else_statement 
 ;
 
 else_statement:
@@ -341,17 +390,46 @@ else_statement:
                                                         ifIf=1;
                                                         incrementTableScope();
                                                     }
-    statement
+    statement                                       {
+                                                        char * nextlabel = newLabel();
+                                                        sprintf(code,"\n%s: \n",nextlabel);
+                                                        addthreeAddrCode(code);
+
+                                                        char tempCode[100];
+                                                        sprintf(tempCode,"%s\n",nextlabel);
+                                                        strcat(threeAddrCode[popBackPatchStack()],tempCode);
+                                                    }
 |
 ;
 
 while_statement: 
 
-    WHILE '('                                       {
-                                                        ifIf=1;
-                                                        incrementTableScope(); 
-                                                    }
-    expression ')' statement              
+    WHILE                                       {
+                                                    pushBackthreeAddrLabelStack(curLabel());
+                                                    sprintf(code,"\n%s :\n",newLabel());addthreeAddrCode(code);
+                                                    ifIf=1;
+                                                    incrementTableScope();
+                                                }
+    '(' expression ')'                          {
+                                                    pushBackPatchStack(threeAddrCodeLineNo);
+                                                    sprintf(code,"IF (%s) GOTO %s\nGOTO ",$4.val,curLabel());
+                                                    addthreeAddrCode(code);
+                                                    sprintf(code,"\n%s\n",newLabel()); 
+                                                    addthreeAddrCode(code); 
+                                                }
+    statement                                   {
+                                                    sprintf(code,"GOTO %s\n",threeAddrLabelStack[threeAddrLabelStackTop]);
+                                                    addthreeAddrCode(code);
+                                                    popthreeAddrLabelStack();
+
+                                                    char *nextlabel = newLabel();
+                                                    sprintf(code,"\n%s: \n",nextlabel);
+                                                    addthreeAddrCode(code);
+
+                                                    char tempCode[100];
+                                                    sprintf(tempCode,"%s\n",nextlabel);
+                                                    strcat(threeAddrCode[popBackPatchStack()],tempCode);
+                                                }
 ;
 
 jump_statement: 
