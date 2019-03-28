@@ -2,11 +2,16 @@
 function begin func:
 x = 5
 z = 'g'
+T0 = (x == 0)
 y = 0
 w = 0.1
 x = 1
+T1 = (x * y)
+g = T1
+x = 5
 z = '1'
 x = 10
 x = 100
 z = '1'
+return 
 func end

@@ -8,7 +8,7 @@ int func(int x, int y, char z) {
 	// func(x,y,z);
 	x=5;
 	z = 'g';
-
+	int g = x*y;
 	if (x==5){
 		x++;
 	}

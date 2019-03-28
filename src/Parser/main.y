@@ -33,9 +33,9 @@
     Tables* currTable;
 
     FILE * threeAddressFile = NULL;
-    char threeAddrCode[100][1000];
+    char threeAddrCode[1000][1000];
     char threeAddrCodeLineNo = 0;
-    char code[100];
+    char code[1000];
     int tempVarCount=0;
 
     void addthreeAddrCode(char * str){
@@ -47,6 +47,7 @@
         char * buf = (char*)malloc(10);
         sprintf(buf,"T%d",tempVarCount);
         tempVarCount++;
+        return buf;
     }
 
 
@@ -183,9 +184,7 @@ declaration_specifiers:
 direct_declarator: 
 
     IDENTIFIER                                      {   strcpy($1.type, Type); strcpy($$.type, $1.type); strcpy($$.val, $1.val);
-    printf("HEREwas");
                                                         if(!findInHashTable($1.val,$1.type)){
-                                                            printf("HERE");
                                                             insertsymbolToken(yytext,$1.type, yylineno, 0);
                                                         }
                                                         else{
@@ -363,8 +362,11 @@ jump_statement:
 ;
 
 return: 
-    RETURN 
-|   RETURN expression                               {strcpy(returnType,$2.type);}
+    RETURN                                          {sprintf(code,"return \n");addthreeAddrCode(code);} 
+|   RETURN expression                               {
+                                                        strcpy(returnType,$2.type);
+                                                        sprintf(code,"return %s\n",$2.val);addthreeAddrCode(code);
+                                                    }
 ;
 
 expression: 
@@ -398,7 +400,7 @@ array_funccall:
 ;
 
 argument_list: 
-    assignment_expression                                   {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
+    assignment_expression                              {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
 |   argument_list ',' assignment_expression            {strcpy($$.type, $1.type); strcpy($$.val, $1.val);}
 ;
 
@@ -460,6 +462,7 @@ multiplicative_expression:
 
     unary_expression                                        {
                                                                 strcpy($$.type, $1.type);
+                                                                strcpy($$.val,$1.val);
                                                                 if(!strcmp($1.type, "int"))
                                                                     $$.num = $1.num;
                                                                 else if(!strcmp($1.type, "float"))
@@ -467,6 +470,11 @@ multiplicative_expression:
                                                             }
 |   multiplicative_expression '*' unary_expression          {   if(!strcmp($1.type, "string_literal") || !strcmp($3.type, "string_literal"))
                                                                     divOperandsTypeError($1.type, $3.type, yylineno) ;
+
+                                                                strcpy($$.type, "int");
+                                                                strcpy($$.val,newTempVar());
+                                                                sprintf(code,"%s = (%s * %s)\n",$$.val,$1.val,$3.val);
+                                                                addthreeAddrCode(code);
                                                                 if(!strcmp($1.type, "int")) {
                                                                     if(!strcmp($3.type, "int")) {
                                                                         strcpy($$.type, "int");
@@ -507,8 +515,15 @@ multiplicative_expression:
                                                             }
 
 
-|   multiplicative_expression '/' unary_expression          {   if(!strcmp($1.type, "string_literal") || !strcmp($3.type, "string_literal"))
+|   multiplicative_expression '/' unary_expression          {   
+                                                                if(!strcmp($1.type, "string_literal") || !strcmp($3.type, "string_literal"))
                                                                     divOperandsTypeError($1.type, $3.type, yylineno) ;
+
+                                                                strcpy($$.type, "int");
+                                                                strcpy($$.val,newTempVar());
+                                                                sprintf(code,"%s = (%s / %s)\n",$$.val,$1.val,$3.val);
+                                                                addthreeAddrCode(code);
+
                                                                 if(!strcmp($1.type, "int")) {
                                                                     if(!strcmp($3.type, "int")) {
                                                                         strcpy($$.type, "int");
@@ -550,11 +565,16 @@ multiplicative_expression:
 
 
 |   multiplicative_expression '%' unary_expression          {
+                                                                strcpy($$.type, "int");
+                                                                strcpy($$.val,newTempVar());
+                                                                sprintf(code,"%s = (%s % %s)\n",$$.val,$1.val,$3.val);
+                                                                addthreeAddrCode(code);
+                                                                
                                                                 if(!strcmp($1.type, "float") || !strcmp($3.type, "float"))
                                                                     modOperandsTypeError($1.type, $3.type, yylineno);
                                                                 else if(!strcmp($1.type, "string_literal") || !strcmp($3.type, "string_literal"))
                                                                     modOperandsTypeError($1.type, $3.type, yylineno);
-
+                                                                    
                                                                 else if(!strcmp($1.type, "int")) {
                                                                     if(!strcmp($3.type, "int")) {
                                                                         strcpy($$.type, "int");
@@ -581,7 +601,9 @@ multiplicative_expression:
 
 additive_expression:
 
-    multiplicative_expression                               {   strcpy($$.type, $1.type);
+    multiplicative_expression                               {   
+                                                                strcpy($$.type, $1.type);
+                                                                strcpy($$.val,$1.val);
                                                                 if(!strcmp($1.type, "int"))
                                                                     $$.num = $1.num;
                                                                 else if(!strcmp($1.type, "float"))
@@ -596,6 +618,10 @@ additive_expression:
 |   additive_expression '+' multiplicative_expression       {   if(!strcmp($1.type, "string_literal") || !strcmp($3.type, "string_literal")) 
                                                                     addOperandsTypeError($1.type, $3.type, yylineno);
                                                                 
+                                                                strcpy($$.type, "int");
+                                                                strcpy($$.val,newTempVar());
+                                                                sprintf(code,"%s = %s + %s\n",$$.val,$1.val,$3.val);
+                                                                addthreeAddrCode(code);
                                                                 if(!strcmp($1.type, "int")) {
                                                                     if(!strcmp($3.type, "int")) {
                                                                         strcpy($$.type, "int");
@@ -642,6 +668,10 @@ additive_expression:
                                                               if(!strcmp($1.type, "string_literal") || !strcmp($3.type, "string_literal")) 
                                                                     subOperandsTypeError($1.type, $3.type, yylineno);
                                                                 
+                                                                strcpy($$.type, "int");
+                                                                strcpy($$.val,newTempVar());
+                                                                sprintf(code,"%s = %s - %s\n",$$.val,$1.val,$3.val);
+                                                                addthreeAddrCode(code);
                                                                 if(!strcmp($1.type, "int")) {
                                                                     if(!strcmp($3.type, "int")) {
                                                                         strcpy($$.type, "int");
@@ -689,6 +719,7 @@ relational_expression:
 
     additive_expression                                         {
                                                                     strcpy($$.type, $1.type);
+                                                                    strcpy($$.val,$1.val);
                                                                     if(!strcmp($1.type, "int"))
                                                                         $$.num = $1.num;
                                                                     else if(!strcmp($1.type, "float"))
@@ -703,6 +734,9 @@ relational_expression:
                                                                         relOperandsTypeError($1.type, $3.type, yylineno);
 
                                                                     strcpy($$.type, "int");
+                                                                    strcpy($$.val,newTempVar());
+                                                                    sprintf(code,"%s = (%s < %s)\n",$$.val,$1.val,$3.val);
+                                                                    addthreeAddrCode(code);
                                                                     if(!strcmp($1.type, "int")) {
                                                                         if(!strcmp($3.type, "int")) 
                                                                             $$.num = $1.num < $3.num;
@@ -734,6 +768,9 @@ relational_expression:
                                                                         relOperandsTypeError($1.type, $3.type, yylineno);
 
                                                                     strcpy($$.type, "int");
+                                                                    strcpy($$.val,newTempVar());
+                                                                    sprintf(code,"%s = (%s > %s)\n",$$.val,$1.val,$3.val);
+                                                                    addthreeAddrCode(code);
                                                                     if(!strcmp($1.type, "int")) {
                                                                         if(!strcmp($3.type, "int")) 
                                                                             $$.num = $1.num > $3.num;
@@ -766,6 +803,9 @@ relational_expression:
                                                                         relOperandsTypeError($1.type, $3.type, yylineno);
 
                                                                     strcpy($$.type, "int");
+                                                                    strcpy($$.val,newTempVar());
+                                                                    sprintf(code,"%s = (%s <= %s)\n",$$.val,$1.val,$3.val);
+                                                                    addthreeAddrCode(code);
                                                                     if(!strcmp($1.type, "int")) {
                                                                         if(!strcmp($3.type, "int")) 
                                                                             $$.num = $1.num <= $3.num;
@@ -797,6 +837,9 @@ relational_expression:
                                                                         relOperandsTypeError($1.type, $3.type, yylineno);
 
                                                                     strcpy($$.type, "int");
+                                                                    strcpy($$.val,newTempVar());
+                                                                    sprintf(code,"%s = (%s >= %s)\n",$$.val,$1.val,$3.val);
+                                                                    addthreeAddrCode(code);
                                                                     if(!strcmp($1.type, "int")) {
                                                                         if(!strcmp($3.type, "int")) 
                                                                             $$.num = $1.num >= $3.num;
@@ -828,6 +871,7 @@ equality_expression:
 
     relational_expression                                   {
                                                                 strcpy($$.type, $1.type);
+                                                                strcpy($$.val,$1.val);
                                                                 if(!strcmp($1.type, "int"))
                                                                     $$.num = $1.num;
                                                                 else if(!strcmp($1.type, "float"))
@@ -843,6 +887,9 @@ equality_expression:
                                                                     relOperandsTypeError($1.type, $3.type, yylineno);
                                                                 
                                                                 strcpy($$.type, "int");
+                                                                strcpy($$.val,newTempVar());
+                                                                sprintf(code,"%s = (%s == %s)\n",$$.val,$1.val,$3.val);
+                                                                addthreeAddrCode(code);
                                                                 if(!strcmp($1.type, "int")) {
                                                                     if(!strcmp($3.type, "int")) 
                                                                         {
@@ -873,9 +920,12 @@ equality_expression:
 
 |   equality_expression REL_NOTEQUAL relational_expression  {
                                                                 if(!strcmp($1.type, "string_literal") || !strcmp($3.type, "string_literal"))
-                                                                    relOperandsTypeError($1.type, $3.type, yylineno);
+                                                                relOperandsTypeError($1.type, $3.type, yylineno);
                                                                 
                                                                 strcpy($$.type, "int");
+                                                                strcpy($$.val,newTempVar());
+                                                                sprintf(code,"%s = (%s != %s)\n",$$.val,$1.val,$3.val);
+                                                                addthreeAddrCode(code);
                                                                 if(!strcmp($1.type, "int")) {
                                                                     if(!strcmp($3.type, "int")) 
                                                                         $$.num = $1.num != $3.num;
@@ -905,7 +955,9 @@ equality_expression:
 
 and_expression:
 
-    equality_expression                         {   strcpy($$.type, $1.type);
+    equality_expression                         {   
+                                                    strcpy($$.type, $1.type);
+                                                    strcpy($$.val,$1.val);
                                                     if(!strcmp($1.type, "int"))
                                                         $$.num = $1.num;
                                                     else if(!strcmp($1.type, "float"))
@@ -916,7 +968,12 @@ and_expression:
                                                         exprInvalidError($1.type, yylineno);
                                                 }
 
-|   and_expression '&' equality_expression      {  if((!strcmp($1.type, "int") && !strcmp($3.type, "int"))){
+|   and_expression '&' equality_expression      {   
+                                                    strcpy($$.val, $1.val);
+                                                    strcpy($$.val,newTempVar());
+                                                    sprintf(code,"%s = %s & %s\n",$$.val,$1.val,$3.val);
+                                                    addthreeAddrCode(code);
+                                                    if((!strcmp($1.type, "int") && !strcmp($3.type, "int"))){
                                                         strcpy($$.type, $1.type);
                                                         $$.num = $1.num & $3.num;                                                
                                                     } 
@@ -939,7 +996,9 @@ and_expression:
 
 xor_expression: 
 
-    and_expression                              {   strcpy($$.type, $1.type);
+    and_expression                              {   
+                                                    strcpy($$.type, $1.type);
+                                                    strcpy($$.val, $1.val);
                                                     if(!strcmp($1.type, "int"))
                                                         $$.num = $1.num;
                                                     else if(!strcmp($1.type, "float"))
@@ -950,7 +1009,12 @@ xor_expression:
                                                         exprInvalidError($1.type, yylineno);                                          
                                                 }
 
-|   xor_expression '^' and_expression           {   if((!strcmp($1.type, "int") && !strcmp($3.type, "int"))){
+|   xor_expression '^' and_expression           {   
+                                                    strcpy($$.type, "int");
+                                                    strcpy($$.val,newTempVar());
+                                                    sprintf(code,"%s = %s ^ %s\n",$$.val,$1.val,$3.val);
+                                                    addthreeAddrCode(code);
+                                                    if((!strcmp($1.type, "int") && !strcmp($3.type, "int"))){
                                                         strcpy($$.type, $1.type);
                                                         $$.num = $1.num ^ $3.num;                                                
                                                     } 
@@ -974,7 +1038,9 @@ xor_expression:
 
 or_expression:
 
-    xor_expression                              {strcpy($$.type, $1.type);
+    xor_expression                              {
+                                                    strcpy($$.type, $1.type);
+                                                    strcpy($$.val,$1.val);
                                                     if(!strcmp($1.type, "int"))
                                                         $$.num = $1.num;
                                                     else if(!strcmp($1.type, "float"))
@@ -986,6 +1052,10 @@ or_expression:
                                                 }
 
 |   or_expression '|' xor_expression            { 
+                                                    strcpy($$.type, "int");
+                                                    strcpy($$.val,newTempVar());
+                                                    sprintf(code,"%s = %s | %s\n",$$.val,$1.val,$3.val);
+                                                    addthreeAddrCode(code);
                                                     if((!strcmp($1.type, "int") && !strcmp($3.type, "int"))){
                                                         strcpy($$.type, $1.type);
                                                         $$.num = $1.num ^ $3.num;                                                
@@ -1010,7 +1080,9 @@ or_expression:
 
 log_and_expression: 
 
-    or_expression                               {strcpy($$.type, $1.type);
+    or_expression                               {
+                                                    strcpy($$.type, $1.type);
+                                                    strcpy($$.val,$1.val);
                                                     if(!strcmp($1.type, "int"))
                                                         $$.num = $1.num;
                                                     else if(!strcmp($1.type, "float"))
@@ -1026,6 +1098,9 @@ log_and_expression:
                                                     logOperandsTypeError($1.type, $3.type, yylineno);
 
                                                     strcpy($$.type, "int");
+                                                    strcpy($$.val,newTempVar());
+                                                    sprintf(code,"%s = %s && %s\n",$$.val,$1.val,$3.val);
+                                                    addthreeAddrCode(code);
                                                     if(!strcmp($1.type, "int")) {
                                                         if(!strcmp($3.type, "int")) 
                                                             $$.num = $1.num && $3.num;
@@ -1057,6 +1132,7 @@ log_or_expression:
 
     log_and_expression                          {   
                                                     strcpy($$.type, $1.type);
+                                                    strcpy($$.val,$1.val);
                                                     if(!strcmp($1.type, "int"))
                                                         $$.num = $1.num;
                                                     else if(!strcmp($1.type, "float"))
@@ -1073,6 +1149,7 @@ log_or_expression:
                                                         strcpy($$.type, "int");
                                                         strcpy($$.val,newTempVar());
                                                         sprintf(code,"%s = %s || %s\n",$$.val,$1.val,$3.val);
+                                                        addthreeAddrCode(code);
                                                         if(!strcmp($1.type, "int")) {
                                                             if(!strcmp($3.type, "int")) 
                                                                 $$.num = $1.num || $3.num;
@@ -1100,11 +1177,7 @@ log_or_expression:
                                                     }
 ;
 
-
-
 %%
-
-
 void yyerror(const char *s){
    printf("Error: %s at token %s in Line %d\n",s, yytext, yylineno );
 }

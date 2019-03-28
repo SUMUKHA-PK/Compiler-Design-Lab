@@ -1,8 +1,8 @@
 // int x = 89, y = 20;
 
-int func(int x,int y,char z);
+void func(int x,int y,char z);
 
-int func(int x, int y, char z) {
+void func(int x, int y, char z) {
 	
 	// float w = 10.1;
 	// func(x,y,z);
@@ -14,7 +14,8 @@ int func(int x, int y, char z) {
 		float w=0.1;
 		x=1;
 	}
-	if(x==5){
+	int g = x*y;
+	if(x=5){
 		char z='1';
 		x=10;
 	}
@@ -22,7 +23,7 @@ int func(int x, int y, char z) {
 		x=100;
 		char z = '1';
 	}
-	return 0;
+	return ;
 }
 
 
