@@ -251,28 +251,30 @@ direct_declarator:
                                                 }
 |   direct_declarator '(' 
                                                 {
-                                                    if (!strcmp($1.val,"main")) decORdef=1;
-                                                    if(decORdef==1){
+                                                    if (!strcmp($1.val,"main")) decORdef=-1;
+                                                    if(decORdef==1||decORdef==-1){
                                                         incrementTableScope();
                                                         sprintf(code,"\nfunction begin %s:\n",$1.val);addthreeAddrCode(code);
                                                     }
                                                 }
     ')'                                         {   
                                                     
-                                                    if(decORdef==0){
-                                                        decORdef=1;
-                                                    }
-                                                    else{
-                                                        if(numArgs2>numArgs1){
-                                                            tooManyArgumentsError(yylineno);
+                                                    if(decORdef!=-1){
+                                                        if(decORdef==0){
+                                                            decORdef=1;
                                                         }
-                                                        else if(numArgs2<numArgs1){
-                                                            tooLessArgumentsError(yylineno);   
+                                                        else{
+                                                            if(numArgs2>numArgs1){
+                                                                tooManyArgumentsError(yylineno);
+                                                            }
+                                                            else if(numArgs2<numArgs1){
+                                                                tooLessArgumentsError(yylineno);   
+                                                            }
+                                                            decORdef=2;
                                                         }
-                                                        decORdef=2;
-                                                    }
-                                                    if(decORdef==2){
-                                                        decORdef = 0;
+                                                        if(decORdef==2){
+                                                            decORdef = 0;
+                                                        }
                                                     }
                                                 }
 ;

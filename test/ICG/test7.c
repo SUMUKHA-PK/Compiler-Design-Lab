@@ -1,16 +1,5 @@
 int func(int a, float b, char c);
 
-int main(int argc, char argv) {
-
-    int x = 123;
-    float y = 23.3454;
-    char z = 'e';
-
-    int y = func(x, y, z);
-
-    return y;
-}
-
 int func(int a, float b, char c) {
 
     if(a < 123) {
@@ -23,8 +12,18 @@ int func(int a, float b, char c) {
         return a + 34;
     }
     else {
-        return -1;
+        return 1;
     }
-
-
 }
+
+int main(int argc, char argv) {
+
+    int x = 123;
+    float y = 23.3454;
+    char z = 'e';
+
+    // int y = func(x, y, z);
+
+    return 0;
+}
+
