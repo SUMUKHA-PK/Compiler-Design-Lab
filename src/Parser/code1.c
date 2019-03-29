@@ -1,8 +1,8 @@
 // int x = 89, y = 20;
 
-void func(int x,int y,char z);
+void func();
 
-void func(int x, int y, char z) {
+void func() {
 	
 	// float w = 10.1;
 	// // func(x,y,z);
@@ -18,22 +18,21 @@ void func(int x, int y, char z) {
 	// 	y=1;
 	// }
 
-	// int g = x*y;
-	if(x==5){
-		char z='1';
-		x=10;
-		// if(x==10){
-		// 	x=1;
-		// }
-	}
-	else{
-		x=100;
-		char z = '1';
-	}
+	// // int g = x*y;
+	// if(x==5){
+	// 	char z='1';
+	// 	x=10;
+	// 	// if(x==10){
+	// 	// 	x=1;
+	// 	// }
+	// }
+	// else{
+	// 	x=100;
+	// 	char z = '1';
+	// }
 	return ;
 }
 
-
-// int main(){
-// 	return 0;
-// }
+int main(){
+	return 0;
+}

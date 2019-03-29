@@ -1,18 +1,8 @@
 
 function begin func:
-T_0 = (x == 5)
-IF (T_0) GOTO Label_0
-GOTO Label_1
-
-Label_0 : 
-z = '1'
-x = 10
-GOTO Label_2
-
-Label_1: 
-x = 100
-z = '1'
-
-Label_2: 
 return 
+func end
+
+function begin main:
+return 0
 func end

@@ -249,7 +249,32 @@ direct_declarator:
                                                         decORdef = 0;
                                                     }
                                                 }
-|   direct_declarator '(' ')'
+|   direct_declarator '(' 
+                                                {
+                                                    if (!strcmp($1.val,"main")) decORdef=1;
+                                                    if(decORdef==1){
+                                                        incrementTableScope();
+                                                        sprintf(code,"\nfunction begin %s:\n",$1.val);addthreeAddrCode(code);
+                                                    }
+                                                }
+    ')'                                         {   
+                                                    
+                                                    if(decORdef==0){
+                                                        decORdef=1;
+                                                    }
+                                                    else{
+                                                        if(numArgs2>numArgs1){
+                                                            tooManyArgumentsError(yylineno);
+                                                        }
+                                                        else if(numArgs2<numArgs1){
+                                                            tooLessArgumentsError(yylineno);   
+                                                        }
+                                                        decORdef=2;
+                                                    }
+                                                    if(decORdef==2){
+                                                        decORdef = 0;
+                                                    }
+                                                }
 ;
 
 declaration_list: 
@@ -385,9 +410,7 @@ if_statement:
 
                                                         char tempCode[100];
                                                         sprintf(tempCode,"%s\n",nextlabel);
-                                                        int d = popBackPatchStack();
-                                                        strcat(threeAddrCode[d],tempCode);printf("@");
-                                                        printf("%s\n",threeAddrCode[d]);
+                                                        strcat(threeAddrCode[popBackPatchStack()],tempCode);
                                                     }
     else_statement 
 ;
