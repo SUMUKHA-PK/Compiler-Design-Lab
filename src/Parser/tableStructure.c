@@ -6,7 +6,7 @@
 int symbolTableSize  = 1000;
 int constantTableSize = 1000;
 int TableSize = 1000;
-int currTableID = -1;
+int currTableID=-1;
 int start = 0;
 
 Tables * currTable = NULL, *headTable = NULL;
@@ -31,7 +31,7 @@ void incrementTableScope(){
     Tables *newTable = (Tables*)malloc(sizeof(Tables));
     initTable(newTable);
     // Main scope
-    if(currTableID == -1){
+    if(headTable == NULL){
         newTable->ID = currTableID+1;
         currTableID = newTable->ID;
         currTable = newTable;
@@ -47,7 +47,8 @@ void incrementTableScope(){
         newTable->parent = currTable;
         currTable->next = newTable;
         currTable = newTable;
-        newTable->next = NULL;
+        printf("%d?",currTableID);
+        currTable->next = NULL;
     }
 }
 
@@ -79,8 +80,9 @@ void printTable(int table,Tables * tableP){
 
 void printTables(){  
     Tables * temp = headTable;
+    int x = 0;
     while(temp!=NULL){
-
+        printf("---%d---\n",temp->ID);
         printf("\n-----------------------------------------------------------------\n");
         printf("\n--------------------------Scope starting-------------------------\n");
         printf("\n-----------------------------------------------------------------\n");
@@ -102,6 +104,7 @@ void printTables(){
         printf("\n-----------------------------------------------------------------\n");
         
         temp=temp->next;
+        x++;
     }
 }
 int hash(unsigned char * s){
