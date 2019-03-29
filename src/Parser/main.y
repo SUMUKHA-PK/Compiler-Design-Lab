@@ -38,7 +38,7 @@
 
     FILE * threeAddressFile = NULL;
     char threeAddrCode[1000][1000];
-    char threeAddrCodeLineNo = 0;
+    int threeAddrCodeLineNo = 0;
     char code[1000];
     int tempVarCount=0;
     int labelCount=0;
@@ -373,13 +373,21 @@ if_statement:
                                                     }
 
     statement                                       {
+                                                        int prevTop = popBackPatchStack();
+                                                        pushBackPatchStack(threeAddrCodeLineNo);
+                                                        pushBackPatchStack(prevTop);
+                                                        sprintf(code,"GOTO ");
+                                                        addthreeAddrCode(code);
+                                                        
                                                         char * nextlabel = newLabel();
                                                         sprintf(code,"\n%s: \n",nextlabel);
                                                         addthreeAddrCode(code);
 
                                                         char tempCode[100];
                                                         sprintf(tempCode,"%s\n",nextlabel);
-                                                        strcat(threeAddrCode[popBackPatchStack()],tempCode);
+                                                        int d = popBackPatchStack();
+                                                        strcat(threeAddrCode[d],tempCode);printf("@");
+                                                        printf("%s\n",threeAddrCode[d]);
                                                     }
     else_statement 
 ;

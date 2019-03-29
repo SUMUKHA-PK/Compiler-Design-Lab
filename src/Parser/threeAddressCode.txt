@@ -1,26 +1,18 @@
 
 function begin func:
-Label_4
 T_0 = (x == 5)
 IF (T_0) GOTO Label_0
-GOTO Label_3
+GOTO Label_1
 
 Label_0 : 
 z = '1'
 x = 10
-T_1 = (x == 10)
-IF (T_1) GOTO Label_1
 GOTO Label_2
 
-Label_1 : 
-x = 1
-
-Label_2: 
-
-Label_3: 
+Label_1: 
 x = 100
 z = '1'
 
-Label_4: 
+Label_2: 
 return 
 func end

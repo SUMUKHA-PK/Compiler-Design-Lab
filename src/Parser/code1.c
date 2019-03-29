@@ -5,7 +5,7 @@ void func(int x,int y,char z);
 void func(int x, int y, char z) {
 	
 	// float w = 10.1;
-	// func(x,y,z);
+	// // func(x,y,z);
 	// x=5;
 	// z = 'g';
 
@@ -22,9 +22,9 @@ void func(int x, int y, char z) {
 	if(x==5){
 		char z='1';
 		x=10;
-		if(x==10){
-			x=1;
-		}
+		// if(x==10){
+		// 	x=1;
+		// }
 	}
 	else{
 		x=100;

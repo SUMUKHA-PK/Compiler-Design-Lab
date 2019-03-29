@@ -19,14 +19,17 @@ int func(int x, int y, char z) {
 // 	}
 	
 	// int g = x*y;
-	if (x==5){
-		char z = 'g';
+	if(x==5){
+		char z='1';
 		x=10;
+		if(x==10){
+			x=1;
+		}
 	}
-    else{
-        x=11;
+	else{
+		x=100;
 		char z = '1';
-    }
+	}
 	return 0;
 }
 
