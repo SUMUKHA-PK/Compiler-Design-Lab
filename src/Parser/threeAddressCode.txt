@@ -1,5 +1,45 @@
 
 function begin func:
+w = 10.1
+x = 5
+z = 'g'
+
+Label_0 :
+T_0 = (x == 0)
+IF (T_0) GOTO Label_1
+GOTO Label_2
+
+Label_1
+y = 0
+w = 0.1
+x = 1
+GOTO Label_0
+
+Label_2: 
+
+Label_3 :
+IF (y) GOTO Label_4
+GOTO Label_5
+
+Label_4
+y = 1
+GOTO Label_3
+
+Label_5: 
+T_1 = (x == 5)
+IF (T_1) GOTO Label_6
+GOTO Label_7
+
+Label_6 : 
+z = '1'
+x = 10
+GOTO Label_8
+
+Label_7: 
+x = 100
+z = '1'
+
+Label_8: 
 return 
 func end
 
