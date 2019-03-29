@@ -29,7 +29,7 @@ return T_4
 GOTO Label_6
 
 Label_5: 
-return 1
+return 0
 
 Label_6: 
 
