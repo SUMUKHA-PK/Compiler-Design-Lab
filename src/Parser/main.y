@@ -227,6 +227,7 @@ direct_declarator:
 |   direct_declarator '[' log_or_expression ']'
 |   direct_declarator '[' ']'
 |   direct_declarator '('                       {
+                                                    // if (!strcmp($1.val,"main"))  sprintf(code,"\nfunction begin %s:\n",$1.val);addthreeAddrCode(code);
                                                     if(decORdef==1){
                                                         incrementTableScope();
                                                         sprintf(code,"\nfunction begin %s:\n",$1.val);addthreeAddrCode(code);
@@ -251,6 +252,7 @@ direct_declarator:
                                                 }
 |   direct_declarator '(' 
                                                 {
+                                                    sprintf(code,"\nfunction begin %s:\n",$1.val);addthreeAddrCode(code);
                                                     if (!strcmp($1.val,"main")) decORdef=-1;
                                                     if(decORdef==1||decORdef==-1){
                                                         incrementTableScope();

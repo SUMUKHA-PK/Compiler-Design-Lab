@@ -29,7 +29,7 @@ return T_4
 GOTO Label_6
 
 Label_5: 
-return 0
+return 1
 
 Label_6: 
 
@@ -37,6 +37,10 @@ Label_7:
 
 Label_8: 
 func end
+
+function begin main:
+
+function begin main:
 x = 123
 y = 23.3454
 z = 'e'

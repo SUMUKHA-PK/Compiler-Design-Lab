@@ -16,7 +16,7 @@ int func(int a, float b, char c) {
     }
 }
 
-int main(int argc, char argv) {
+int main() {
 
     int x = 123;
     float y = 23.3454;
